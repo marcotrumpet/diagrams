@@ -12,11 +12,11 @@ Offset calcNewOffset(
   Offset childRelativeToParent = parent.globalToLocal(details.offset);
   final newOffset = Offset(
     childRelativeToParent.dx.clamp(
-        childRelativeToParent.dx - (childRelativeToParent.dx % 20),
-        childRelativeToParent.dx - (childRelativeToParent.dx % 20)),
+        childRelativeToParent.dx - (childRelativeToParent.dx % 15),
+        childRelativeToParent.dx - (childRelativeToParent.dx % 15)),
     childRelativeToParent.dx.clamp(
-        childRelativeToParent.dy - (childRelativeToParent.dy % 20),
-        childRelativeToParent.dy - (childRelativeToParent.dy % 20)),
+        childRelativeToParent.dy - (childRelativeToParent.dy % 15),
+        childRelativeToParent.dy - (childRelativeToParent.dy % 15)),
   );
   return newOffset;
 }

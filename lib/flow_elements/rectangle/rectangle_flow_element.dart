@@ -36,7 +36,7 @@ class RectangleFlowElement
   @override
   Widget buildSideMenu(BuildContext context) {
     return CustomPaint(
-      size: const Size(60, 40),
+      size: const Size(180, 90),
       painter: RectangleCustomPainter(Theme.of(context).toggleableActiveColor),
     );
   }
