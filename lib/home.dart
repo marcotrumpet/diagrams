@@ -14,6 +14,7 @@ class _DiagramsHomeState extends State<DiagramsHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
+        mainAxisSize: MainAxisSize.max,
         children: const [
           SideMenu(),
           MainCanvas(),

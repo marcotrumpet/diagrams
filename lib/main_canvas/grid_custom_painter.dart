@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class GridCustomPainter extends CustomPainter {
-  final double scale;
   final Color lineColor;
 
   GridCustomPainter({
-    this.scale = 1.0,
     required this.lineColor,
   });
   @override
@@ -15,7 +13,7 @@ class GridCustomPainter extends CustomPainter {
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.round;
 
-    var squareSide = 20.0 * scale;
+    var squareSide = 20.0;
 
     for (var i = 0; i < size.width / squareSide; i++) {
       Offset startingPoint = Offset(squareSide * i, 0);

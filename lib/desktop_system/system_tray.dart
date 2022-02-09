@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:system_tray/system_tray.dart';
 
 class AppSystemTray {
-  static Future<void> initSystemTray() async {
+  Future<void> initSystemTray() async {
     final SystemTray _systemTray = SystemTray();
     final AppWindow _appWindow = AppWindow();
 

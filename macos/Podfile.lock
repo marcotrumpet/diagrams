@@ -4,14 +4,11 @@ PODS:
     - FlutterMacOS
   - system_tray (0.0.1):
     - FlutterMacOS
-  - window_size (0.0.2):
-    - FlutterMacOS
 
 DEPENDENCIES:
   - FlutterMacOS (from `Flutter/ephemeral`)
   - menubar (from `Flutter/ephemeral/.symlinks/plugins/menubar/macos`)
   - system_tray (from `Flutter/ephemeral/.symlinks/plugins/system_tray/macos`)
-  - window_size (from `Flutter/ephemeral/.symlinks/plugins/window_size/macos`)
 
 EXTERNAL SOURCES:
   FlutterMacOS:
@@ -20,14 +17,11 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/menubar/macos
   system_tray:
     :path: Flutter/ephemeral/.symlinks/plugins/system_tray/macos
-  window_size:
-    :path: Flutter/ephemeral/.symlinks/plugins/window_size/macos
 
 SPEC CHECKSUMS:
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
   menubar: 4e3d461d62d775540277ce6639acafe2a111a231
   system_tray: e53c972838c69589ff2e77d6d3abfd71332f9e5d
-  window_size: 339dafa0b27a95a62a843042038fa6c3c48de195
 
 PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
 

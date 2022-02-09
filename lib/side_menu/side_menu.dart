@@ -1,4 +1,9 @@
+import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_event.dart';
+import 'package:diagrams/side_menu/basic_shapes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -12,31 +17,36 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final list = basicShapesList(context);
     return Row(
       children: [
         SizedBox(
           width: toolBoxWidth,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Draggable<String>(
-                hitTestBehavior: HitTestBehavior.opaque,
-                data: 'red',
-                child: Container(
-                  height: 120.0,
-                  width: 120.0,
-                  color: Colors.red,
-                  child: const Icon(Icons.access_alarms),
-                ),
-                feedback: const SizedBox(
-                  height: 120.0,
-                  width: 120.0,
-                  child: Center(
-                    child: Icon(Icons.access_alarms),
+          child: DragTarget<AbstractFlowElement>(
+            onWillAccept: (data) => data != null,
+            onAccept: (data) {
+              context
+                  .read<AddRemoveBloc>()
+                  .add(RemoveEvent(elementToManipulate: data));
+            },
+            builder: (context, candidateData, rejectedData) {
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 50,
+                    childAspectRatio: 5 / 3,
+                    mainAxisExtent: 30,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
                   ),
+                  itemCount: list.length,
+                  itemBuilder: (context, i) {
+                    return list[i];
+                  },
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
         MouseRegion(

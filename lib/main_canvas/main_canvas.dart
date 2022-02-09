@@ -1,5 +1,10 @@
+import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_event.dart';
+import 'package:diagrams/main_canvas/canvas_helper.dart';
 import 'package:diagrams/main_canvas/grid_custom_painter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainCanvas extends StatefulWidget {
   const MainCanvas({Key? key}) : super(key: key);
@@ -9,23 +14,49 @@ class MainCanvas extends StatefulWidget {
 }
 
 class _MainCanvasState extends State<MainCanvas> {
-  double scale = 1.0;
+  final _gridKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: InteractiveViewer(
-        maxScale: 10,
-        minScale: 0.1,
-        child: CustomPaint(
-          painter: GridCustomPainter(
-              scale: scale, lineColor: Theme.of(context).dividerColor),
-          child: DragTarget<String>(
-            builder: (context, candidateData, rejectedData) {
-              return SizedBox.expand(child: Text(candidateData.toString()));
-            },
+    return BlocBuilder<AddRemoveBloc, List<AbstractFlowElement>>(
+      builder: (context, elementsList) {
+        return Expanded(
+          child: InteractiveViewer(
+            maxScale: 10,
+            minScale: 0.1,
+            child: Stack(
+              clipBehavior: Clip.hardEdge,
+              fit: StackFit.expand,
+              children: [
+                CustomPaint(
+                  key: _gridKey,
+                  foregroundPainter: GridCustomPainter(
+                    lineColor: Theme.of(context).dividerColor,
+                  ),
+                  child: DragTarget<AbstractFlowElement>(
+                    onWillAccept: (data) {
+                      if (elementsList.contains(data)) {
+                        context
+                            .read<AddRemoveBloc>()
+                            .add(RemoveEvent(elementToManipulate: data!));
+                      }
+                      return true;
+                    },
+                    onAcceptWithDetails: (details) {
+                      final newOffset = calcNewOffset(details, _gridKey);
+                      handleFlowElements(details, context, newOffset);
+                    },
+                    builder: (context, candidateData, rejectedData) {
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ),
+                ...elementsList.map((e) => e.build(context)).toList(),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

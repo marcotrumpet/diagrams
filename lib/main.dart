@@ -1,38 +1,35 @@
-import 'dart:io';
-
-import 'package:diagrams/desktop_system/system_menu_bar.dart';
 import 'package:diagrams/desktop_system/system_tray.dart';
-import 'package:diagrams/home.dart';
+import 'package:diagrams/diagram_app.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_bloc.dart';
+import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-    AppSystemTray.initSystemTray();
-    AppSystemMenuBar.updateMenubar();
-  }
+  await getItInitialization();
 
-  runApp(const DiagramsApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AppTheme(),
+        ),
+        BlocProvider(
+          create: (context) => AddRemoveBloc([]),
+        ),
+      ],
+      child: const DiagramsApp(),
+    ),
+  );
 }
 
-class DiagramsApp extends StatelessWidget {
-  const DiagramsApp({Key? key}) : super(key: key);
+Future<void> getItInitialization() async {
+  GetIt getIt = GetIt.instance;
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Diagrams App',
-      theme: ThemeData(
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      home: const DiagramsHome(),
-    );
-  }
+  getIt.registerSingleton<AppSystemTray>(AppSystemTray());
+
+  await getIt.allReady();
 }
