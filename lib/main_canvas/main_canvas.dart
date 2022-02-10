@@ -28,27 +28,29 @@ class _MainCanvasState extends State<MainCanvas> {
               clipBehavior: Clip.hardEdge,
               fit: StackFit.expand,
               children: [
-                CustomPaint(
-                  key: _gridKey,
-                  foregroundPainter: GridCustomPainter(
-                    lineColor: Theme.of(context).dividerColor,
-                  ),
-                  child: DragTarget<AbstractFlowElement>(
-                    onWillAccept: (data) {
-                      if (elementsList.contains(data)) {
-                        context
-                            .read<AddRemoveBloc>()
-                            .add(RemoveEvent(elementToManipulate: data!));
-                      }
-                      return true;
-                    },
-                    onAcceptWithDetails: (details) {
-                      final newOffset = calcNewOffset(details, _gridKey);
-                      handleFlowElements(details, context, newOffset);
-                    },
-                    builder: (context, candidateData, rejectedData) {
-                      return const SizedBox.shrink();
-                    },
+                RepaintBoundary(
+                  child: CustomPaint(
+                    key: _gridKey,
+                    foregroundPainter: GridCustomPainter(
+                      lineColor: Theme.of(context).dividerColor,
+                    ),
+                    child: DragTarget<AbstractFlowElement>(
+                      onWillAccept: (data) {
+                        if (elementsList.contains(data)) {
+                          context
+                              .read<AddRemoveBloc>()
+                              .add(RemoveEvent(elementToManipulate: data!));
+                        }
+                        return true;
+                      },
+                      onAcceptWithDetails: (details) {
+                        final newOffset = calcNewOffset(details, _gridKey);
+                        handleFlowElements(details, context, newOffset);
+                      },
+                      builder: (context, candidateData, rejectedData) {
+                        return const SizedBox.shrink();
+                      },
+                    ),
                   ),
                 ),
                 ...elementsList.map((e) => e.build(context)).toList(),

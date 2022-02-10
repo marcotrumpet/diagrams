@@ -1,43 +1,41 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_custom_painter.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'rectangle_flow_element.freezed.dart';
-
-@freezed
-class RectangleFlowElement
-    with _$RectangleFlowElement
-    implements AbstractFlowElement {
-  const RectangleFlowElement._();
-
-  const factory RectangleFlowElement({
+class RectangleFlowElement extends AbstractFlowElement {
+  RectangleFlowElement({
     required FlowTypes flowType,
     Offset? offset,
     Key? elementKey,
-  }) = _RectangleFlowElement;
+  }) : super(flowType: flowType, elementKey: elementKey, offset: offset);
 
   @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Transform.translate(
-        key: elementKey,
-        offset: offset ?? const Offset(0, 0),
-        child: Draggable<RectangleFlowElement>(
-          data: this,
-          child: buildSideMenu(context),
-          feedback: buildSideMenu(context),
-        ),
-      ),
+  Widget concreteBuild(BuildContext context) {
+    return Draggable<RectangleFlowElement>(
+      data: this,
+      child: buildSideMenu(context),
+      feedback: buildSideMenu(context),
     );
   }
 
   @override
   Widget buildSideMenu(BuildContext context) {
-    return CustomPaint(
-      size: const Size(180, 90),
-      painter: RectangleCustomPainter(Theme.of(context).toggleableActiveColor),
+    return RepaintBoundary(
+      child: CustomPaint(
+        size: const Size(180, 90),
+        painter:
+            RectangleCustomPainter(Theme.of(context).toggleableActiveColor),
+      ),
+    );
+  }
+
+  @override
+  AbstractFlowElement copyWith(
+      {FlowTypes? flowType, Offset? offset, Key? elementKey}) {
+    return RectangleFlowElement(
+      flowType: flowType ?? this.flowType,
+      elementKey: elementKey ?? this.elementKey,
+      offset: offset ?? this.offset,
     );
   }
 }
