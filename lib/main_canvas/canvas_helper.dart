@@ -1,8 +1,10 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_event.dart';
+import 'package:diagrams/flow_elements/circle/circle_flow_element.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';
+import 'package:diagrams/flow_elements/triangle/triangle_flow_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,6 +41,25 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
             AddEvent(
               elementToManipulate:
                   (details.data as RoundedRectangleFlowElement).copyWith(
+                offset: offset,
+                elementKey: UniqueKey(),
+              ),
+            ),
+          );
+    case FlowTypes.triangle:
+      return context.read<AddRemoveBloc>().add(
+            AddEvent(
+              elementToManipulate:
+                  (details.data as TriangleFlowElement).copyWith(
+                offset: offset,
+                elementKey: UniqueKey(),
+              ),
+            ),
+          );
+    case FlowTypes.circle:
+      return context.read<AddRemoveBloc>().add(
+            AddEvent(
+              elementToManipulate: (details.data as CircleFlowElement).copyWith(
                 offset: offset,
                 elementKey: UniqueKey(),
               ),

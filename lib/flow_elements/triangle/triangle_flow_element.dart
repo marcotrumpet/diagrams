@@ -1,9 +1,9 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_custom_painter.dart';
+import 'package:diagrams/flow_elements/triangle/triangle_custom_painter.dart';
 import 'package:flutter/material.dart';
 
-class RoundedRectangleFlowElement extends AbstractFlowElement {
-  RoundedRectangleFlowElement({
+class TriangleFlowElement extends AbstractFlowElement {
+  TriangleFlowElement({
     required FlowTypes flowType,
     required Path path,
     Offset? offset,
@@ -15,23 +15,13 @@ class RoundedRectangleFlowElement extends AbstractFlowElement {
             path: path);
 
   @override
-  Widget concreteBuild(BuildContext context) {
-    return Draggable<RoundedRectangleFlowElement>(
-      data: this,
-      child: buildSideMenu(context),
-      feedback: buildSideMenu(context),
-    );
-  }
-
-  @override
   Widget buildSideMenu(BuildContext context) {
     return RepaintBoundary(
       child: CustomPaint(
-        foregroundPainter:
-            RoundedRectangleCustomPainter(path: path, context: context),
+        foregroundPainter: TriangleCustomPainter(path: path, context: context),
         child: Container(
           color: Colors.transparent,
-          width: 180,
+          width: 90,
           height: 90,
         ),
       ),
@@ -39,9 +29,18 @@ class RoundedRectangleFlowElement extends AbstractFlowElement {
   }
 
   @override
+  Widget concreteBuild(BuildContext context) {
+    return Draggable<TriangleFlowElement>(
+      data: this,
+      child: buildSideMenu(context),
+      feedback: buildSideMenu(context),
+    );
+  }
+
+  @override
   AbstractFlowElement copyWith(
       {FlowTypes? flowType, Offset? offset, Key? elementKey, Path? path}) {
-    return RoundedRectangleFlowElement(
+    return TriangleFlowElement(
       flowType: flowType ?? this.flowType,
       elementKey: elementKey ?? this.elementKey,
       offset: offset ?? this.offset,

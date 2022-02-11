@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 class RectangleFlowElement extends AbstractFlowElement {
   RectangleFlowElement({
     required FlowTypes flowType,
+    required Path path,
     Offset? offset,
     Key? elementKey,
-  }) : super(flowType: flowType, elementKey: elementKey, offset: offset);
+  }) : super(
+            flowType: flowType,
+            elementKey: elementKey,
+            offset: offset,
+            path: path);
 
   @override
   Widget concreteBuild(BuildContext context) {
@@ -22,20 +27,24 @@ class RectangleFlowElement extends AbstractFlowElement {
   Widget buildSideMenu(BuildContext context) {
     return RepaintBoundary(
       child: CustomPaint(
-        size: const Size(180, 90),
-        painter:
-            RectangleCustomPainter(Theme.of(context).toggleableActiveColor),
+        foregroundPainter: RectangleCustomPainter(path: path, context: context),
+        child: Container(
+          color: Colors.transparent,
+          width: 180,
+          height: 90,
+        ),
       ),
     );
   }
 
   @override
   AbstractFlowElement copyWith(
-      {FlowTypes? flowType, Offset? offset, Key? elementKey}) {
+      {FlowTypes? flowType, Offset? offset, Key? elementKey, Path? path}) {
     return RectangleFlowElement(
       flowType: flowType ?? this.flowType,
       elementKey: elementKey ?? this.elementKey,
       offset: offset ?? this.offset,
+      path: path ?? this.path,
     );
   }
 }

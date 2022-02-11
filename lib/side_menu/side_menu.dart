@@ -1,7 +1,7 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_event.dart';
-import 'package:diagrams/side_menu/basic_shapes.dart';
+import 'package:diagrams/side_menu/shapes_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,11 +13,11 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  double toolBoxWidth = 150.0;
+  double toolBoxWidth = 190.0;
 
   @override
   Widget build(BuildContext context) {
-    final list = basicShapesList(context);
+    final basicShapes = basicShapesList(context);
     return Row(
       children: [
         SizedBox(
@@ -32,18 +32,9 @@ class _SideMenuState extends State<SideMenu> {
             builder: (context, candidateData, rejectedData) {
               return Padding(
                 padding: const EdgeInsets.all(8),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 50,
-                    childAspectRatio: 5 / 3,
-                    mainAxisExtent: 30,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                  ),
-                  itemCount: list.length,
-                  itemBuilder: (context, i) {
-                    return list[i];
-                  },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: basicShapes,
                 ),
               );
             },
@@ -65,7 +56,7 @@ class _SideMenuState extends State<SideMenu> {
             onDragUpdate: (de) {
               var deltaValue = (de.localPosition.dx - toolBoxWidth);
               var tempDelta =
-                  (toolBoxWidth += deltaValue).clamp(150, 400).toDouble();
+                  (toolBoxWidth += deltaValue).clamp(190, 400).toDouble();
               setState(() {
                 toolBoxWidth = tempDelta;
               });
