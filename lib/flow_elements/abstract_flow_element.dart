@@ -1,9 +1,13 @@
-import 'dart:ui';
-
+import 'package:diagrams/flow_elements/abstract_custom_painter.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point.dart';
+import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_event.dart';
+import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
+import 'package:diagrams/flow_elements/dimension_points/dimension_points.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-typedef AbtractFlowElementBuilder<Widget> = Widget Function(
-    BuildContext context, Widget child);
+enum FlowTypes { rectangle, roundedRectangle, triangle, circle }
 
 abstract class AbstractFlowElement {
   final FlowTypes flowType;
@@ -17,24 +21,17 @@ abstract class AbstractFlowElement {
     this.elementKey,
     this.offset,
   }) {
-    calculateAnchorPoint();
+    setAnchorPoints();
+    setDimensionPoints();
   }
 
-  final _valueNotifier = ValueNotifier(0.0);
-  final _offsetList = <Offset?>{};
+  final _showAnchorPointsValueNotifier = ValueNotifier(0.0);
+  final _anchorPointsList = <Offset?>{};
+  final _dimensionPointsList = <Offset?>{};
 
-  void calculateAnchorPoint() {
-    // var intersection = Path.combine(
-    //     PathOperation.intersect, path, Path()..addRect(path.getBounds()));
-    // print(intersection);
-    // intersection.computeMetrics().forEach((element) {
-    //   if (element.length <= 0) return;
-    //   Tangent? pos = element.getTangentForOffset(0);
-    //   _offsetList.add(pos?.position);
-    // });
-
+  void setAnchorPoints() {
     final boundRect = path.getBounds();
-    _offsetList.addAll([
+    _anchorPointsList.addAll([
       if (path.contains(boundRect.topLeft)) boundRect.topLeft,
       if (path.contains(boundRect.topCenter)) boundRect.topCenter,
       if (path.contains(boundRect.topRight)) boundRect.topRight,
@@ -46,115 +43,92 @@ abstract class AbstractFlowElement {
       if (path.contains(Offset(boundRect.right, boundRect.height / 2)))
         Offset(boundRect.right, boundRect.height / 2),
     ]);
-
-    // double dashWidth = 10.0;
-    // double dashSpace = 20.0;
-    // debugPrint(findDivisors(540).toString());
-    // double distance = 0.0;
-
-    // _offsetList.addAll([
-    // path.getBounds().topLeft,
-    // path.getBounds().topCenter,
-    // path.getBounds().topRight,
-    // path.getBounds().bottomLeft,
-    // path.getBounds().bottomCenter,
-    // path.getBounds().bottomRight,
-    //   Offset(path.getBounds().left, path.getBounds().top),
-    //   Offset(path.getBounds().left, path.getBounds().height / 2),
-    //   Offset(path.getBounds().left, path.getBounds().height),
-    //   Offset(path.getBounds().right, path.getBounds().top),
-    //   Offset(path.getBounds().right, path.getBounds().height / 2),
-    //   Offset(path.getBounds().right, path.getBounds().height),
-    // ]);
-
-    // for (PathMetric pathMetric in path.computeMetrics()) {
-    //   final dashWidth = findDivisors(pathMetric.length.toInt()) / 3;
-    //   final dashSpace = findDivisors(pathMetric.length.toInt()) / 3 * 2;
-    //   while (distance < pathMetric.length) {
-    //     _offsetList.add(calculate(distance / pathMetric.length));
-    //     distance += dashWidth;
-    //     distance += dashSpace;
-    //   }
-    // }
   }
 
-  Offset? calculate(value) {
-    PathMetrics pathMetrics = path.computeMetrics();
-    PathMetric pathMetric = pathMetrics.elementAt(0);
-    value = pathMetric.length * value;
-    Tangent? pos = pathMetric.getTangentForOffset(value);
-    return pos?.position;
-  }
-
-  int findDivisors(number) {
-    List<int?> divisors = [];
-    for (var i = 1; i < number; i++) {
-      if (number % i == 0) {
-        divisors.add(i);
-      }
-    }
-    if (divisors.isEmpty) return 30;
-    divisors.sort();
-    return divisors[divisors.length ~/ 2] ?? 30;
+  void setDimensionPoints() {
+    final boundRect = path.getBounds();
+    _dimensionPointsList.addAll([
+      boundRect.topLeft,
+      boundRect.topCenter,
+      boundRect.topRight,
+      boundRect.bottomLeft,
+      boundRect.bottomCenter,
+      boundRect.bottomRight,
+      Offset(boundRect.left, boundRect.height / 2),
+      Offset(boundRect.right, boundRect.height / 2),
+    ]);
   }
 
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Transform.translate(
-        key: elementKey,
-        offset: offset ?? const Offset(0, 0),
-        child: SizedBox(
-          height: path.getBounds().height + 10,
-          width: path.getBounds().width + 10,
-          child: Center(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.grab,
-                    onEnter: (event) {
-                      _valueNotifier.value = 1.0;
-                    },
-                    onExit: (event) {
-                      _valueNotifier.value = 0;
-                    },
-                    child: concreteBuild(context),
+    return BlocBuilder<UnselectElementsBloc, UnselectElementsState>(
+      buildWhen: (previous, current) =>
+          elementKey == current.elementKey || current.elementKey == null,
+      builder: (context, state) {
+        return Container(
+          transform:
+              Matrix4.translationValues(offset?.dx ?? 0, offset?.dy ?? 0, 0),
+          alignment: Alignment.topLeft,
+          key: elementKey,
+          child: GestureDetector(
+            onTap: () {
+              context.read<UnselectElementsBloc>().add(UnselectElementsEvent(
+                  unselect: !state.unselect, elementKey: elementKey));
+            },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.grab,
+              onEnter: (event) {
+                if (!state.unselect) return;
+                _showAnchorPointsValueNotifier.value = 1.0;
+              },
+              onExit: (event) {
+                _showAnchorPointsValueNotifier.value = 0.0;
+              },
+              child: SizedBox(
+                height: path.getBounds().height + 30,
+                width: path.getBounds().width + 30,
+                child: Center(
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: concreteBuild(context),
+                      ),
+                      if (_anchorPointsList.isNotEmpty)
+                        for (var offset in _anchorPointsList)
+                          Positioned(
+                            right: offset?.dx,
+                            top: offset?.dy,
+                            child: ValueListenableBuilder<double>(
+                              valueListenable: _showAnchorPointsValueNotifier,
+                              builder: (context, opacity, _) {
+                                return Opacity(
+                                  opacity: opacity,
+                                  child: const AnchorPoint(),
+                                );
+                              },
+                            ),
+                          ),
+                      if (_dimensionPointsList.isNotEmpty && !state.unselect)
+                        CustomPaint(
+                          painter: DotLineCustomPainter(
+                              path: path, context: context),
+                        ),
+                      if (_dimensionPointsList.isNotEmpty && !state.unselect)
+                        for (var offset in _dimensionPointsList)
+                          Positioned(
+                            right: offset?.dx,
+                            top: offset?.dy,
+                            child: const DimensionPoints(),
+                          ),
+                    ],
                   ),
                 ),
-                if (_offsetList.isNotEmpty)
-                  for (var offset in _offsetList)
-                    Positioned(
-                      right: offset?.dx,
-                      top: offset?.dy,
-                      child: ValueListenableBuilder<double>(
-                        valueListenable: _valueNotifier,
-                        builder: (context, opacity, _) {
-                          return Opacity(
-                            opacity: opacity,
-                            child: Transform.translate(
-                              offset: const Offset(-5, -5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .toggleableActiveColor
-                                        .withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 10,
-                                height: 10,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -169,5 +143,3 @@ abstract class AbstractFlowElement {
     Path? path,
   });
 }
-
-enum FlowTypes { rectangle, roundedRectangle, triangle, circle }

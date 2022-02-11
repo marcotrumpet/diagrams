@@ -1,6 +1,6 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_event.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/side_menu/shapes_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,8 +26,8 @@ class _SideMenuState extends State<SideMenu> {
             onWillAccept: (data) => data != null,
             onAccept: (data) {
               context
-                  .read<AddRemoveBloc>()
-                  .add(RemoveEvent(elementToManipulate: data));
+                  .read<AddRemoveElementBloc>()
+                  .add(RemoveElementEvent(elementToManipulate: data));
             },
             builder: (context, candidateData, rejectedData) {
               return Padding(

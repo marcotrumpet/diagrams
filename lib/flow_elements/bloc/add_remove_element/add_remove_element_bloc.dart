@@ -1,20 +1,21 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_event.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddRemoveBloc
-    extends Bloc<AbstractAddRemoveEvent, List<AbstractFlowElement>> {
-  AddRemoveBloc(List<AbstractFlowElement> initialState) : super(initialState) {
+class AddRemoveElementBloc
+    extends Bloc<AbstractAddRemoveElementEvent, List<AbstractFlowElement>> {
+  AddRemoveElementBloc(List<AbstractFlowElement> initialState)
+      : super(initialState) {
     List<AbstractFlowElement> elementsList = [];
 
-    on<AddEvent>((event, emit) {
+    on<AddElementEvent>((event, emit) {
       elementsList.add(event.elementToManipulate);
       final List<AbstractFlowElement> newList = [];
       newList.addAll(elementsList);
       emit(newList);
     });
 
-    on<RemoveEvent>(
+    on<RemoveElementEvent>(
       (event, emit) {
         elementsList.removeWhere((element) =>
             element.elementKey == event.elementToManipulate.elementKey);

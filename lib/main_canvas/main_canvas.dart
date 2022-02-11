@@ -1,6 +1,6 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_event.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/main_canvas/canvas_helper.dart';
 import 'package:diagrams/main_canvas/grid_custom_painter.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class _MainCanvasState extends State<MainCanvas> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddRemoveBloc, List<AbstractFlowElement>>(
+    return BlocBuilder<AddRemoveElementBloc, List<AbstractFlowElement>>(
       builder: (context, elementsList) {
         return Expanded(
           child: InteractiveViewer(
@@ -37,9 +37,8 @@ class _MainCanvasState extends State<MainCanvas> {
                     child: DragTarget<AbstractFlowElement>(
                       onWillAccept: (data) {
                         if (elementsList.contains(data)) {
-                          context
-                              .read<AddRemoveBloc>()
-                              .add(RemoveEvent(elementToManipulate: data!));
+                          context.read<AddRemoveElementBloc>().add(
+                              RemoveElementEvent(elementToManipulate: data!));
                         }
                         return true;
                       },

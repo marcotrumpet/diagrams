@@ -18,12 +18,12 @@ class DiagramsApp extends StatefulWidget {
 class _DiagramsAppState extends State<DiagramsApp> {
   @override
   void initState() {
-    GetIt.I.registerSingleton<AppSystemMenuBar>(
-      AppSystemMenuBar(context.read<AppTheme>()),
-    );
-    GetIt.I.allReadySync();
-
     if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
+      GetIt.I.registerSingleton<AppSystemMenuBar>(
+        AppSystemMenuBar(context.read<AppTheme>()),
+      );
+      GetIt.I.allReadySync();
+
       GetIt.I<AppSystemMenuBar>().updateMenubar();
       GetIt.I<AppSystemTray>().initSystemTray();
     }

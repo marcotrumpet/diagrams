@@ -1,6 +1,6 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_event.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/flow_elements/circle/circle_flow_element.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';
@@ -27,8 +27,8 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
     BuildContext context, Offset offset) {
   switch (details.data.flowType) {
     case FlowTypes.rectangle:
-      return context.read<AddRemoveBloc>().add(
-            AddEvent(
+      return context.read<AddRemoveElementBloc>().add(
+            AddElementEvent(
               elementToManipulate:
                   (details.data as RectangleFlowElement).copyWith(
                 offset: offset,
@@ -37,8 +37,8 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
             ),
           );
     case FlowTypes.roundedRectangle:
-      return context.read<AddRemoveBloc>().add(
-            AddEvent(
+      return context.read<AddRemoveElementBloc>().add(
+            AddElementEvent(
               elementToManipulate:
                   (details.data as RoundedRectangleFlowElement).copyWith(
                 offset: offset,
@@ -47,8 +47,8 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
             ),
           );
     case FlowTypes.triangle:
-      return context.read<AddRemoveBloc>().add(
-            AddEvent(
+      return context.read<AddRemoveElementBloc>().add(
+            AddElementEvent(
               elementToManipulate:
                   (details.data as TriangleFlowElement).copyWith(
                 offset: offset,
@@ -57,8 +57,8 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
             ),
           );
     case FlowTypes.circle:
-      return context.read<AddRemoveBloc>().add(
-            AddEvent(
+      return context.read<AddRemoveElementBloc>().add(
+            AddElementEvent(
               elementToManipulate: (details.data as CircleFlowElement).copyWith(
                 offset: offset,
                 elementKey: UniqueKey(),
