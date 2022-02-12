@@ -13,7 +13,7 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  double toolBoxWidth = 100.0;
+  double toolBoxWidth = 130.0;
 
   @override
   Widget build(BuildContext context) {
