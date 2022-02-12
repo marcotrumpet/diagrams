@@ -13,7 +13,7 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  double toolBoxWidth = 190.0;
+  double toolBoxWidth = 100.0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,24 @@ class _SideMenuState extends State<SideMenu> {
             builder: (context, candidateData, rejectedData) {
               return Padding(
                 padding: const EdgeInsets.all(8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: basicShapes,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceEvenly,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    direction: Axis.horizontal,
+                    runAlignment: WrapAlignment.center,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: basicShapes
+                        .map((e) => Container(
+                              width: 40,
+                              height: 40,
+                              alignment: Alignment.center,
+                              child: e,
+                            ))
+                        .toList(),
+                  ),
                 ),
               );
             },
@@ -56,7 +71,7 @@ class _SideMenuState extends State<SideMenu> {
             onDragUpdate: (de) {
               var deltaValue = (de.localPosition.dx - toolBoxWidth);
               var tempDelta =
-                  (toolBoxWidth += deltaValue).clamp(190, 400).toDouble();
+                  (toolBoxWidth += deltaValue).clamp(100, 250).toDouble();
               setState(() {
                 toolBoxWidth = tempDelta;
               });

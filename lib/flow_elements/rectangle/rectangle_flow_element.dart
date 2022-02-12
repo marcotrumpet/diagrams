@@ -18,20 +18,20 @@ class RectangleFlowElement extends AbstractFlowElement {
   Widget concreteBuild(BuildContext context) {
     return Draggable<RectangleFlowElement>(
       data: this,
-      child: buildSideMenu(context),
-      feedback: buildSideMenu(context),
+      child: buildChild(context, false),
+      feedback: buildChild(context, false),
     );
   }
 
   @override
-  Widget buildSideMenu(BuildContext context) {
+  Widget buildChild(BuildContext context, bool small) {
     return RepaintBoundary(
       child: CustomPaint(
         foregroundPainter: RectangleCustomPainter(path: path, context: context),
         child: Container(
           color: Colors.transparent,
-          width: 180,
-          height: 90,
+          width: small ? 40 : 180,
+          height: small ? 20 : 90,
         ),
       ),
     );

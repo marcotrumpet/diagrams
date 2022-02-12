@@ -18,20 +18,20 @@ class CircleFlowElement extends AbstractFlowElement {
   Widget concreteBuild(BuildContext context) {
     return Draggable<CircleFlowElement>(
       data: this,
-      child: buildSideMenu(context),
-      feedback: buildSideMenu(context),
+      child: buildChild(context, false),
+      feedback: buildChild(context, false),
     );
   }
 
   @override
-  Widget buildSideMenu(BuildContext context) {
+  Widget buildChild(BuildContext context, bool small) {
     return RepaintBoundary(
       child: CustomPaint(
         foregroundPainter: CircleCustomPainter(path: path, context: context),
         child: Container(
           color: Colors.transparent,
-          width: 90,
-          height: 90,
+          width: small ? 40 : 90,
+          height: small ? 40 : 90,
         ),
       ),
     );

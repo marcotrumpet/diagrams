@@ -134,7 +134,7 @@ abstract class AbstractFlowElement {
 
   Widget concreteBuild(BuildContext context);
 
-  Widget buildSideMenu(BuildContext context);
+  Widget buildChild(BuildContext context, bool small);
 
   AbstractFlowElement copyWith({
     FlowTypes? flowType,

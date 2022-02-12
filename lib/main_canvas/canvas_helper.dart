@@ -1,4 +1,5 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/flow_elements/basic_shapes.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/flow_elements/circle/circle_flow_element.dart';
@@ -33,6 +34,7 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
                   (details.data as RectangleFlowElement).copyWith(
                 offset: offset,
                 elementKey: UniqueKey(),
+                path: rectangleShapeBig,
               ),
             ),
           );
@@ -43,6 +45,7 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
                   (details.data as RoundedRectangleFlowElement).copyWith(
                 offset: offset,
                 elementKey: UniqueKey(),
+                path: roundedRectangleShapeBig,
               ),
             ),
           );
@@ -53,6 +56,7 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
                   (details.data as TriangleFlowElement).copyWith(
                 offset: offset,
                 elementKey: UniqueKey(),
+                path: triangleShapeBig,
               ),
             ),
           );
@@ -62,6 +66,7 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
               elementToManipulate: (details.data as CircleFlowElement).copyWith(
                 offset: offset,
                 elementKey: UniqueKey(),
+                path: circleShapeBig,
               ),
             ),
           );

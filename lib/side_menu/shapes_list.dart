@@ -34,26 +34,26 @@ List<Draggable<AbstractFlowElement>> basicShapesList(BuildContext context) {
     Draggable<RectangleFlowElement>(
       hitTestBehavior: HitTestBehavior.opaque,
       data: rectangle,
-      child: rectangle.buildSideMenu(context),
-      feedback: rectangle.buildSideMenu(context),
+      child: rectangle.buildChild(context, true),
+      feedback: rectangle.buildChild(context, true),
     ),
     Draggable<RoundedRectangleFlowElement>(
       hitTestBehavior: HitTestBehavior.opaque,
       data: roundedRectangle,
-      child: roundedRectangle.buildSideMenu(context),
-      feedback: roundedRectangle.buildSideMenu(context),
+      child: roundedRectangle.buildChild(context, true),
+      feedback: roundedRectangle.buildChild(context, true),
     ),
     Draggable<TriangleFlowElement>(
       hitTestBehavior: HitTestBehavior.opaque,
       data: triangle,
-      child: triangle.buildSideMenu(context),
-      feedback: triangle.buildSideMenu(context),
+      child: triangle.buildChild(context, true),
+      feedback: triangle.buildChild(context, true),
     ),
     Draggable<CircleFlowElement>(
       hitTestBehavior: HitTestBehavior.opaque,
       data: circle,
-      child: circle.buildSideMenu(context),
-      feedback: circle.buildSideMenu(context),
+      child: circle.buildChild(context, true),
+      feedback: circle.buildChild(context, true),
     ),
   ];
 }
