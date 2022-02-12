@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DrawArrowsState {
-  final List<Offset> points;
+  final List<Path> arrowPaths;
 
-  DrawArrowsState({required this.points});
+  DrawArrowsState({required this.arrowPaths});
 }

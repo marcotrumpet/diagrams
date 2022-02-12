@@ -10,8 +10,7 @@ class AddRemoveElementBloc
 
     on<AddElementEvent>((event, emit) {
       elementsList.add(event.elementToManipulate);
-      final List<AbstractFlowElement> newList = [];
-      newList.addAll(elementsList);
+      final List<AbstractFlowElement> newList = [...elementsList];
       emit(newList);
     });
 
@@ -19,8 +18,7 @@ class AddRemoveElementBloc
       (event, emit) {
         elementsList.removeWhere((element) =>
             element.elementKey == event.elementToManipulate.elementKey);
-        final List<AbstractFlowElement> newList = [];
-        newList.addAll(elementsList);
+        final List<AbstractFlowElement> newList = [...elementsList];
         emit(newList);
       },
     );

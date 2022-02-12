@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DrawArrowsEvent {
-  final Offset point;
+  final Offset? startPoint;
+  final Offset? endPoint;
 
-  DrawArrowsEvent({required this.point});
+  DrawArrowsEvent({this.startPoint, this.endPoint});
 }

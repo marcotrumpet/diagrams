@@ -1,4 +1,4 @@
-import 'dart:ui';
+// ignore_for_file: unnecessary_this
 
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
@@ -24,27 +24,34 @@ class GridCustomPainter extends CustomPainter {
 
     var paintMainGrid = Paint()
       ..color = lineColor
-      ..strokeWidth = 2
+      ..strokeWidth = 1
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     var mainAnchorGrid = Paint()
-      ..color = Colors.red.withOpacity(0.3)
+      ..color = Colors.transparent
       ..strokeWidth = 8
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     var secondaryAnchorGrid = Paint()
-      ..color = Colors.red.withOpacity(0.3)
+      ..color = Colors.transparent
       ..strokeWidth = 8
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     var paintSecondaryGrid = Paint()
       ..color = lineColor.withOpacity(0.1)
-      ..strokeWidth = 1
+      ..strokeWidth = 0.5
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
+
+    Offset normalizedPointToGrid(Offset point) {
+      var newPoint = Offset((point.dx - point.dx % 15).roundToDouble(),
+          (point.dy - point.dy % 15).roundToDouble());
+
+      return newPoint;
+    }
 
     for (var i = 0; i < size.width / mainSquareSide; i++) {
       Offset mainGridStartingPoint = Offset(mainSquareSide * i, 0);
@@ -61,16 +68,15 @@ class GridCustomPainter extends CustomPainter {
         mainGridEndingPoint,
         mainAnchorGrid,
         onPanDown: (details) {
-          // startingArrowPoint = details.localPosition;
+          var newPoint = normalizedPointToGrid(details.localPosition);
+          this.context.read<DrawArrowsBloc>().add(
+                DrawArrowsEvent(startPoint: newPoint),
+              );
         },
         onPanUpdate: (details) {
-          var newPoint = Offset(
-              (details.localPosition.dx - details.localPosition.dx % 15)
-                  .roundToDouble(),
-              details.localPosition.dy);
-          // ignore: unnecessary_this
+          var newPoint = normalizedPointToGrid(details.localPosition);
           this.context.read<DrawArrowsBloc>().add(
-                DrawArrowsEvent(point: newPoint),
+                DrawArrowsEvent(endPoint: newPoint),
               );
         },
       );
@@ -90,14 +96,16 @@ class GridCustomPainter extends CustomPainter {
         startingPoint,
         endingPoint,
         mainAnchorGrid,
-        onPanUpdate: (details) {
-          var newPoint = Offset(
-              details.localPosition.dx,
-              (details.localPosition.dy - details.localPosition.dy % 15)
-                  .roundToDouble());
-          // ignore: unnecessary_this
+        onPanDown: (details) {
+          var newPoint = normalizedPointToGrid(details.localPosition);
           this.context.read<DrawArrowsBloc>().add(
-                DrawArrowsEvent(point: newPoint),
+                DrawArrowsEvent(startPoint: newPoint),
+              );
+        },
+        onPanUpdate: (details) {
+          var newPoint = normalizedPointToGrid(details.localPosition);
+          this.context.read<DrawArrowsBloc>().add(
+                DrawArrowsEvent(endPoint: newPoint),
               );
         },
       );
@@ -119,14 +127,16 @@ class GridCustomPainter extends CustomPainter {
           secondaryGridStartingPoint,
           secondaryGridEndingPoint,
           secondaryAnchorGrid,
-          onPanUpdate: (details) {
-            var newPoint = Offset(
-                (details.localPosition.dx - details.localPosition.dx % 15)
-                    .roundToDouble(),
-                details.localPosition.dy);
-            // ignore: unnecessary_this
+          onPanDown: (details) {
+            var newPoint = normalizedPointToGrid(details.localPosition);
             this.context.read<DrawArrowsBloc>().add(
-                  DrawArrowsEvent(point: newPoint),
+                  DrawArrowsEvent(startPoint: newPoint),
+                );
+          },
+          onPanUpdate: (details) {
+            var newPoint = normalizedPointToGrid(details.localPosition);
+            this.context.read<DrawArrowsBloc>().add(
+                  DrawArrowsEvent(endPoint: newPoint),
                 );
           },
         );
@@ -149,14 +159,16 @@ class GridCustomPainter extends CustomPainter {
           secondaryGridStartingPoint,
           secondaryGridEndingPoint,
           secondaryAnchorGrid,
-          onPanUpdate: (details) {
-            var newPoint = Offset(
-                details.localPosition.dx,
-                (details.localPosition.dy - details.localPosition.dy % 15)
-                    .roundToDouble());
-            // ignore: unnecessary_this
+          onPanDown: (details) {
+            var newPoint = normalizedPointToGrid(details.localPosition);
             this.context.read<DrawArrowsBloc>().add(
-                  DrawArrowsEvent(point: newPoint),
+                  DrawArrowsEvent(startPoint: newPoint),
+                );
+          },
+          onPanUpdate: (details) {
+            var newPoint = normalizedPointToGrid(details.localPosition);
+            this.context.read<DrawArrowsBloc>().add(
+                  DrawArrowsEvent(endPoint: newPoint),
                 );
           },
         );
@@ -171,18 +183,20 @@ class GridCustomPainter extends CustomPainter {
 }
 
 class ArrowCustomPainter extends CustomPainter {
-  final List<Offset> points;
+  final List<Path> arrowPaths;
 
-  ArrowCustomPainter({required this.points});
+  ArrowCustomPainter({required this.arrowPaths});
   @override
   void paint(Canvas canvas, Size size) {
-    var _pointPaint = Paint()
+    var pointPaint = Paint()
       ..color = Colors.black
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
 
-    canvas.drawPoints(PointMode.lines, points, _pointPaint);
+    for (var arrow in arrowPaths) {
+      canvas.drawPath(arrow, pointPaint);
+    }
   }
 
   @override

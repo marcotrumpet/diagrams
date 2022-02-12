@@ -61,9 +61,8 @@ class _MainCanvasState extends State<MainCanvas> {
                 BlocBuilder<DrawArrowsBloc, DrawArrowsState>(
                   builder: (context, state) {
                     return CustomPaint(
-                      foregroundPainter: ArrowCustomPainter(
-                        points: state.points,
-                      ),
+                      foregroundPainter:
+                          ArrowCustomPainter(arrowPaths: state.arrowPaths),
                     );
                   },
                 ),

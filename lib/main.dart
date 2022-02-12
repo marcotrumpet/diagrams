@@ -32,7 +32,7 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => DrawArrowsBloc(
-            DrawArrowsState(points: []),
+            DrawArrowsState(arrowPaths: <Path>[]),
           ),
         ),
       ],

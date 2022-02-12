@@ -17,6 +17,7 @@ class _DiagramsHomeState extends State<DiagramsHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () {
           context
               .read<UnselectElementsBloc>()

@@ -5,14 +5,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DrawArrowsBloc extends Bloc<DrawArrowsEvent, DrawArrowsState> {
   DrawArrowsBloc(DrawArrowsState initialState) : super(initialState) {
-    var points = <Offset>[];
+    var startPoint = Offset.zero;
+    var arrowPaths = <Offset, Path>{};
 
     on<DrawArrowsEvent>(
       (event, emit) {
-        points.add(event.point);
-        final List<Offset> newList = [];
-        newList.addAll(points);
-        emit(DrawArrowsState(points: newList));
+        if (event.startPoint != null &&
+            !arrowPaths.containsKey(event.startPoint)) {
+          startPoint = event.startPoint!;
+          arrowPaths.addAll({startPoint: Path()});
+        }
+        if (event.endPoint != null) {
+          final newPath = Path()
+            ..moveTo(startPoint.dx, startPoint.dy)
+            ..lineTo(event.endPoint!.dx, event.endPoint!.dy)
+            ..close();
+          arrowPaths.update(startPoint, (value) => newPath);
+          final newPathsLists = <Path>[...arrowPaths.values.toList()];
+          emit(
+            DrawArrowsState(
+              arrowPaths: newPathsLists,
+            ),
+          );
+        }
       },
     );
   }
