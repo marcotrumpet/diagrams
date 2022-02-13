@@ -53,6 +53,20 @@ class GridCustomPainter extends CustomPainter {
       return newPoint;
     }
 
+    void onPanDown(DragDownDetails details) {
+      var newPoint = normalizedPointToGrid(details.localPosition);
+      this.context.read<DrawArrowsBloc>().add(
+            DrawArrowsEvent(startPoint: newPoint),
+          );
+    }
+
+    void onPanUpdate(DragUpdateDetails details) {
+      var newPoint = normalizedPointToGrid(details.localPosition);
+      this.context.read<DrawArrowsBloc>().add(
+            DrawArrowsEvent(endPoint: newPoint),
+          );
+    }
+
     for (var i = 0; i < size.width / mainSquareSide; i++) {
       Offset mainGridStartingPoint = Offset(mainSquareSide * i, 0);
       Offset mainGridEndingPoint = Offset(mainSquareSide * i, size.height);
@@ -67,18 +81,8 @@ class GridCustomPainter extends CustomPainter {
         mainGridStartingPoint,
         mainGridEndingPoint,
         mainAnchorGrid,
-        onPanDown: (details) {
-          var newPoint = normalizedPointToGrid(details.localPosition);
-          this.context.read<DrawArrowsBloc>().add(
-                DrawArrowsEvent(startPoint: newPoint),
-              );
-        },
-        onPanUpdate: (details) {
-          var newPoint = normalizedPointToGrid(details.localPosition);
-          this.context.read<DrawArrowsBloc>().add(
-                DrawArrowsEvent(endPoint: newPoint),
-              );
-        },
+        onPanDown: onPanDown,
+        onPanUpdate: onPanUpdate,
       );
     }
 
@@ -96,18 +100,8 @@ class GridCustomPainter extends CustomPainter {
         startingPoint,
         endingPoint,
         mainAnchorGrid,
-        onPanDown: (details) {
-          var newPoint = normalizedPointToGrid(details.localPosition);
-          this.context.read<DrawArrowsBloc>().add(
-                DrawArrowsEvent(startPoint: newPoint),
-              );
-        },
-        onPanUpdate: (details) {
-          var newPoint = normalizedPointToGrid(details.localPosition);
-          this.context.read<DrawArrowsBloc>().add(
-                DrawArrowsEvent(endPoint: newPoint),
-              );
-        },
+        onPanDown: onPanDown,
+        onPanUpdate: onPanUpdate,
       );
     }
 
@@ -127,18 +121,8 @@ class GridCustomPainter extends CustomPainter {
           secondaryGridStartingPoint,
           secondaryGridEndingPoint,
           secondaryAnchorGrid,
-          onPanDown: (details) {
-            var newPoint = normalizedPointToGrid(details.localPosition);
-            this.context.read<DrawArrowsBloc>().add(
-                  DrawArrowsEvent(startPoint: newPoint),
-                );
-          },
-          onPanUpdate: (details) {
-            var newPoint = normalizedPointToGrid(details.localPosition);
-            this.context.read<DrawArrowsBloc>().add(
-                  DrawArrowsEvent(endPoint: newPoint),
-                );
-          },
+          onPanDown: onPanDown,
+          onPanUpdate: onPanUpdate,
         );
       }
     }
@@ -159,18 +143,8 @@ class GridCustomPainter extends CustomPainter {
           secondaryGridStartingPoint,
           secondaryGridEndingPoint,
           secondaryAnchorGrid,
-          onPanDown: (details) {
-            var newPoint = normalizedPointToGrid(details.localPosition);
-            this.context.read<DrawArrowsBloc>().add(
-                  DrawArrowsEvent(startPoint: newPoint),
-                );
-          },
-          onPanUpdate: (details) {
-            var newPoint = normalizedPointToGrid(details.localPosition);
-            this.context.read<DrawArrowsBloc>().add(
-                  DrawArrowsEvent(endPoint: newPoint),
-                );
-          },
+          onPanDown: onPanDown,
+          onPanUpdate: onPanUpdate,
         );
       }
     }
