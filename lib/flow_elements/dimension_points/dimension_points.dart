@@ -6,7 +6,7 @@ class DimensionPoints extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      transform: Matrix4.translationValues(-25, -5, 0),
+      transform: Matrix4.translationValues(-5, -5, 0),
       width: 10,
       height: 10,
       decoration: BoxDecoration(

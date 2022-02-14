@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 
 class DrawArrowsState {
-  final List<Path> arrowPaths;
+  final List<ArrowModel> arrowModelList;
 
-  DrawArrowsState({required this.arrowPaths});
+  DrawArrowsState({required this.arrowModelList});
 }

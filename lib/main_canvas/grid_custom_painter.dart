@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_this
 
+import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +8,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:touchable/touchable.dart';
 
 class GridCustomPainter extends CustomPainter {
-  final Color lineColor;
   final BuildContext context;
+  final Set<Offset?>? anchorPointsList;
 
   GridCustomPainter({
-    required this.lineColor,
     required this.context,
+    this.anchorPointsList,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     var myCanvas = TouchyCanvas(context, canvas);
+
+    var lineColor = Theme.of(context).dividerColor;
 
     var mainSquareSide = 60.0;
     var secondarySquareSide = 15.0;
@@ -55,8 +58,14 @@ class GridCustomPainter extends CustomPainter {
 
     void onPanDown(DragDownDetails details) {
       var newPoint = normalizedPointToGrid(details.localPosition);
+
+      if (!(anchorPointsList?.contains(newPoint) ?? false)) return;
+
       this.context.read<DrawArrowsBloc>().add(
-            DrawArrowsEvent(startPoint: newPoint),
+            DrawArrowsEvent(
+              startPoint: newPoint,
+              arrowKey: UniqueKey(),
+            ),
           );
     }
 
@@ -157,9 +166,9 @@ class GridCustomPainter extends CustomPainter {
 }
 
 class ArrowCustomPainter extends CustomPainter {
-  final List<Path> arrowPaths;
+  final List<ArrowModel> arrowModelList;
 
-  ArrowCustomPainter({required this.arrowPaths});
+  ArrowCustomPainter({required this.arrowModelList});
   @override
   void paint(Canvas canvas, Size size) {
     var pointPaint = Paint()
@@ -168,8 +177,8 @@ class ArrowCustomPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
 
-    for (var arrow in arrowPaths) {
-      canvas.drawPath(arrow, pointPaint);
+    for (var arrow in arrowModelList) {
+      canvas.drawPath(arrow.arrowPath, pointPaint);
     }
   }
 

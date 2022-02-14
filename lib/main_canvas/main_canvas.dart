@@ -19,6 +19,14 @@ class MainCanvas extends StatefulWidget {
 class _MainCanvasState extends State<MainCanvas> {
   final _gridKey = GlobalKey();
 
+  Set<Offset?>? calcOffsetRelativeToParent(
+      List<AbstractFlowElement> elementsList) {
+    return elementsList
+        .expand((element) => element.anchorPointsList
+            .map((e) => (e ?? Offset.zero) + element.offset!))
+        .toSet();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddRemoveElementBloc, List<AbstractFlowElement>>(
@@ -36,8 +44,9 @@ class _MainCanvasState extends State<MainCanvas> {
                     return CustomPaint(
                       key: _gridKey,
                       foregroundPainter: GridCustomPainter(
-                        lineColor: Theme.of(context).dividerColor,
                         context: context,
+                        anchorPointsList:
+                            calcOffsetRelativeToParent(elementsList),
                       ),
                       child: DragTarget<AbstractFlowElement>(
                         onWillAccept: (data) {
@@ -61,8 +70,9 @@ class _MainCanvasState extends State<MainCanvas> {
                 BlocBuilder<DrawArrowsBloc, DrawArrowsState>(
                   builder: (context, state) {
                     return CustomPaint(
-                      foregroundPainter:
-                          ArrowCustomPainter(arrowPaths: state.arrowPaths),
+                      foregroundPainter: ArrowCustomPainter(
+                        arrowModelList: state.arrowModelList,
+                      ),
                     );
                   },
                 ),

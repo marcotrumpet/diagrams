@@ -21,17 +21,17 @@ abstract class AbstractFlowElement {
     this.elementKey,
     this.offset,
   }) {
-    setAnchorPoints();
-    setDimensionPoints();
+    _setAnchorPoints();
+    _setDimensionPoints();
   }
 
   final _showAnchorPointsValueNotifier = ValueNotifier(0.0);
-  final _anchorPointsList = <Offset?>{};
+  final anchorPointsList = <Offset?>{};
   final _dimensionPointsList = <Offset?>{};
 
-  void setAnchorPoints() {
+  void _setAnchorPoints() {
     final boundRect = path.getBounds();
-    _anchorPointsList.addAll([
+    anchorPointsList.addAll([
       if (path.contains(boundRect.topLeft)) boundRect.topLeft,
       if (path.contains(boundRect.topCenter)) boundRect.topCenter,
       if (path.contains(boundRect.topRight)) boundRect.topRight,
@@ -45,7 +45,7 @@ abstract class AbstractFlowElement {
     ]);
   }
 
-  void setDimensionPoints() {
+  void _setDimensionPoints() {
     final boundRect = path.getBounds();
     _dimensionPointsList.addAll([
       boundRect.topLeft,
@@ -64,41 +64,29 @@ abstract class AbstractFlowElement {
       buildWhen: (previous, current) =>
           elementKey == current.elementKey || current.elementKey == null,
       builder: (context, state) {
-        return Container(
-          transform:
-              Matrix4.translationValues(offset?.dx ?? 0, offset?.dy ?? 0, 0),
-          alignment: Alignment.topLeft,
-          key: elementKey,
-          child: GestureDetector(
-            onTap: () {
-              context.read<UnselectElementsBloc>().add(UnselectElementsEvent(
-                  unselect: !state.unselect, elementKey: elementKey));
-            },
-            child: MouseRegion(
-              cursor: SystemMouseCursors.grab,
-              onEnter: (event) {
-                if (!state.unselect) return;
-                _showAnchorPointsValueNotifier.value = 1.0;
-              },
-              onExit: (event) {
-                _showAnchorPointsValueNotifier.value = 0.0;
-              },
-              child: SizedBox(
-                height: path.getBounds().height + 30,
-                width: path.getBounds().width + 30,
-                child: Center(
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            context.read<UnselectElementsBloc>().add(UnselectElementsEvent(
+                unselect: !state.unselect, elementKey: elementKey));
+          },
+          child: SizedBox(
+            height: path.getBounds().height,
+            width: path.getBounds().width,
+            child: Stack(
+              children: [
+                Container(
+                  transform: Matrix4.translationValues(
+                      offset?.dx ?? 0, offset?.dy ?? 0, 0),
                   child: Stack(
-                    fit: StackFit.expand,
+                    key: elementKey,
                     children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: concreteBuild(context),
-                      ),
-                      if (_anchorPointsList.isNotEmpty)
-                        for (var offset in _anchorPointsList)
-                          Positioned(
-                            right: offset?.dx,
-                            top: offset?.dy,
+                      concreteBuild(context),
+                      if (anchorPointsList.isNotEmpty)
+                        for (var offset in anchorPointsList)
+                          Container(
+                            transform: Matrix4.translationValues(
+                                offset?.dx ?? 0, offset?.dy ?? 0, 0),
                             child: ValueListenableBuilder<double>(
                               valueListenable: _showAnchorPointsValueNotifier,
                               builder: (context, opacity, _) {
@@ -116,15 +104,34 @@ abstract class AbstractFlowElement {
                         ),
                       if (_dimensionPointsList.isNotEmpty && !state.unselect)
                         for (var offset in _dimensionPointsList)
-                          Positioned(
-                            right: offset?.dx,
-                            top: offset?.dy,
+                          Container(
+                            transform: Matrix4.translationValues(
+                                offset?.dx ?? 0, offset?.dy ?? 0, 0),
                             child: const DimensionPoints(),
                           ),
                     ],
                   ),
                 ),
-              ),
+                Container(
+                  transform: Matrix4.translationValues(
+                      (offset?.dx ?? 0) - 15, (offset?.dy ?? 0) - 15, 0),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.grab,
+                    opaque: false,
+                    child: SizedBox(
+                      height: path.getBounds().height + 30,
+                      width: path.getBounds().width + 30,
+                    ),
+                    onEnter: (event) {
+                      if (!state.unselect) return;
+                      _showAnchorPointsValueNotifier.value = 1.0;
+                    },
+                    onExit: (event) {
+                      _showAnchorPointsValueNotifier.value = 0.0;
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         );
