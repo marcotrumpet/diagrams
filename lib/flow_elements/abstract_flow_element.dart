@@ -133,20 +133,21 @@ abstract class AbstractFlowElement {
       buildWhen: (previous, current) =>
           elementKey == current.elementKey || current.elementKey == null,
       builder: (context, state) {
-        return GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            context.read<UnselectElementsBloc>().add(UnselectElementsEvent(
-                unselect: !state.unselect, elementKey: elementKey));
-          },
-          child: SizedBox(
-            height: path.getBounds().height,
-            width: path.getBounds().width,
-            child: Stack(
-              children: [
-                Container(
-                  transform: Matrix4.translationValues(
-                      offset?.dx ?? 0, offset?.dy ?? 0, 0),
+        return SizedBox(
+          height: path.getBounds().height,
+          width: path.getBounds().width,
+          child: Stack(
+            children: [
+              Container(
+                transform: Matrix4.translationValues(
+                    offset?.dx ?? 0, offset?.dy ?? 0, 0),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    context.read<UnselectElementsBloc>().add(
+                        UnselectElementsEvent(
+                            unselect: !state.unselect, elementKey: elementKey));
+                  },
                   child: Stack(
                     key: elementKey,
                     children: [
@@ -184,27 +185,27 @@ abstract class AbstractFlowElement {
                     ],
                   ),
                 ),
-                Container(
-                  transform: Matrix4.translationValues(
-                      (offset?.dx ?? 0) - 15, (offset?.dy ?? 0) - 15, 0),
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.grab,
-                    opaque: false,
-                    child: SizedBox(
-                      height: path.getBounds().height + 30,
-                      width: path.getBounds().width + 30,
-                    ),
-                    onEnter: (event) {
-                      if (!state.unselect) return;
-                      _showAnchorPointsValueNotifier.value = 1.0;
-                    },
-                    onExit: (event) {
-                      _showAnchorPointsValueNotifier.value = 0.0;
-                    },
+              ),
+              Container(
+                transform: Matrix4.translationValues(
+                    (offset?.dx ?? 0) - 15, (offset?.dy ?? 0) - 15, 0),
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.grab,
+                  opaque: false,
+                  child: SizedBox(
+                    height: path.getBounds().height + 30,
+                    width: path.getBounds().width + 30,
                   ),
+                  onEnter: (event) {
+                    if (!state.unselect) return;
+                    _showAnchorPointsValueNotifier.value = 1.0;
+                  },
+                  onExit: (event) {
+                    _showAnchorPointsValueNotifier.value = 0.0;
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

@@ -58,8 +58,12 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
             Offset.zero;
         var _updatedTmpArrow = _tmpArrow.copyWith(
             startPoint: _newStartPoint,
-            arrowPath: calculatePath(_newStartPoint, _tmpArrow.endPoint,
-                forceNewStartPoint: true));
+            arrowPath: calculatePath(
+              _newStartPoint,
+              _tmpArrow.endPoint,
+              forceNewStartPoint: true,
+              pathToUpdate: _tmpArrow.arrowPath,
+            ));
         _arrowModelList.add(_updatedTmpArrow);
 
         final newArrowLists = <ArrowModel>[..._arrowModelList];
@@ -91,14 +95,18 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
     _lastDrawedPoint = Offset.infinite;
   }
 
-  Path calculatePath(Offset startPoint, Offset endPoint,
-      {bool forceNewStartPoint = false}) {
+  Path calculatePath(
+    Offset startPoint,
+    Offset endPoint, {
+    bool forceNewStartPoint = false,
+    Path? pathToUpdate,
+  }) {
     var path = Path();
 
-    if (forceNewStartPoint) {
+    if (forceNewStartPoint && pathToUpdate != null) {
       path.moveTo(startPoint.dx, startPoint.dy);
 
-      _lastDrawedPath.computeMetrics().forEach((element) {
+      pathToUpdate.computeMetrics().forEach((element) {
         var position = element.getTangentForOffset(0.0)?.position;
         if (position != null) {
           path.lineTo(position.dx, position.dy);

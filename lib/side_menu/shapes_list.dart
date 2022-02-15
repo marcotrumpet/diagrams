@@ -8,24 +8,20 @@ import 'package:flutter/material.dart';
 
 final rectangle = RectangleFlowElement(
   flowType: FlowElementTypes.rectangle,
-  elementKey: UniqueKey(),
   path: rectangleShape,
 );
 
 final roundedRectangle = RoundedRectangleFlowElement(
   flowType: FlowElementTypes.roundedRectangle,
-  elementKey: UniqueKey(),
   path: roundedRectangleShape,
 );
 
 final triangle = TriangleFlowElement(
   flowType: FlowElementTypes.triangle,
-  elementKey: UniqueKey(),
   path: triangleShape,
 );
 final circle = CircleFlowElement(
   flowType: FlowElementTypes.circle,
-  elementKey: UniqueKey(),
   path: circleShape,
 );
 
