@@ -157,7 +157,7 @@ abstract class AbstractFlowElement {
                               valueListenable: _showAnchorPointsValueNotifier,
                               builder: (context, opacity, _) {
                                 return Opacity(
-                                  opacity: 1,
+                                  opacity: opacity,
                                   child: anchorPointsModelMap!.child,
                                 );
                               },

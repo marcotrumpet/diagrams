@@ -117,6 +117,7 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
 
       return path;
     }
+
     _lastPointTurn90 =
         _lastPointTurn90 == Offset.infinite ? startPoint : _lastPointTurn90;
 
