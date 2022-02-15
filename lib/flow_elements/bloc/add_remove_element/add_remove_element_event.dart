@@ -15,3 +15,8 @@ class RemoveElementEvent extends AbstractAddRemoveElementEvent {
   RemoveElementEvent({required AbstractFlowElement elementToManipulate})
       : super(elementToManipulate: elementToManipulate);
 }
+
+class MoveElementEvent extends AbstractAddRemoveElementEvent {
+  MoveElementEvent({required AbstractFlowElement elementToManipulate})
+      : super(elementToManipulate: elementToManipulate);
+}

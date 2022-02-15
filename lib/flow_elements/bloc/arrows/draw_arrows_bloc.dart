@@ -5,15 +5,16 @@ import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class DrawArrowsBloc extends Bloc<DrawArrowsEvent, DrawArrowsState> {
-  var startPoint = Offset.zero;
+class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
+  var _startPoint = Offset.zero;
   // var mapStartPointArrowPath = <Offset, Path>{};
-  var arrowModelList = <ArrowModel>[];
-  var lastDrawedPoint = Offset.infinite;
-  var lastPointTurn90 = Offset.infinite;
-  var lastDrawedPath = Path();
-  var arrowKey = const Key('');
+  var _arrowModelList = <ArrowModel>[];
+  var _lastDrawedPoint = Offset.infinite;
+  var _lastPointTurn90 = Offset.infinite;
+  var _lastDrawedPath = Path();
+  var _arrowKey = const Key('');
 
   DrawArrowsBloc(DrawArrowsState initialState) : super(initialState) {
     on<DrawArrowsEvent>(
@@ -22,14 +23,16 @@ class DrawArrowsBloc extends Bloc<DrawArrowsEvent, DrawArrowsState> {
           startNewArrow(event);
         }
         if (event.endPoint != null) {
-          final newPath = calculatePath(event);
+          final newPath = calculatePath(_startPoint, event.endPoint!);
 
-          arrowModelList = arrowModelList.map((e) {
-            e.arrowKey == arrowKey;
-            return e.copyWith(arrowPath: newPath, endPoint: event.endPoint);
+          _arrowModelList = _arrowModelList.map((e) {
+            if (e.arrowKey == _arrowKey) {
+              return e.copyWith(arrowPath: newPath, endPoint: event.endPoint!);
+            }
+            return e;
           }).toList();
 
-          final newArrowLists = <ArrowModel>[...arrowModelList];
+          final newArrowLists = <ArrowModel>[..._arrowModelList];
 
           emit(
             DrawArrowsState(
@@ -39,50 +42,92 @@ class DrawArrowsBloc extends Bloc<DrawArrowsEvent, DrawArrowsState> {
         }
       },
     );
+
+    on<UpdateArrowsEvent>((event, emit) {
+      var arrowIndex = _arrowModelList.indexWhere((element) =>
+          element.startElement?.elementKey == event.startElement?.elementKey);
+
+      if (arrowIndex != -1) {
+        var _tmpArrow = _arrowModelList.elementAt(arrowIndex);
+        _arrowModelList.removeAt(arrowIndex);
+        var _newStartPoint = event
+                .startElement?.anchorPointsModelMap?.anchorPointList
+                .firstWhereOrNull((element) =>
+                    element.anchorPointKey == _tmpArrow.startPointKey)
+                ?.anchorPointPositionRelativeToParent ??
+            Offset.zero;
+        var _updatedTmpArrow = _tmpArrow.copyWith(
+            startPoint: _newStartPoint,
+            arrowPath: calculatePath(_newStartPoint, _tmpArrow.endPoint,
+                forceNewStartPoint: true));
+        _arrowModelList.add(_updatedTmpArrow);
+
+        final newArrowLists = <ArrowModel>[..._arrowModelList];
+
+        emit(
+          DrawArrowsState(
+            arrowModelList: newArrowLists,
+          ),
+        );
+      }
+    });
   }
 
   void startNewArrow(DrawArrowsEvent event) {
-    arrowModelList.add(
+    _arrowModelList.add(
       ArrowModel(
-        arrowPath: Path(),
-        startPoint: event.startPoint!,
-        endPoint: Offset.infinite,
-        arrowKey: event.arrowKey!,
-      ),
+          arrowPath: Path(),
+          startPoint: event.startPoint!,
+          endPoint: Offset.infinite,
+          arrowKey: event.arrowKey!,
+          startElement: event.startElement,
+          startPointKey: event.startPointKey!),
     );
-    arrowKey = event.arrowKey!;
-    startPoint = event.startPoint!;
+    _arrowKey = event.arrowKey!;
+    _startPoint = event.startPoint!;
 
-    lastDrawedPath = Path();
-    lastPointTurn90 = Offset.infinite;
-    lastDrawedPoint = Offset.infinite;
+    _lastDrawedPath = Path();
+    _lastPointTurn90 = Offset.infinite;
+    _lastDrawedPoint = Offset.infinite;
   }
 
-  Path calculatePath(DrawArrowsEvent event) {
+  Path calculatePath(Offset startPoint, Offset endPoint,
+      {bool forceNewStartPoint = false}) {
     var path = Path();
 
-    lastPointTurn90 =
-        lastPointTurn90 == Offset.infinite ? startPoint : lastPointTurn90;
+    if (forceNewStartPoint) {
+      path.moveTo(startPoint.dx, startPoint.dy);
 
-    var direction = (event.endPoint! - lastPointTurn90).direction;
+      _lastDrawedPath.computeMetrics().forEach((element) {
+        var position = element.getTangentForOffset(0.0)?.position;
+        if (position != null) {
+          path.lineTo(position.dx, position.dy);
+        }
+      });
+
+      return path;
+    }
+    _lastPointTurn90 =
+        _lastPointTurn90 == Offset.infinite ? startPoint : _lastPointTurn90;
+
+    var direction = (endPoint - _lastPointTurn90).direction;
 
     if (direction == 0 ||
         direction == pi / 2 ||
         direction == -pi / 2 ||
         direction == pi) {
-      lastDrawedPoint = event.endPoint!;
+      _lastDrawedPoint = endPoint;
       path
-        ..moveTo(lastPointTurn90.dx, lastPointTurn90.dy)
-        ..lineTo(event.endPoint!.dx, event.endPoint!.dy);
+        ..moveTo(_lastPointTurn90.dx, _lastPointTurn90.dy)
+        ..lineTo(endPoint.dx, endPoint.dy);
     } else {
-      lastPointTurn90 = lastDrawedPoint;
-      // path
-      //   ..moveTo(lastPointTurn90.dx, lastPointTurn90.dy)
-      //   ..lineTo(endPoint.dx, endPoint.dy);
+      _lastPointTurn90 = _lastDrawedPoint;
     }
 
-    lastDrawedPath.addPath(path, Offset.zero);
+    _lastDrawedPath.addPath(path, Offset.zero);
 
-    return lastDrawedPath;
+    return _lastDrawedPath;
   }
 }
+// flutter: Offset(330.0, 360.0)
+// flutter: Offset(255.0, 360.0)

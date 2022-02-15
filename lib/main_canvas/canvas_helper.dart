@@ -2,6 +2,8 @@ import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/basic_shapes.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
+import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/flow_elements/circle/circle_flow_element.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';
@@ -27,48 +29,66 @@ Offset calcNewOffset(
 void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
     BuildContext context, Offset offset) {
   switch (details.data.flowType) {
-    case FlowTypes.rectangle:
-      return context.read<AddRemoveElementBloc>().add(
+    case FlowElementTypes.rectangle:
+      final elementToManipulate =
+          (details.data as RectangleFlowElement).copyWith(
+        offset: offset,
+        elementKey: details.data.elementKey ?? UniqueKey(),
+        path: rectangleShapeBig,
+        anchorPointsModelMap: details.data.anchorPointsModelMap == null
+            ? details.data.setAnchorPoints(offset, rectangleShapeBig)
+            : details.data
+                .updateAnchorPoints(details.data, offset, rectangleShapeBig),
+      );
+      context.read<AddRemoveElementBloc>().add(
             AddElementEvent(
-              elementToManipulate:
-                  (details.data as RectangleFlowElement).copyWith(
-                offset: offset,
-                elementKey: UniqueKey(),
-                path: rectangleShapeBig,
-              ),
+              elementToManipulate: elementToManipulate,
             ),
           );
-    case FlowTypes.roundedRectangle:
-      return context.read<AddRemoveElementBloc>().add(
+      context.read<DrawArrowsBloc>().add(
+            UpdateArrowsEvent(startElement: elementToManipulate),
+          );
+      break;
+    case FlowElementTypes.roundedRectangle:
+      context.read<AddRemoveElementBloc>().add(
             AddElementEvent(
               elementToManipulate:
                   (details.data as RoundedRectangleFlowElement).copyWith(
                 offset: offset,
-                elementKey: UniqueKey(),
+                elementKey: details.data.elementKey ?? UniqueKey(),
                 path: roundedRectangleShapeBig,
+                anchorPointsModelMap:
+                    details.data.setAnchorPoints(offset, rectangleShapeBig),
               ),
             ),
           );
-    case FlowTypes.triangle:
-      return context.read<AddRemoveElementBloc>().add(
+      break;
+    case FlowElementTypes.triangle:
+      context.read<AddRemoveElementBloc>().add(
             AddElementEvent(
               elementToManipulate:
                   (details.data as TriangleFlowElement).copyWith(
                 offset: offset,
-                elementKey: UniqueKey(),
+                elementKey: details.data.elementKey ?? UniqueKey(),
                 path: triangleShapeBig,
+                anchorPointsModelMap:
+                    details.data.setAnchorPoints(offset, rectangleShapeBig),
               ),
             ),
           );
-    case FlowTypes.circle:
-      return context.read<AddRemoveElementBloc>().add(
+      break;
+    case FlowElementTypes.circle:
+      context.read<AddRemoveElementBloc>().add(
             AddElementEvent(
               elementToManipulate: (details.data as CircleFlowElement).copyWith(
                 offset: offset,
-                elementKey: UniqueKey(),
+                elementKey: details.data.elementKey ?? UniqueKey(),
                 path: circleShapeBig,
+                anchorPointsModelMap:
+                    details.data.setAnchorPoints(offset, rectangleShapeBig),
               ),
             ),
           );
+      break;
   }
 }

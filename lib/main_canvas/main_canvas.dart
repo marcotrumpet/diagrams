@@ -19,12 +19,26 @@ class MainCanvas extends StatefulWidget {
 class _MainCanvasState extends State<MainCanvas> {
   final _gridKey = GlobalKey();
 
-  Set<Offset?>? calcOffsetRelativeToParent(
+  List<AbstractFlowElement>? calcOffsetRelativeToParent(
       List<AbstractFlowElement> elementsList) {
-    return elementsList
-        .expand((element) => element.anchorPointsList
-            .map((e) => (e ?? Offset.zero) + element.offset!))
-        .toSet();
+    // var newList = <AbstractFlowElement>[];
+
+    // for (var element in elementsList) {
+    //   var newAnchorPointsSet = element.anchorPointsList
+    //       .map((e) => (e ?? Offset.zero) + element.offset!)
+    //       .toSet();
+    //   element.copyWith(
+    //     anchorPointsSet: newAnchorPointsSet,
+    //   );
+    //   newList.add(element);
+    // }
+
+    return elementsList;
+    // return elementsList.map((e) => e.anchorPointsList.map((el) => (el ?? Offset.zero) + e.offset!)).toList();
+
+    // .expand((element) => element.anchorPointsList
+    // .map((e) => (e ?? Offset.zero) + element.offset!))
+    // .toSet();
   }
 
   @override
@@ -45,8 +59,7 @@ class _MainCanvasState extends State<MainCanvas> {
                       key: _gridKey,
                       foregroundPainter: GridCustomPainter(
                         context: context,
-                        anchorPointsList:
-                            calcOffsetRelativeToParent(elementsList),
+                        flowElementsList: elementsList,
                       ),
                       child: DragTarget<AbstractFlowElement>(
                         onWillAccept: (data) {
@@ -55,6 +68,16 @@ class _MainCanvasState extends State<MainCanvas> {
                                 RemoveElementEvent(elementToManipulate: data!));
                           }
                           return true;
+                        },
+                        onMove: (details) {
+                          // final newOffset = calcNewOffset(details, _gridKey);
+                          // context.read<AddRemoveElementBloc>().add(
+                          //     RemoveElementEvent(
+                          //         elementToManipulate: details.data));
+                          // handleFlowElements(details, context, newOffset);
+                          // context.read<DrawArrowsBloc>().add(
+                          //       UpdateArrowsEvent(startElement: details.data),
+                          //     );
                         },
                         onAcceptWithDetails: (details) {
                           final newOffset = calcNewOffset(details, _gridKey);

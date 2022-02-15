@@ -7,24 +7,24 @@ import 'package:diagrams/flow_elements/triangle/triangle_flow_element.dart';
 import 'package:flutter/material.dart';
 
 final rectangle = RectangleFlowElement(
-  flowType: FlowTypes.rectangle,
+  flowType: FlowElementTypes.rectangle,
   elementKey: UniqueKey(),
   path: rectangleShape,
 );
 
 final roundedRectangle = RoundedRectangleFlowElement(
-  flowType: FlowTypes.roundedRectangle,
+  flowType: FlowElementTypes.roundedRectangle,
   elementKey: UniqueKey(),
   path: roundedRectangleShape,
 );
 
 final triangle = TriangleFlowElement(
-  flowType: FlowTypes.triangle,
+  flowType: FlowElementTypes.triangle,
   elementKey: UniqueKey(),
   path: triangleShape,
 );
 final circle = CircleFlowElement(
-  flowType: FlowTypes.circle,
+  flowType: FlowElementTypes.circle,
   elementKey: UniqueKey(),
   path: circleShape,
 );

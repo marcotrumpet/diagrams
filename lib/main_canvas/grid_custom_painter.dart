@@ -1,19 +1,21 @@
 // ignore_for_file: unnecessary_this
 
+import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:touchable/touchable.dart';
 
 class GridCustomPainter extends CustomPainter {
   final BuildContext context;
-  final Set<Offset?>? anchorPointsList;
+  final List<AbstractFlowElement>? flowElementsList;
 
   GridCustomPainter({
     required this.context,
-    this.anchorPointsList,
+    this.flowElementsList,
   });
 
   @override
@@ -58,13 +60,22 @@ class GridCustomPainter extends CustomPainter {
 
     void onPanDown(DragDownDetails details) {
       var newPoint = normalizedPointToGrid(details.localPosition);
-
-      if (!(anchorPointsList?.contains(newPoint) ?? false)) return;
+      var elementAnchorPointFound = flowElementsList?.firstWhereOrNull((e) =>
+          e.anchorPointsModelMap!.anchorPointList.firstWhereOrNull(
+              (e) => e.anchorPointPositionRelativeToParent == newPoint) !=
+          null);
+      if (elementAnchorPointFound == null) return;
 
       this.context.read<DrawArrowsBloc>().add(
             DrawArrowsEvent(
               startPoint: newPoint,
               arrowKey: UniqueKey(),
+              startElement: elementAnchorPointFound,
+              startPointKey: elementAnchorPointFound
+                  .anchorPointsModelMap?.anchorPointList
+                  .firstWhereOrNull((element) =>
+                      element.anchorPointPositionRelativeToParent == newPoint)
+                  ?.anchorPointKey,
             ),
           );
     }

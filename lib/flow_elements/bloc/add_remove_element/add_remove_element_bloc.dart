@@ -22,5 +22,13 @@ class AddRemoveElementBloc
         emit(newList);
       },
     );
+
+    on<MoveElementEvent>((event, emit) {
+      elementsList.removeWhere((element) =>
+          element.elementKey == event.elementToManipulate.elementKey);
+      elementsList.add(event.elementToManipulate);
+      final List<AbstractFlowElement> newList = [...elementsList];
+      emit(newList);
+    });
   }
 }

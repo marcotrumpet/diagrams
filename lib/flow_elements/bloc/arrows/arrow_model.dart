@@ -1,29 +1,19 @@
+import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class ArrowModel {
-  final Path arrowPath;
-  final Offset startPoint;
-  final Offset endPoint;
-  final Key arrowKey;
+part 'arrow_model.freezed.dart';
 
-  ArrowModel({
-    required this.arrowPath,
-    required this.startPoint,
-    required this.endPoint,
-    required this.arrowKey,
-  });
-
-  ArrowModel copyWith({
-    Path? arrowPath,
-    Offset? startPoint,
-    Offset? endPoint,
-    Key? arrowKey,
-  }) {
-    return ArrowModel(
-      arrowPath: arrowPath ?? this.arrowPath,
-      startPoint: startPoint ?? this.startPoint,
-      endPoint: endPoint ?? this.endPoint,
-      arrowKey: arrowKey ?? this.arrowKey,
-    );
-  }
+@freezed
+class ArrowModel with _$ArrowModel {
+  const factory ArrowModel({
+    required Path arrowPath,
+    required Offset startPoint,
+    required Key startPointKey,
+    required Offset endPoint,
+    required Key arrowKey,
+    AbstractFlowElement? startElement,
+    AbstractFlowElement? endElement,
+  }) = _ArrowModel;
 }
