@@ -71,22 +71,14 @@ abstract class AbstractFlowElement {
       AbstractFlowElement data, Offset offset, Path path) {
     final boundRect = path.getBounds();
     var _anchorPointsMap = [
-      if (path.contains(boundRect.topLeft))
-        {Alignment.topLeft: boundRect.topLeft},
-      if (path.contains(boundRect.topCenter))
-        {Alignment.topCenter: boundRect.topCenter},
-      if (path.contains(boundRect.topRight))
-        {Alignment.topRight: boundRect.topRight},
-      if (path.contains(boundRect.bottomLeft))
-        {Alignment.bottomLeft: boundRect.bottomLeft},
-      if (path.contains(boundRect.bottomCenter))
-        {Alignment.bottomCenter: boundRect.bottomCenter},
-      if (path.contains(boundRect.bottomRight))
-        {Alignment.bottomRight: boundRect.bottomRight},
-      if (path.contains(Offset(boundRect.left, boundRect.height / 2)))
-        {Alignment.centerLeft: Offset(boundRect.left, boundRect.height / 2)},
-      if (path.contains(Offset(boundRect.right, boundRect.height / 2)))
-        {Alignment.centerRight: Offset(boundRect.right, boundRect.height / 2)},
+      {Alignment.topLeft: boundRect.topLeft},
+      {Alignment.topCenter: boundRect.topCenter},
+      {Alignment.topRight: boundRect.topRight},
+      {Alignment.bottomLeft: boundRect.bottomLeft},
+      {Alignment.bottomCenter: boundRect.bottomCenter},
+      {Alignment.bottomRight: boundRect.bottomRight},
+      {Alignment.centerLeft: Offset(boundRect.left, boundRect.height / 2)},
+      {Alignment.centerRight: Offset(boundRect.right, boundRect.height / 2)},
     ];
     if (data.anchorPointsModelMap?.anchorPointList.isEmpty ?? true) {
       return const AnchorPointModelMap(
@@ -99,7 +91,8 @@ abstract class AbstractFlowElement {
 
     for (var anchor in data.anchorPointsModelMap!.anchorPointList) {
       for (var element in _anchorPointsMap) {
-        if (element[anchor.alignment] != null) {
+        if (element[anchor.alignment] != null &&
+            path.contains(element[anchor.alignment]!)) {
           _tmpAnchorPointList.add(anchor.copyWith(
             anchorPointPosition: element[anchor.alignment]!,
             anchorPointPositionRelativeToParent:
@@ -164,7 +157,7 @@ abstract class AbstractFlowElement {
                               valueListenable: _showAnchorPointsValueNotifier,
                               builder: (context, opacity, _) {
                                 return Opacity(
-                                  opacity: opacity,
+                                  opacity: 1,
                                   child: anchorPointsModelMap!.child,
                                 );
                               },

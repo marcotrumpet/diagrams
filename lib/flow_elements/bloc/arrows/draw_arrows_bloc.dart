@@ -113,6 +113,8 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
         }
       });
 
+      path.lineTo(endPoint.dx, endPoint.dy);
+
       return path;
     }
     _lastPointTurn90 =

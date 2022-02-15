@@ -26,12 +26,15 @@ Offset calcNewOffset(
   return newOffset;
 }
 
-void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
-    BuildContext context, Offset offset) {
+void handleFlowElements(
+    {required DragTargetDetails<AbstractFlowElement> details,
+    required BuildContext context,
+    required Offset offset,
+    bool drawNewElement = true}) {
+  AbstractFlowElement elementToManipulate;
   switch (details.data.flowType) {
     case FlowElementTypes.rectangle:
-      final elementToManipulate =
-          (details.data as RectangleFlowElement).copyWith(
+      elementToManipulate = (details.data as RectangleFlowElement).copyWith(
         offset: offset,
         elementKey: details.data.elementKey ?? UniqueKey(),
         path: rectangleShapeBig,
@@ -40,55 +43,50 @@ void handleFlowElements(DragTargetDetails<AbstractFlowElement> details,
             : details.data
                 .updateAnchorPoints(details.data, offset, rectangleShapeBig),
       );
-      context.read<AddRemoveElementBloc>().add(
-            AddElementEvent(
-              elementToManipulate: elementToManipulate,
-            ),
-          );
-      context.read<DrawArrowsBloc>().add(
-            UpdateArrowsEvent(startElement: elementToManipulate),
-          );
       break;
     case FlowElementTypes.roundedRectangle:
-      context.read<AddRemoveElementBloc>().add(
-            AddElementEvent(
-              elementToManipulate:
-                  (details.data as RoundedRectangleFlowElement).copyWith(
-                offset: offset,
-                elementKey: details.data.elementKey ?? UniqueKey(),
-                path: roundedRectangleShapeBig,
-                anchorPointsModelMap:
-                    details.data.setAnchorPoints(offset, rectangleShapeBig),
-              ),
-            ),
-          );
+      elementToManipulate =
+          (details.data as RoundedRectangleFlowElement).copyWith(
+        offset: offset,
+        elementKey: details.data.elementKey ?? UniqueKey(),
+        path: roundedRectangleShapeBig,
+        anchorPointsModelMap: details.data.anchorPointsModelMap == null
+            ? details.data.setAnchorPoints(offset, roundedRectangleShapeBig)
+            : details.data.updateAnchorPoints(
+                details.data, offset, roundedRectangleShapeBig),
+      );
       break;
     case FlowElementTypes.triangle:
-      context.read<AddRemoveElementBloc>().add(
-            AddElementEvent(
-              elementToManipulate:
-                  (details.data as TriangleFlowElement).copyWith(
-                offset: offset,
-                elementKey: details.data.elementKey ?? UniqueKey(),
-                path: triangleShapeBig,
-                anchorPointsModelMap:
-                    details.data.setAnchorPoints(offset, rectangleShapeBig),
-              ),
-            ),
-          );
+      elementToManipulate = (details.data as TriangleFlowElement).copyWith(
+        offset: offset,
+        elementKey: details.data.elementKey ?? UniqueKey(),
+        path: triangleShapeBig,
+        anchorPointsModelMap: details.data.anchorPointsModelMap == null
+            ? details.data.setAnchorPoints(offset, triangleShapeBig)
+            : details.data
+                .updateAnchorPoints(details.data, offset, triangleShapeBig),
+      );
       break;
     case FlowElementTypes.circle:
-      context.read<AddRemoveElementBloc>().add(
-            AddElementEvent(
-              elementToManipulate: (details.data as CircleFlowElement).copyWith(
-                offset: offset,
-                elementKey: details.data.elementKey ?? UniqueKey(),
-                path: circleShapeBig,
-                anchorPointsModelMap:
-                    details.data.setAnchorPoints(offset, rectangleShapeBig),
-              ),
-            ),
-          );
+      elementToManipulate = (details.data as CircleFlowElement).copyWith(
+        offset: offset,
+        elementKey: details.data.elementKey ?? UniqueKey(),
+        path: circleShapeBig,
+        anchorPointsModelMap: details.data.anchorPointsModelMap == null
+            ? details.data.setAnchorPoints(offset, circleShapeBig)
+            : details.data
+                .updateAnchorPoints(details.data, offset, circleShapeBig),
+      );
       break;
   }
+  if (drawNewElement) {
+    context.read<AddRemoveElementBloc>().add(
+          AddElementEvent(
+            elementToManipulate: elementToManipulate,
+          ),
+        );
+  }
+  context.read<DrawArrowsBloc>().add(
+        UpdateArrowsEvent(startElement: elementToManipulate),
+      );
 }

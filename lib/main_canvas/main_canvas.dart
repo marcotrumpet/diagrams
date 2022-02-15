@@ -70,18 +70,20 @@ class _MainCanvasState extends State<MainCanvas> {
                           return true;
                         },
                         onMove: (details) {
-                          // final newOffset = calcNewOffset(details, _gridKey);
-                          // context.read<AddRemoveElementBloc>().add(
-                          //     RemoveElementEvent(
-                          //         elementToManipulate: details.data));
-                          // handleFlowElements(details, context, newOffset);
-                          // context.read<DrawArrowsBloc>().add(
-                          //       UpdateArrowsEvent(startElement: details.data),
-                          //     );
+                          final newOffset = calcNewOffset(details, _gridKey);
+                          handleFlowElements(
+                            details: details,
+                            context: context,
+                            offset: newOffset,
+                            drawNewElement: false,
+                          );
                         },
                         onAcceptWithDetails: (details) {
                           final newOffset = calcNewOffset(details, _gridKey);
-                          handleFlowElements(details, context, newOffset);
+                          handleFlowElements(
+                              details: details,
+                              context: context,
+                              offset: newOffset);
                         },
                         builder: (context, candidateData, rejectedData) {
                           return const SizedBox.shrink();
