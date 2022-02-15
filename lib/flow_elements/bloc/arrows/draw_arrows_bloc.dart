@@ -140,5 +140,3 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
     return _lastDrawedPath;
   }
 }
-// flutter: Offset(330.0, 360.0)
-// flutter: Offset(255.0, 360.0)
