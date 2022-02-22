@@ -42,7 +42,10 @@ dependencies:
   freezed_annotation: ^1.1.0
   flutter_bloc: ^8.0.1
   get_it: ^7.2.0
-  touchable: ^1.0.0
+  touchable:
+    git:
+      url: git://github.com/marcotrumpet/touchable.git
+      ref: master # branch name
   rxdart: ^0.27.3
   # window_size:
   #   git:

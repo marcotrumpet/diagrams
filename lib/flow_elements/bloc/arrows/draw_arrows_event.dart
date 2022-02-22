@@ -26,3 +26,5 @@ class UpdateArrowsEvent extends AbstractDrawArrowsEvent {
 
   UpdateArrowsEvent({this.startElement});
 }
+
+class DrawArrowsAStarEvent extends AbstractDrawArrowsEvent {}

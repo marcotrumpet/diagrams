@@ -1,42 +1,78 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
+import 'package:diagrams/helpers/a_star_algorithm.dart';
 import 'package:flutter/material.dart';
 
 class ArrowCustomPainter extends CustomPainter {
-  final List<ArrowModel> arrowModelList;
+  final ArrowModel? arrowModel;
+  final bool updateAStarPath;
 
-  ArrowCustomPainter({required this.arrowModelList});
+  ArrowCustomPainter({required this.arrowModel, this.updateAStarPath = false});
   @override
   void paint(Canvas canvas, Size size) {
+    if (arrowModel == null) return;
+
+    var arrowPoint = Offset.zero;
+    var secondToLastPoint = Offset.zero;
+
     var pointPaint = Paint()
       ..color = Colors.black
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
+    var donePointPaint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.square;
 
-    if (arrowModelList.isEmpty) return;
+    if (updateAStarPath) {
+      var pathToFollow = <Offset>[];
 
-    for (var arrow in arrowModelList) {
-      canvas.drawPath(arrow.arrowPath, pointPaint);
+      pathToFollow.addAll(
+        AStarAlgorithm(
+          start: arrowModel!.startPoint,
+          end: arrowModel!.endPoint,
+        ).findThePath(
+          doneList: (value) {
+            canvas.drawPoints(PointMode.points, value, donePointPaint);
+          },
+        ),
+      );
+
+      for (var i = 0; i < pathToFollow.length - 1; i++) {
+        canvas.drawLine(pathToFollow[i], pathToFollow[i + 1], pointPaint);
+      }
+
+      if (pathToFollow.isEmpty) return;
+
+      arrowPoint = pathToFollow.last;
+
+      secondToLastPoint = pathToFollow[pathToFollow.length - 2];
+    } else {
+      var path = Path()
+        ..moveTo(arrowModel!.startPoint.dx, arrowModel!.startPoint.dy)
+        ..lineTo(arrowModel!.endPoint.dx, arrowModel!.endPoint.dy);
+
+      canvas.drawPath(path, pointPaint);
+
+      if (path.computeMetrics().isEmpty ||
+          path.computeMetrics().last.getTangentForOffset(0.0) == null) return;
+
+      arrowPoint = path
+          .computeMetrics()
+          .last
+          .getTangentForOffset(path.computeMetrics().last.length)!
+          .position;
+
+      secondToLastPoint =
+          path.computeMetrics().last.getTangentForOffset(0.0)!.position;
     }
 
-    var arrowPoint = arrowModelList.last.arrowPath
-            .computeMetrics()
-            .last
-            .getTangentForOffset(
-                arrowModelList.last.arrowPath.computeMetrics().last.length)
-            ?.position ??
-        Offset.zero;
-
-    var lastSegmentPoint = arrowModelList.last.arrowPath
-            .computeMetrics()
-            .last
-            .getTangentForOffset(0.0)
-            ?.position ??
-        Offset.zero;
-
-    var direction = (arrowPoint - lastSegmentPoint).direction;
+    // calculate the tip of the arrow
+    var direction = (arrowPoint - secondToLastPoint).direction;
 
     var arrowPointPath = Path();
 
@@ -74,6 +110,7 @@ class ArrowCustomPainter extends CustomPainter {
         ..close();
     }
 
+    // draw pointy arrow
     canvas.drawPath(arrowPointPath, pointPaint);
   }
 

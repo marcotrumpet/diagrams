@@ -1,7 +1,11 @@
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class DrawArrowsState {
-  final List<ArrowModel> arrowModelList;
+part 'draw_arrows_state.freezed.dart';
 
-  DrawArrowsState({required this.arrowModelList});
+@freezed
+class DrawArrowsState with _$DrawArrowsState {
+  const factory DrawArrowsState(
+      {ArrowModel? arrowModel,
+      @Default(false) bool updateAStarPath}) = _DrawArrowState;
 }

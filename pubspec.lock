@@ -497,10 +497,12 @@ packages:
   touchable:
     dependency: "direct main"
     description:
-      name: touchable
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
+      path: "."
+      ref: master
+      resolved-ref: b83e3e9eb552e459939bea4b464b4e94b8bd7091
+      url: "git://github.com/marcotrumpet/touchable.git"
+    source: git
+    version: "1.0.1"
   typed_data:
     dependency: transitive
     description:

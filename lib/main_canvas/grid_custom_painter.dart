@@ -1,11 +1,13 @@
 // ignore_for_file: unnecessary_this
 
+import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:touchable/touchable.dart';
 
 class GridCustomPainter extends CustomPainter {
@@ -23,30 +25,31 @@ class GridCustomPainter extends CustomPainter {
 
     var lineColor = Theme.of(context).dividerColor;
 
-    var mainSquareSide = 60.0;
-    var secondarySquareSide = 15.0;
+    var mainSquareSide = GetIt.I<GridPropertyProvider>().mainSquareSide;
+    var secondarySquareSide =
+        GetIt.I<GridPropertyProvider>().secondarySquareSide;
 
     var paintMainGrid = Paint()
       ..color = lineColor
-      ..strokeWidth = 1
+      ..strokeWidth = GetIt.I<GridPropertyProvider>().mainStrokeWidth
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     var mainAnchorGrid = Paint()
       ..color = Colors.transparent
-      ..strokeWidth = 8
+      ..strokeWidth = 4
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     var secondaryAnchorGrid = Paint()
       ..color = Colors.transparent
-      ..strokeWidth = 8
+      ..strokeWidth = 4
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     var paintSecondaryGrid = Paint()
       ..color = lineColor.withOpacity(0.1)
-      ..strokeWidth = 0.5
+      ..strokeWidth = GetIt.I<GridPropertyProvider>().secondaryStrokeWith
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
@@ -63,7 +66,7 @@ class GridCustomPainter extends CustomPainter {
           e.anchorPointsModelMap!.anchorPointList.firstWhereOrNull((e) {
             return (e.anchorPointPositionRelativeToParent - newPoint)
                     .distanceSquared <=
-                300;
+                450;
           }) !=
           null);
       if (elementAnchorPointFound == null) return;
@@ -89,6 +92,12 @@ class GridCustomPainter extends CustomPainter {
           );
     }
 
+    void onPanEnd(DragEndDetails details) {
+      this.context.read<DrawArrowsBloc>().add(
+            DrawArrowsAStarEvent(),
+          );
+    }
+
     for (var i = 0; i < size.width / mainSquareSide; i++) {
       Offset mainGridStartingPoint = Offset(mainSquareSide * i, 0);
       Offset mainGridEndingPoint = Offset(mainSquareSide * i, size.height);
@@ -105,6 +114,7 @@ class GridCustomPainter extends CustomPainter {
         mainAnchorGrid,
         onPanDown: onPanDown,
         onPanUpdate: onPanUpdate,
+        onPanEnd: onPanEnd,
       );
     }
 
@@ -124,6 +134,7 @@ class GridCustomPainter extends CustomPainter {
         mainAnchorGrid,
         onPanDown: onPanDown,
         onPanUpdate: onPanUpdate,
+        onPanEnd: onPanEnd,
       );
     }
 
@@ -145,6 +156,7 @@ class GridCustomPainter extends CustomPainter {
           secondaryAnchorGrid,
           onPanDown: onPanDown,
           onPanUpdate: onPanUpdate,
+          onPanEnd: onPanEnd,
         );
       }
     }
@@ -167,6 +179,7 @@ class GridCustomPainter extends CustomPainter {
           secondaryAnchorGrid,
           onPanDown: onPanDown,
           onPanUpdate: onPanUpdate,
+          onPanEnd: onPanEnd,
         );
       }
     }

@@ -1,3 +1,4 @@
+import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/arrow/arrow_custom_painter.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:diagrams/main_canvas/canvas_helper.dart';
 import 'package:diagrams/main_canvas/grid_custom_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:touchable/touchable.dart';
 
 class MainCanvas extends StatefulWidget {
@@ -18,29 +20,7 @@ class MainCanvas extends StatefulWidget {
 }
 
 class _MainCanvasState extends State<MainCanvas> {
-  final _gridKey = GlobalKey();
-
-  List<AbstractFlowElement>? calcOffsetRelativeToParent(
-      List<AbstractFlowElement> elementsList) {
-    // var newList = <AbstractFlowElement>[];
-
-    // for (var element in elementsList) {
-    //   var newAnchorPointsSet = element.anchorPointsList
-    //       .map((e) => (e ?? Offset.zero) + element.offset!)
-    //       .toSet();
-    //   element.copyWith(
-    //     anchorPointsSet: newAnchorPointsSet,
-    //   );
-    //   newList.add(element);
-    // }
-
-    return elementsList;
-    // return elementsList.map((e) => e.anchorPointsList.map((el) => (el ?? Offset.zero) + e.offset!)).toList();
-
-    // .expand((element) => element.anchorPointsList
-    // .map((e) => (e ?? Offset.zero) + element.offset!))
-    // .toSet();
-  }
+  final _gridKey = GetIt.I<GridPropertyProvider>().gridKey;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +35,11 @@ class _MainCanvasState extends State<MainCanvas> {
               fit: StackFit.expand,
               children: [
                 CanvasTouchDetector(
+                  gesturesToOverride: const [
+                    GestureType.onPanDown,
+                    GestureType.onPanUpdate,
+                    GestureType.onPanEnd,
+                  ],
                   builder: (context) {
                     return CustomPaint(
                       key: _gridKey,
@@ -95,9 +80,12 @@ class _MainCanvasState extends State<MainCanvas> {
                 ),
                 BlocBuilder<DrawArrowsBloc, DrawArrowsState>(
                   builder: (context, state) {
-                    return CustomPaint(
-                      foregroundPainter: ArrowCustomPainter(
-                        arrowModelList: state.arrowModelList,
+                    return RepaintBoundary(
+                      child: CustomPaint(
+                        foregroundPainter: ArrowCustomPainter(
+                          arrowModel: state.arrowModel,
+                          updateAStarPath: state.updateAStarPath,
+                        ),
                       ),
                     );
                   },

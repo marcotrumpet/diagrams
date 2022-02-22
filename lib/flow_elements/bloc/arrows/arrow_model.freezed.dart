@@ -19,7 +19,7 @@ class _$ArrowModelTearOff {
   const _$ArrowModelTearOff();
 
   _ArrowModel call(
-      {required Path arrowPath,
+      {required Iterable<Offset> arrowPath,
       required Offset startPoint,
       required Key startPointKey,
       required Offset endPoint,
@@ -43,7 +43,7 @@ const $ArrowModel = _$ArrowModelTearOff();
 
 /// @nodoc
 mixin _$ArrowModel {
-  Path get arrowPath => throw _privateConstructorUsedError;
+  Iterable<Offset> get arrowPath => throw _privateConstructorUsedError;
   Offset get startPoint => throw _privateConstructorUsedError;
   Key get startPointKey => throw _privateConstructorUsedError;
   Offset get endPoint => throw _privateConstructorUsedError;
@@ -62,7 +62,7 @@ abstract class $ArrowModelCopyWith<$Res> {
           ArrowModel value, $Res Function(ArrowModel) then) =
       _$ArrowModelCopyWithImpl<$Res>;
   $Res call(
-      {Path arrowPath,
+      {Iterable<Offset> arrowPath,
       Offset startPoint,
       Key startPointKey,
       Offset endPoint,
@@ -93,7 +93,7 @@ class _$ArrowModelCopyWithImpl<$Res> implements $ArrowModelCopyWith<$Res> {
       arrowPath: arrowPath == freezed
           ? _value.arrowPath
           : arrowPath // ignore: cast_nullable_to_non_nullable
-              as Path,
+              as Iterable<Offset>,
       startPoint: startPoint == freezed
           ? _value.startPoint
           : startPoint // ignore: cast_nullable_to_non_nullable
@@ -129,7 +129,7 @@ abstract class _$ArrowModelCopyWith<$Res> implements $ArrowModelCopyWith<$Res> {
       __$ArrowModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Path arrowPath,
+      {Iterable<Offset> arrowPath,
       Offset startPoint,
       Key startPointKey,
       Offset endPoint,
@@ -162,7 +162,7 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
       arrowPath: arrowPath == freezed
           ? _value.arrowPath
           : arrowPath // ignore: cast_nullable_to_non_nullable
-              as Path,
+              as Iterable<Offset>,
       startPoint: startPoint == freezed
           ? _value.startPoint
           : startPoint // ignore: cast_nullable_to_non_nullable
@@ -204,7 +204,7 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
       this.endElement});
 
   @override
-  final Path arrowPath;
+  final Iterable<Offset> arrowPath;
   @override
   final Offset startPoint;
   @override
@@ -274,7 +274,7 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
 
 abstract class _ArrowModel implements ArrowModel {
   const factory _ArrowModel(
-      {required Path arrowPath,
+      {required Iterable<Offset> arrowPath,
       required Offset startPoint,
       required Key startPointKey,
       required Offset endPoint,
@@ -283,7 +283,7 @@ abstract class _ArrowModel implements ArrowModel {
       AbstractFlowElement? endElement}) = _$_ArrowModel;
 
   @override
-  Path get arrowPath;
+  Iterable<Offset> get arrowPath;
   @override
   Offset get startPoint;
   @override

@@ -8,11 +8,12 @@ class Debouncer {
 
   Debouncer({required this.milliseconds, this.action});
 
-  run(VoidCallback action) {
+  run(VoidCallback whenDone, {VoidCallback? whenRunning}) {
     if (timer != null) {
+      whenRunning?.call();
       timer!.cancel();
     }
 
-    timer = Timer(Duration(milliseconds: milliseconds), action);
+    timer = Timer(Duration(milliseconds: milliseconds), whenDone);
   }
 }
