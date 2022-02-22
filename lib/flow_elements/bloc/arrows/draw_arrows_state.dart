@@ -6,6 +6,6 @@ part 'draw_arrows_state.freezed.dart';
 @freezed
 class DrawArrowsState with _$DrawArrowsState {
   const factory DrawArrowsState(
-      {ArrowModel? arrowModel,
+      {List<ArrowModel>? arrowModelList,
       @Default(false) bool updateAStarPath}) = _DrawArrowState;
 }

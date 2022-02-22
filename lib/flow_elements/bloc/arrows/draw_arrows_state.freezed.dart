@@ -18,9 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$DrawArrowsStateTearOff {
   const _$DrawArrowsStateTearOff();
 
-  _DrawArrowState call({ArrowModel? arrowModel, bool updateAStarPath = false}) {
+  _DrawArrowState call(
+      {List<ArrowModel>? arrowModelList, bool updateAStarPath = false}) {
     return _DrawArrowState(
-      arrowModel: arrowModel,
+      arrowModelList: arrowModelList,
       updateAStarPath: updateAStarPath,
     );
   }
@@ -31,7 +32,7 @@ const $DrawArrowsState = _$DrawArrowsStateTearOff();
 
 /// @nodoc
 mixin _$DrawArrowsState {
-  ArrowModel? get arrowModel => throw _privateConstructorUsedError;
+  List<ArrowModel>? get arrowModelList => throw _privateConstructorUsedError;
   bool get updateAStarPath => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -44,9 +45,7 @@ abstract class $DrawArrowsStateCopyWith<$Res> {
   factory $DrawArrowsStateCopyWith(
           DrawArrowsState value, $Res Function(DrawArrowsState) then) =
       _$DrawArrowsStateCopyWithImpl<$Res>;
-  $Res call({ArrowModel? arrowModel, bool updateAStarPath});
-
-  $ArrowModelCopyWith<$Res>? get arrowModel;
+  $Res call({List<ArrowModel>? arrowModelList, bool updateAStarPath});
 }
 
 /// @nodoc
@@ -60,30 +59,19 @@ class _$DrawArrowsStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? arrowModel = freezed,
+    Object? arrowModelList = freezed,
     Object? updateAStarPath = freezed,
   }) {
     return _then(_value.copyWith(
-      arrowModel: arrowModel == freezed
-          ? _value.arrowModel
-          : arrowModel // ignore: cast_nullable_to_non_nullable
-              as ArrowModel?,
+      arrowModelList: arrowModelList == freezed
+          ? _value.arrowModelList
+          : arrowModelList // ignore: cast_nullable_to_non_nullable
+              as List<ArrowModel>?,
       updateAStarPath: updateAStarPath == freezed
           ? _value.updateAStarPath
           : updateAStarPath // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
-  }
-
-  @override
-  $ArrowModelCopyWith<$Res>? get arrowModel {
-    if (_value.arrowModel == null) {
-      return null;
-    }
-
-    return $ArrowModelCopyWith<$Res>(_value.arrowModel!, (value) {
-      return _then(_value.copyWith(arrowModel: value));
-    });
   }
 }
 
@@ -94,10 +82,7 @@ abstract class _$DrawArrowStateCopyWith<$Res>
           _DrawArrowState value, $Res Function(_DrawArrowState) then) =
       __$DrawArrowStateCopyWithImpl<$Res>;
   @override
-  $Res call({ArrowModel? arrowModel, bool updateAStarPath});
-
-  @override
-  $ArrowModelCopyWith<$Res>? get arrowModel;
+  $Res call({List<ArrowModel>? arrowModelList, bool updateAStarPath});
 }
 
 /// @nodoc
@@ -113,14 +98,14 @@ class __$DrawArrowStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? arrowModel = freezed,
+    Object? arrowModelList = freezed,
     Object? updateAStarPath = freezed,
   }) {
     return _then(_DrawArrowState(
-      arrowModel: arrowModel == freezed
-          ? _value.arrowModel
-          : arrowModel // ignore: cast_nullable_to_non_nullable
-              as ArrowModel?,
+      arrowModelList: arrowModelList == freezed
+          ? _value.arrowModelList
+          : arrowModelList // ignore: cast_nullable_to_non_nullable
+              as List<ArrowModel>?,
       updateAStarPath: updateAStarPath == freezed
           ? _value.updateAStarPath
           : updateAStarPath // ignore: cast_nullable_to_non_nullable
@@ -132,17 +117,17 @@ class __$DrawArrowStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_DrawArrowState implements _DrawArrowState {
-  const _$_DrawArrowState({this.arrowModel, this.updateAStarPath = false});
+  const _$_DrawArrowState({this.arrowModelList, this.updateAStarPath = false});
 
   @override
-  final ArrowModel? arrowModel;
+  final List<ArrowModel>? arrowModelList;
   @JsonKey()
   @override
   final bool updateAStarPath;
 
   @override
   String toString() {
-    return 'DrawArrowsState(arrowModel: $arrowModel, updateAStarPath: $updateAStarPath)';
+    return 'DrawArrowsState(arrowModelList: $arrowModelList, updateAStarPath: $updateAStarPath)';
   }
 
   @override
@@ -151,7 +136,7 @@ class _$_DrawArrowState implements _DrawArrowState {
         (other.runtimeType == runtimeType &&
             other is _DrawArrowState &&
             const DeepCollectionEquality()
-                .equals(other.arrowModel, arrowModel) &&
+                .equals(other.arrowModelList, arrowModelList) &&
             const DeepCollectionEquality()
                 .equals(other.updateAStarPath, updateAStarPath));
   }
@@ -159,7 +144,7 @@ class _$_DrawArrowState implements _DrawArrowState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(arrowModel),
+      const DeepCollectionEquality().hash(arrowModelList),
       const DeepCollectionEquality().hash(updateAStarPath));
 
   @JsonKey(ignore: true)
@@ -170,10 +155,11 @@ class _$_DrawArrowState implements _DrawArrowState {
 
 abstract class _DrawArrowState implements DrawArrowsState {
   const factory _DrawArrowState(
-      {ArrowModel? arrowModel, bool updateAStarPath}) = _$_DrawArrowState;
+      {List<ArrowModel>? arrowModelList,
+      bool updateAStarPath}) = _$_DrawArrowState;
 
   @override
-  ArrowModel? get arrowModel;
+  List<ArrowModel>? get arrowModelList;
   @override
   bool get updateAStarPath;
   @override

@@ -2,6 +2,7 @@
 
 import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,10 @@ class GridCustomPainter extends CustomPainter {
     required this.context,
     this.flowElementsList,
   });
+
+  var enablePanUpdate = true;
+  ArrowModel? arrowEndPointFound;
+  AbstractFlowElement? elementAnchorPointFound;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -62,14 +67,25 @@ class GridCustomPainter extends CustomPainter {
 
     void onPanDown(DragDownDetails details) {
       var newPoint = normalizedPointToGrid(details.localPosition);
-      var elementAnchorPointFound = flowElementsList?.firstWhereOrNull((e) =>
+      elementAnchorPointFound = flowElementsList?.firstWhereOrNull((e) =>
           e.anchorPointsModelMap!.anchorPointList.firstWhereOrNull((e) {
             return (e.anchorPointPositionRelativeToParent - newPoint)
                     .distanceSquared <=
                 450;
           }) !=
           null);
-      if (elementAnchorPointFound == null) return;
+
+      arrowEndPointFound = context
+          .read<DrawArrowsBloc>()
+          .arrowModelList
+          .firstWhereOrNull((element) => element.endPoint == newPoint);
+
+      if (elementAnchorPointFound == null && arrowEndPointFound == null) {
+        enablePanUpdate = false;
+        return;
+      }
+
+      enablePanUpdate = true;
 
       this.context.read<DrawArrowsBloc>().add(
             DrawArrowsEvent(
@@ -77,7 +93,7 @@ class GridCustomPainter extends CustomPainter {
               arrowKey: UniqueKey(),
               startElement: elementAnchorPointFound,
               startPointKey: elementAnchorPointFound
-                  .anchorPointsModelMap?.anchorPointList
+                  ?.anchorPointsModelMap?.anchorPointList
                   .firstWhereOrNull((element) =>
                       element.anchorPointPositionRelativeToParent == newPoint)
                   ?.anchorPointKey,
@@ -86,13 +102,17 @@ class GridCustomPainter extends CustomPainter {
     }
 
     void onPanUpdate(DragUpdateDetails details) {
+      if (!enablePanUpdate) return;
       var newPoint = normalizedPointToGrid(details.localPosition);
+
       this.context.read<DrawArrowsBloc>().add(
-            DrawArrowsEvent(endPoint: newPoint),
+            DrawArrowsEvent(
+                endPoint: newPoint, arrowKey: arrowEndPointFound?.arrowKey),
           );
     }
 
     void onPanEnd(DragEndDetails details) {
+      if (!enablePanUpdate) return;
       this.context.read<DrawArrowsBloc>().add(
             DrawArrowsAStarEvent(),
           );

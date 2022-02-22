@@ -8,7 +8,6 @@ part 'arrow_model.freezed.dart';
 @freezed
 class ArrowModel with _$ArrowModel {
   const factory ArrowModel({
-    required Iterable<Offset> arrowPath,
     required Offset startPoint,
     required Key startPointKey,
     required Offset endPoint,

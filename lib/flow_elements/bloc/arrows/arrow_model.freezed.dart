@@ -19,15 +19,13 @@ class _$ArrowModelTearOff {
   const _$ArrowModelTearOff();
 
   _ArrowModel call(
-      {required Iterable<Offset> arrowPath,
-      required Offset startPoint,
+      {required Offset startPoint,
       required Key startPointKey,
       required Offset endPoint,
       required Key arrowKey,
       AbstractFlowElement? startElement,
       AbstractFlowElement? endElement}) {
     return _ArrowModel(
-      arrowPath: arrowPath,
       startPoint: startPoint,
       startPointKey: startPointKey,
       endPoint: endPoint,
@@ -43,7 +41,6 @@ const $ArrowModel = _$ArrowModelTearOff();
 
 /// @nodoc
 mixin _$ArrowModel {
-  Iterable<Offset> get arrowPath => throw _privateConstructorUsedError;
   Offset get startPoint => throw _privateConstructorUsedError;
   Key get startPointKey => throw _privateConstructorUsedError;
   Offset get endPoint => throw _privateConstructorUsedError;
@@ -62,8 +59,7 @@ abstract class $ArrowModelCopyWith<$Res> {
           ArrowModel value, $Res Function(ArrowModel) then) =
       _$ArrowModelCopyWithImpl<$Res>;
   $Res call(
-      {Iterable<Offset> arrowPath,
-      Offset startPoint,
+      {Offset startPoint,
       Key startPointKey,
       Offset endPoint,
       Key arrowKey,
@@ -81,7 +77,6 @@ class _$ArrowModelCopyWithImpl<$Res> implements $ArrowModelCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? arrowPath = freezed,
     Object? startPoint = freezed,
     Object? startPointKey = freezed,
     Object? endPoint = freezed,
@@ -90,10 +85,6 @@ class _$ArrowModelCopyWithImpl<$Res> implements $ArrowModelCopyWith<$Res> {
     Object? endElement = freezed,
   }) {
     return _then(_value.copyWith(
-      arrowPath: arrowPath == freezed
-          ? _value.arrowPath
-          : arrowPath // ignore: cast_nullable_to_non_nullable
-              as Iterable<Offset>,
       startPoint: startPoint == freezed
           ? _value.startPoint
           : startPoint // ignore: cast_nullable_to_non_nullable
@@ -129,8 +120,7 @@ abstract class _$ArrowModelCopyWith<$Res> implements $ArrowModelCopyWith<$Res> {
       __$ArrowModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Iterable<Offset> arrowPath,
-      Offset startPoint,
+      {Offset startPoint,
       Key startPointKey,
       Offset endPoint,
       Key arrowKey,
@@ -150,7 +140,6 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? arrowPath = freezed,
     Object? startPoint = freezed,
     Object? startPointKey = freezed,
     Object? endPoint = freezed,
@@ -159,10 +148,6 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
     Object? endElement = freezed,
   }) {
     return _then(_ArrowModel(
-      arrowPath: arrowPath == freezed
-          ? _value.arrowPath
-          : arrowPath // ignore: cast_nullable_to_non_nullable
-              as Iterable<Offset>,
       startPoint: startPoint == freezed
           ? _value.startPoint
           : startPoint // ignore: cast_nullable_to_non_nullable
@@ -195,16 +180,13 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
 
 class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
   const _$_ArrowModel(
-      {required this.arrowPath,
-      required this.startPoint,
+      {required this.startPoint,
       required this.startPointKey,
       required this.endPoint,
       required this.arrowKey,
       this.startElement,
       this.endElement});
 
-  @override
-  final Iterable<Offset> arrowPath;
   @override
   final Offset startPoint;
   @override
@@ -220,7 +202,7 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ArrowModel(arrowPath: $arrowPath, startPoint: $startPoint, startPointKey: $startPointKey, endPoint: $endPoint, arrowKey: $arrowKey, startElement: $startElement, endElement: $endElement)';
+    return 'ArrowModel(startPoint: $startPoint, startPointKey: $startPointKey, endPoint: $endPoint, arrowKey: $arrowKey, startElement: $startElement, endElement: $endElement)';
   }
 
   @override
@@ -228,7 +210,6 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'ArrowModel'))
-      ..add(DiagnosticsProperty('arrowPath', arrowPath))
       ..add(DiagnosticsProperty('startPoint', startPoint))
       ..add(DiagnosticsProperty('startPointKey', startPointKey))
       ..add(DiagnosticsProperty('endPoint', endPoint))
@@ -242,7 +223,6 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ArrowModel &&
-            const DeepCollectionEquality().equals(other.arrowPath, arrowPath) &&
             const DeepCollectionEquality()
                 .equals(other.startPoint, startPoint) &&
             const DeepCollectionEquality()
@@ -258,7 +238,6 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(arrowPath),
       const DeepCollectionEquality().hash(startPoint),
       const DeepCollectionEquality().hash(startPointKey),
       const DeepCollectionEquality().hash(endPoint),
@@ -274,16 +253,13 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
 
 abstract class _ArrowModel implements ArrowModel {
   const factory _ArrowModel(
-      {required Iterable<Offset> arrowPath,
-      required Offset startPoint,
+      {required Offset startPoint,
       required Key startPointKey,
       required Offset endPoint,
       required Key arrowKey,
       AbstractFlowElement? startElement,
       AbstractFlowElement? endElement}) = _$_ArrowModel;
 
-  @override
-  Iterable<Offset> get arrowPath;
   @override
   Offset get startPoint;
   @override

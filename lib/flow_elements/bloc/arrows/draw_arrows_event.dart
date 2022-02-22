@@ -21,10 +21,10 @@ class DrawArrowsEvent extends AbstractDrawArrowsEvent {
   });
 }
 
-class UpdateArrowsEvent extends AbstractDrawArrowsEvent {
+class MovedFlowElementUpdateArrowsEvent extends AbstractDrawArrowsEvent {
   final AbstractFlowElement? startElement;
 
-  UpdateArrowsEvent({this.startElement});
+  MovedFlowElementUpdateArrowsEvent({this.startElement});
 }
 
 class DrawArrowsAStarEvent extends AbstractDrawArrowsEvent {}

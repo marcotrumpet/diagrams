@@ -80,13 +80,20 @@ class _MainCanvasState extends State<MainCanvas> {
                 ),
                 BlocBuilder<DrawArrowsBloc, DrawArrowsState>(
                   builder: (context, state) {
-                    return RepaintBoundary(
-                      child: CustomPaint(
-                        foregroundPainter: ArrowCustomPainter(
-                          arrowModel: state.arrowModel,
-                          updateAStarPath: state.updateAStarPath,
-                        ),
-                      ),
+                    return Stack(
+                      children: state.arrowModelList
+                              ?.map(
+                                (arrow) => RepaintBoundary(
+                                  child: CustomPaint(
+                                    foregroundPainter: ArrowCustomPainter(
+                                      arrowModel: arrow,
+                                      updateAStarPath: state.updateAStarPath,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList() ??
+                          [const SizedBox.shrink()],
                     );
                   },
                 ),
