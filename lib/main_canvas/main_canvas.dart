@@ -3,6 +3,7 @@ import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/arrow/arrow_custom_painter.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
+import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/main_canvas/canvas_helper.dart';
@@ -21,6 +22,8 @@ class MainCanvas extends StatefulWidget {
 
 class _MainCanvasState extends State<MainCanvas> {
   final _gridKey = GetIt.I<GridPropertyProvider>().gridKey;
+
+  var _arrowModelList = <ArrowModel>[];
 
   @override
   Widget build(BuildContext context) {
@@ -78,22 +81,32 @@ class _MainCanvasState extends State<MainCanvas> {
                     );
                   },
                 ),
-                BlocBuilder<DrawArrowsBloc, DrawArrowsState>(
+                BlocConsumer<DrawArrowsBloc, DrawArrowsState>(
+                  listener: (context, state) {
+                    var idx = _arrowModelList.indexWhere((element) =>
+                        element.arrowKey == state.arrowModel!.arrowKey);
+
+                    if (idx == -1) {
+                      _arrowModelList.add(state.arrowModel!);
+                    } else {
+                      _arrowModelList.removeAt(idx);
+                      _arrowModelList.insert(idx, state.arrowModel!);
+                    }
+                  },
                   builder: (context, state) {
                     return Stack(
-                      children: state.arrowModelList
-                              ?.map(
-                                (arrow) => RepaintBoundary(
-                                  child: CustomPaint(
-                                    foregroundPainter: ArrowCustomPainter(
-                                      arrowModel: arrow,
-                                      updateAStarPath: state.updateAStarPath,
-                                    ),
-                                  ),
+                      children: _arrowModelList
+                          .map(
+                            (arrow) => RepaintBoundary(
+                              child: CustomPaint(
+                                foregroundPainter: ArrowCustomPainter(
+                                  arrowModel: arrow,
+                                  context: context,
                                 ),
-                              )
-                              .toList() ??
-                          [const SizedBox.shrink()],
+                              ),
+                            ),
+                          )
+                          .toList(),
                     );
                   },
                 ),

@@ -23,6 +23,7 @@ class GridCustomPainter extends CustomPainter {
   var enablePanUpdate = true;
   ArrowModel? arrowEndPointFound;
   AbstractFlowElement? elementAnchorPointFound;
+  Offset lastDrawnPoint = Offset.zero;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -103,18 +104,26 @@ class GridCustomPainter extends CustomPainter {
 
     void onPanUpdate(DragUpdateDetails details) {
       if (!enablePanUpdate) return;
-      var newPoint = normalizedPointToGrid(details.localPosition);
+      lastDrawnPoint = normalizedPointToGrid(details.localPosition);
 
       this.context.read<DrawArrowsBloc>().add(
             DrawArrowsEvent(
-                endPoint: newPoint, arrowKey: arrowEndPointFound?.arrowKey),
+                endPoint: lastDrawnPoint,
+                arrowKey: arrowEndPointFound?.arrowKey),
           );
     }
 
     void onPanEnd(DragEndDetails details) {
       if (!enablePanUpdate) return;
+      var key = context
+          .read<DrawArrowsBloc>()
+          .arrowModelList
+          .firstWhereOrNull((element) => element.endPoint == lastDrawnPoint)
+          ?.arrowKey;
       this.context.read<DrawArrowsBloc>().add(
-            DrawArrowsAStarEvent(),
+            DrawArrowsAStarEvent(
+              arrowKey: key,
+            ),
           );
     }
 

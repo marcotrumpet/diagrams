@@ -24,7 +24,8 @@ class _$ArrowModelTearOff {
       required Offset endPoint,
       required Key arrowKey,
       AbstractFlowElement? startElement,
-      AbstractFlowElement? endElement}) {
+      AbstractFlowElement? endElement,
+      bool? updateAStarPath = false}) {
     return _ArrowModel(
       startPoint: startPoint,
       startPointKey: startPointKey,
@@ -32,6 +33,7 @@ class _$ArrowModelTearOff {
       arrowKey: arrowKey,
       startElement: startElement,
       endElement: endElement,
+      updateAStarPath: updateAStarPath,
     );
   }
 }
@@ -47,6 +49,7 @@ mixin _$ArrowModel {
   Key get arrowKey => throw _privateConstructorUsedError;
   AbstractFlowElement? get startElement => throw _privateConstructorUsedError;
   AbstractFlowElement? get endElement => throw _privateConstructorUsedError;
+  bool? get updateAStarPath => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ArrowModelCopyWith<ArrowModel> get copyWith =>
@@ -64,7 +67,8 @@ abstract class $ArrowModelCopyWith<$Res> {
       Offset endPoint,
       Key arrowKey,
       AbstractFlowElement? startElement,
-      AbstractFlowElement? endElement});
+      AbstractFlowElement? endElement,
+      bool? updateAStarPath});
 }
 
 /// @nodoc
@@ -83,6 +87,7 @@ class _$ArrowModelCopyWithImpl<$Res> implements $ArrowModelCopyWith<$Res> {
     Object? arrowKey = freezed,
     Object? startElement = freezed,
     Object? endElement = freezed,
+    Object? updateAStarPath = freezed,
   }) {
     return _then(_value.copyWith(
       startPoint: startPoint == freezed
@@ -109,6 +114,10 @@ class _$ArrowModelCopyWithImpl<$Res> implements $ArrowModelCopyWith<$Res> {
           ? _value.endElement
           : endElement // ignore: cast_nullable_to_non_nullable
               as AbstractFlowElement?,
+      updateAStarPath: updateAStarPath == freezed
+          ? _value.updateAStarPath
+          : updateAStarPath // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -125,7 +134,8 @@ abstract class _$ArrowModelCopyWith<$Res> implements $ArrowModelCopyWith<$Res> {
       Offset endPoint,
       Key arrowKey,
       AbstractFlowElement? startElement,
-      AbstractFlowElement? endElement});
+      AbstractFlowElement? endElement,
+      bool? updateAStarPath});
 }
 
 /// @nodoc
@@ -146,6 +156,7 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
     Object? arrowKey = freezed,
     Object? startElement = freezed,
     Object? endElement = freezed,
+    Object? updateAStarPath = freezed,
   }) {
     return _then(_ArrowModel(
       startPoint: startPoint == freezed
@@ -172,6 +183,10 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
           ? _value.endElement
           : endElement // ignore: cast_nullable_to_non_nullable
               as AbstractFlowElement?,
+      updateAStarPath: updateAStarPath == freezed
+          ? _value.updateAStarPath
+          : updateAStarPath // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -185,7 +200,8 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
       required this.endPoint,
       required this.arrowKey,
       this.startElement,
-      this.endElement});
+      this.endElement,
+      this.updateAStarPath = false});
 
   @override
   final Offset startPoint;
@@ -199,10 +215,13 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
   final AbstractFlowElement? startElement;
   @override
   final AbstractFlowElement? endElement;
+  @JsonKey()
+  @override
+  final bool? updateAStarPath;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ArrowModel(startPoint: $startPoint, startPointKey: $startPointKey, endPoint: $endPoint, arrowKey: $arrowKey, startElement: $startElement, endElement: $endElement)';
+    return 'ArrowModel(startPoint: $startPoint, startPointKey: $startPointKey, endPoint: $endPoint, arrowKey: $arrowKey, startElement: $startElement, endElement: $endElement, updateAStarPath: $updateAStarPath)';
   }
 
   @override
@@ -215,7 +234,8 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
       ..add(DiagnosticsProperty('endPoint', endPoint))
       ..add(DiagnosticsProperty('arrowKey', arrowKey))
       ..add(DiagnosticsProperty('startElement', startElement))
-      ..add(DiagnosticsProperty('endElement', endElement));
+      ..add(DiagnosticsProperty('endElement', endElement))
+      ..add(DiagnosticsProperty('updateAStarPath', updateAStarPath));
   }
 
   @override
@@ -232,7 +252,9 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
             const DeepCollectionEquality()
                 .equals(other.startElement, startElement) &&
             const DeepCollectionEquality()
-                .equals(other.endElement, endElement));
+                .equals(other.endElement, endElement) &&
+            const DeepCollectionEquality()
+                .equals(other.updateAStarPath, updateAStarPath));
   }
 
   @override
@@ -243,7 +265,8 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
       const DeepCollectionEquality().hash(endPoint),
       const DeepCollectionEquality().hash(arrowKey),
       const DeepCollectionEquality().hash(startElement),
-      const DeepCollectionEquality().hash(endElement));
+      const DeepCollectionEquality().hash(endElement),
+      const DeepCollectionEquality().hash(updateAStarPath));
 
   @JsonKey(ignore: true)
   @override
@@ -258,7 +281,8 @@ abstract class _ArrowModel implements ArrowModel {
       required Offset endPoint,
       required Key arrowKey,
       AbstractFlowElement? startElement,
-      AbstractFlowElement? endElement}) = _$_ArrowModel;
+      AbstractFlowElement? endElement,
+      bool? updateAStarPath}) = _$_ArrowModel;
 
   @override
   Offset get startPoint;
@@ -272,6 +296,8 @@ abstract class _ArrowModel implements ArrowModel {
   AbstractFlowElement? get startElement;
   @override
   AbstractFlowElement? get endElement;
+  @override
+  bool? get updateAStarPath;
   @override
   @JsonKey(ignore: true)
   _$ArrowModelCopyWith<_ArrowModel> get copyWith =>

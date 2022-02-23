@@ -1,9 +1,11 @@
+import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get_it/get_it.dart';
 
 class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
   // ignore: unused_field
@@ -26,38 +28,65 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
           if (endpointOfExistingArrow != null) {
             _arrowModelList = _arrowModelList.map((e) {
               if (e.arrowKey == endpointOfExistingArrow.arrowKey) {
-                e.copyWith(endPoint: event.endPoint!);
+                e = e.copyWith(endPoint: event.endPoint!);
+                emit(
+                  DrawArrowsState(
+                    arrowModel: e,
+                  ),
+                );
+                return e;
               }
               return e;
             }).toList();
           } else {
             _arrowModelList = _arrowModelList.map((e) {
               if (e.arrowKey == (event.arrowKey ?? _arrowKey)) {
-                return e.copyWith(endPoint: event.endPoint!);
+                e = e.copyWith(endPoint: event.endPoint!);
+                emit(
+                  DrawArrowsState(
+                    arrowModel: e,
+                  ),
+                );
+                return e;
               }
               return e;
             }).toList();
           }
-
-          final newArrowLists = <ArrowModel>[..._arrowModelList];
-
-          emit(
-            DrawArrowsState(
-              arrowModelList: newArrowLists,
-            ),
-          );
         }
       },
     );
 
     on<DrawArrowsAStarEvent>(
-      (event, emit) => emit(
-        DrawArrowsState(
-          updateAStarPath: true,
-          arrowModelList: _arrowModelList,
-        ),
-      ),
+      (event, emit) {
+        _arrowModelList = _arrowModelList.map((e) {
+          if (e.arrowKey == event.arrowKey) {
+            e = e.copyWith(updateAStarPath: true);
+
+            // not sure why need this to provide a clan A* path
+            GetIt.I<GridPropertyProvider>().createGrid();
+            GetIt.I<GridPropertyProvider>().addNeighbors();
+            //
+
+            emit(
+              DrawArrowsState(
+                arrowModel: e,
+              ),
+            );
+            return e;
+          }
+          return e;
+        }).toList();
+      },
     );
+
+    on<ResetArrowAStarStateEvent>((event, emit) {
+      _arrowModelList = _arrowModelList.map((e) {
+        if (e.arrowKey == event.arrowKey) {
+          return e.copyWith(updateAStarPath: false);
+        }
+        return e;
+      }).toList();
+    });
 
     on<MovedFlowElementUpdateArrowsEvent>((event, emit) {
       var arrowIndex = _arrowModelList.indexWhere((element) =>
@@ -74,21 +103,13 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
             Offset.zero;
         var _updatedTmpArrow = _tmpArrow.copyWith(
           startPoint: _newStartPoint,
-          // arrowPath: calculatePoints(
-          //     //   _newStartPoint,
-          //     //   _tmpArrow.endPoint,
-          //     //   forceNewStartPoint: true,
-          //     //   pathToUpdate: _tmpArrow.arrowPath,
-          //     // ),
+          updateAStarPath: true,
         );
         _arrowModelList.add(_updatedTmpArrow);
 
-        final newArrowLists = <ArrowModel>[..._arrowModelList];
-
         emit(
           DrawArrowsState(
-            arrowModelList: newArrowLists,
-            updateAStarPath: true,
+            arrowModel: _updatedTmpArrow,
           ),
         );
       }

@@ -14,5 +14,6 @@ class ArrowModel with _$ArrowModel {
     required Key arrowKey,
     AbstractFlowElement? startElement,
     AbstractFlowElement? endElement,
+    @Default(false) bool? updateAStarPath,
   }) = _ArrowModel;
 }
