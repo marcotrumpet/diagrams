@@ -16,7 +16,7 @@ class _AnchorPointState extends State<AnchorPoint> {
       height: 20,
       child: Icon(
         Icons.cancel_outlined,
-        color: Theme.of(context).toggleableActiveColor.withOpacity(0.5),
+        color: Theme.of(context).disabledColor.withOpacity(0.5),
         size: 20,
       ),
     );

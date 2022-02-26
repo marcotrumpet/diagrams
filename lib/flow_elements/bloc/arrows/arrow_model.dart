@@ -11,6 +11,7 @@ class ArrowModel with _$ArrowModel {
     required Offset startPoint,
     required Key startPointKey,
     required Offset endPoint,
+    Key? endPointKey,
     required Key arrowKey,
     AbstractFlowElement? startElement,
     AbstractFlowElement? endElement,

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppTheme extends Cubit<ThemeData> {
-  AppTheme()
-      : super(SchedulerBinding.instance?.window.platformBrightness ==
-                Brightness.light
-            ? _lightTheme
-            : _darkTheme);
+  AppTheme() : super(_lightTheme);
+  // : super(SchedulerBinding.instance?.window.platformBrightness ==
+  //           Brightness.light
+  //       ? _lightTheme
+  //       : _darkTheme);
 
   static final _lightTheme = ThemeData(
     brightness: Brightness.light,

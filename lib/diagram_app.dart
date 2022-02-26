@@ -1,12 +1,7 @@
-import 'dart:io';
-
-import 'package:diagrams/desktop_system/system_menu_bar.dart';
-import 'package:diagrams/desktop_system/system_tray.dart';
 import 'package:diagrams/home.dart';
 import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class DiagramsApp extends StatefulWidget {
   const DiagramsApp({Key? key}) : super(key: key);
@@ -18,15 +13,15 @@ class DiagramsApp extends StatefulWidget {
 class _DiagramsAppState extends State<DiagramsApp> {
   @override
   void initState() {
-    if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-      GetIt.I.registerSingleton<AppSystemMenuBar>(
-        AppSystemMenuBar(context.read<AppTheme>()),
-      );
-      GetIt.I.allReadySync();
+    // if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
+    // GetIt.I.registerSingleton<AppSystemMenuBar>(
+    //   AppSystemMenuBar(context.read<AppTheme>()),
+    // );
+    // GetIt.I.allReadySync();
 
-      GetIt.I<AppSystemMenuBar>().updateMenubar();
-      GetIt.I<AppSystemTray>().initSystemTray();
-    }
+    // GetIt.I<AppSystemMenuBar>().updateMenubar();
+    // GetIt.I<AppSystemTray>().initSystemTray();5
+    // }
     super.initState();
   }
 

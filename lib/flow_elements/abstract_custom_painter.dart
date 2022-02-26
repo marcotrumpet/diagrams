@@ -11,11 +11,11 @@ abstract class AbstractCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var borderPaint = Paint()
-      ..color = Theme.of(context).toggleableActiveColor
+      ..color = Theme.of(context).unselectedWidgetColor.withOpacity(1.0)
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
-    var backgroundPaint = Paint()..color = Theme.of(context).primaryColor;
+    var backgroundPaint = Paint()..color = Theme.of(context).canvasColor;
     canvas.drawPath(path, backgroundPaint);
     canvas.drawPath(path, borderPaint);
     canvas.clipPath(path);
@@ -34,7 +34,7 @@ class DotLineCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint _paint = Paint()
-      ..color = Theme.of(context).toggleableActiveColor
+      ..color = Theme.of(context).disabledColor
       ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke
       ..strokeJoin = StrokeJoin.round;

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
-import 'package:diagrams/helpers/a_star_algorithm.dart';
+import 'package:diagrams/helpers/a_star/a_star_algorithm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,13 +21,14 @@ class ArrowCustomPainter extends CustomPainter {
     var secondToLastPoint = Offset.zero;
 
     var pointPaint = Paint()
-      ..color = Colors.black
+      ..color = Theme.of(context).unselectedWidgetColor.withOpacity(1.0)
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.square;
+      ..strokeJoin = StrokeJoin.round
+      ..strokeCap = StrokeCap.round;
 
     var pointPaintWhileDrawing = Paint()
-      ..color = Colors.black.withOpacity(0.5)
+      ..color = Theme.of(context).disabledColor
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
@@ -40,6 +41,7 @@ class ArrowCustomPainter extends CustomPainter {
 
       var pathToFollow = <Offset>[];
 
+// normalizzare endpoint fuori dalla figura, fargli calcolare A* e poi aggiungerlo alla fine come linea a parte
       pathToFollow.addAll(
         AStarAlgorithm(
           start: arrowModel!.startPoint,

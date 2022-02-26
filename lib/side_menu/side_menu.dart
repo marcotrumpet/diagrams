@@ -57,19 +57,9 @@ class _SideMenuState extends State<SideMenu> {
         ),
         MouseRegion(
           cursor: SystemMouseCursors.resizeLeftRight,
-          child: Draggable(
-            feedback: Container(
-              color: Theme.of(context).indicatorColor.withOpacity(0.5),
-              width: 5,
-            ),
-            childWhenDragging: Container(
-              color: Theme.of(context).indicatorColor.withOpacity(0.5),
-              width: 5,
-            ),
-            dragAnchorStrategy: pointerDragAnchorStrategy,
-            axis: Axis.horizontal,
-            onDragUpdate: (de) {
-              var deltaValue = (de.localPosition.dx - toolBoxWidth);
+          child: GestureDetector(
+            onHorizontalDragUpdate: (details) {
+              var deltaValue = (details.globalPosition.dx - toolBoxWidth);
               var tempDelta =
                   (toolBoxWidth += deltaValue).clamp(100, 250).toDouble();
               setState(() {
@@ -77,7 +67,7 @@ class _SideMenuState extends State<SideMenu> {
               });
             },
             child: Container(
-              color: Theme.of(context).indicatorColor,
+              color: Theme.of(context).disabledColor,
               width: 5,
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -18,5 +19,7 @@ class AnchorPointModel with _$AnchorPointModel {
     required Offset anchorPointPosition,
     required Offset anchorPointPositionRelativeToParent,
     required Alignment alignment,
+    @Default([]) List<ArrowModel>? arrowModelStart,
+    @Default([]) List<ArrowModel>? arrowModelEnd,
   }) = _AnchorPointModel;
 }

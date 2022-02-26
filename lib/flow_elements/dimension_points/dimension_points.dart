@@ -10,7 +10,7 @@ class DimensionPoints extends StatelessWidget {
       width: 10,
       height: 10,
       decoration: BoxDecoration(
-        color: Theme.of(context).toggleableActiveColor,
+        color: Theme.of(context).disabledColor,
         borderRadius: BorderRadius.circular(8),
       ),
     );

@@ -178,12 +178,16 @@ class _$AnchorPointModelTearOff {
       {required Key anchorPointKey,
       required Offset anchorPointPosition,
       required Offset anchorPointPositionRelativeToParent,
-      required Alignment alignment}) {
+      required Alignment alignment,
+      List<ArrowModel>? arrowModelStart = const [],
+      List<ArrowModel>? arrowModelEnd = const []}) {
     return _AnchorPointModel(
       anchorPointKey: anchorPointKey,
       anchorPointPosition: anchorPointPosition,
       anchorPointPositionRelativeToParent: anchorPointPositionRelativeToParent,
       alignment: alignment,
+      arrowModelStart: arrowModelStart,
+      arrowModelEnd: arrowModelEnd,
     );
   }
 }
@@ -198,6 +202,8 @@ mixin _$AnchorPointModel {
   Offset get anchorPointPositionRelativeToParent =>
       throw _privateConstructorUsedError;
   Alignment get alignment => throw _privateConstructorUsedError;
+  List<ArrowModel>? get arrowModelStart => throw _privateConstructorUsedError;
+  List<ArrowModel>? get arrowModelEnd => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnchorPointModelCopyWith<AnchorPointModel> get copyWith =>
@@ -213,7 +219,9 @@ abstract class $AnchorPointModelCopyWith<$Res> {
       {Key anchorPointKey,
       Offset anchorPointPosition,
       Offset anchorPointPositionRelativeToParent,
-      Alignment alignment});
+      Alignment alignment,
+      List<ArrowModel>? arrowModelStart,
+      List<ArrowModel>? arrowModelEnd});
 }
 
 /// @nodoc
@@ -231,6 +239,8 @@ class _$AnchorPointModelCopyWithImpl<$Res>
     Object? anchorPointPosition = freezed,
     Object? anchorPointPositionRelativeToParent = freezed,
     Object? alignment = freezed,
+    Object? arrowModelStart = freezed,
+    Object? arrowModelEnd = freezed,
   }) {
     return _then(_value.copyWith(
       anchorPointKey: anchorPointKey == freezed
@@ -250,6 +260,14 @@ class _$AnchorPointModelCopyWithImpl<$Res>
           ? _value.alignment
           : alignment // ignore: cast_nullable_to_non_nullable
               as Alignment,
+      arrowModelStart: arrowModelStart == freezed
+          ? _value.arrowModelStart
+          : arrowModelStart // ignore: cast_nullable_to_non_nullable
+              as List<ArrowModel>?,
+      arrowModelEnd: arrowModelEnd == freezed
+          ? _value.arrowModelEnd
+          : arrowModelEnd // ignore: cast_nullable_to_non_nullable
+              as List<ArrowModel>?,
     ));
   }
 }
@@ -265,7 +283,9 @@ abstract class _$AnchorPointModelCopyWith<$Res>
       {Key anchorPointKey,
       Offset anchorPointPosition,
       Offset anchorPointPositionRelativeToParent,
-      Alignment alignment});
+      Alignment alignment,
+      List<ArrowModel>? arrowModelStart,
+      List<ArrowModel>? arrowModelEnd});
 }
 
 /// @nodoc
@@ -285,6 +305,8 @@ class __$AnchorPointModelCopyWithImpl<$Res>
     Object? anchorPointPosition = freezed,
     Object? anchorPointPositionRelativeToParent = freezed,
     Object? alignment = freezed,
+    Object? arrowModelStart = freezed,
+    Object? arrowModelEnd = freezed,
   }) {
     return _then(_AnchorPointModel(
       anchorPointKey: anchorPointKey == freezed
@@ -304,6 +326,14 @@ class __$AnchorPointModelCopyWithImpl<$Res>
           ? _value.alignment
           : alignment // ignore: cast_nullable_to_non_nullable
               as Alignment,
+      arrowModelStart: arrowModelStart == freezed
+          ? _value.arrowModelStart
+          : arrowModelStart // ignore: cast_nullable_to_non_nullable
+              as List<ArrowModel>?,
+      arrowModelEnd: arrowModelEnd == freezed
+          ? _value.arrowModelEnd
+          : arrowModelEnd // ignore: cast_nullable_to_non_nullable
+              as List<ArrowModel>?,
     ));
   }
 }
@@ -315,7 +345,9 @@ class _$_AnchorPointModel implements _AnchorPointModel {
       {required this.anchorPointKey,
       required this.anchorPointPosition,
       required this.anchorPointPositionRelativeToParent,
-      required this.alignment});
+      required this.alignment,
+      this.arrowModelStart = const [],
+      this.arrowModelEnd = const []});
 
   @override
   final Key anchorPointKey;
@@ -325,10 +357,16 @@ class _$_AnchorPointModel implements _AnchorPointModel {
   final Offset anchorPointPositionRelativeToParent;
   @override
   final Alignment alignment;
+  @JsonKey()
+  @override
+  final List<ArrowModel>? arrowModelStart;
+  @JsonKey()
+  @override
+  final List<ArrowModel>? arrowModelEnd;
 
   @override
   String toString() {
-    return 'AnchorPointModel(anchorPointKey: $anchorPointKey, anchorPointPosition: $anchorPointPosition, anchorPointPositionRelativeToParent: $anchorPointPositionRelativeToParent, alignment: $alignment)';
+    return 'AnchorPointModel(anchorPointKey: $anchorPointKey, anchorPointPosition: $anchorPointPosition, anchorPointPositionRelativeToParent: $anchorPointPositionRelativeToParent, alignment: $alignment, arrowModelStart: $arrowModelStart, arrowModelEnd: $arrowModelEnd)';
   }
 
   @override
@@ -343,7 +381,11 @@ class _$_AnchorPointModel implements _AnchorPointModel {
             const DeepCollectionEquality().equals(
                 other.anchorPointPositionRelativeToParent,
                 anchorPointPositionRelativeToParent) &&
-            const DeepCollectionEquality().equals(other.alignment, alignment));
+            const DeepCollectionEquality().equals(other.alignment, alignment) &&
+            const DeepCollectionEquality()
+                .equals(other.arrowModelStart, arrowModelStart) &&
+            const DeepCollectionEquality()
+                .equals(other.arrowModelEnd, arrowModelEnd));
   }
 
   @override
@@ -352,7 +394,9 @@ class _$_AnchorPointModel implements _AnchorPointModel {
       const DeepCollectionEquality().hash(anchorPointKey),
       const DeepCollectionEquality().hash(anchorPointPosition),
       const DeepCollectionEquality().hash(anchorPointPositionRelativeToParent),
-      const DeepCollectionEquality().hash(alignment));
+      const DeepCollectionEquality().hash(alignment),
+      const DeepCollectionEquality().hash(arrowModelStart),
+      const DeepCollectionEquality().hash(arrowModelEnd));
 
   @JsonKey(ignore: true)
   @override
@@ -365,7 +409,9 @@ abstract class _AnchorPointModel implements AnchorPointModel {
       {required Key anchorPointKey,
       required Offset anchorPointPosition,
       required Offset anchorPointPositionRelativeToParent,
-      required Alignment alignment}) = _$_AnchorPointModel;
+      required Alignment alignment,
+      List<ArrowModel>? arrowModelStart,
+      List<ArrowModel>? arrowModelEnd}) = _$_AnchorPointModel;
 
   @override
   Key get anchorPointKey;
@@ -375,6 +421,10 @@ abstract class _AnchorPointModel implements AnchorPointModel {
   Offset get anchorPointPositionRelativeToParent;
   @override
   Alignment get alignment;
+  @override
+  List<ArrowModel>? get arrowModelStart;
+  @override
+  List<ArrowModel>? get arrowModelEnd;
   @override
   @JsonKey(ignore: true)
   _$AnchorPointModelCopyWith<_AnchorPointModel> get copyWith =>

@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:diagrams/common/grid_property_provider.dart';
-import 'package:diagrams/desktop_system/system_tray.dart';
 import 'package:diagrams/diagram_app.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
@@ -44,9 +41,9 @@ void main() async {
 
 Future<void> getItInitialization() async {
   GetIt getIt = GetIt.instance;
-  if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-    getIt.registerSingleton<AppSystemTray>(AppSystemTray());
-  }
+  // if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
+  // getIt.registerSingleton<AppSystemTray>(AppSystemTray());
+  // }
   getIt.registerSingleton<GridPropertyProvider>(GridPropertyProvider());
   await getIt.allReady();
 }

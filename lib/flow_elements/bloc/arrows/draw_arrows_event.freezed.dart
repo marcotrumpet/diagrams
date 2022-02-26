@@ -99,6 +99,159 @@ abstract class _AbstractDrawArrowsEvent implements AbstractDrawArrowsEvent {
 }
 
 /// @nodoc
+class _$StartNewArrowEventTearOff {
+  const _$StartNewArrowEventTearOff();
+
+  _StartNewArrowEvent call({required ArrowModel arrowModel}) {
+    return _StartNewArrowEvent(
+      arrowModel: arrowModel,
+    );
+  }
+}
+
+/// @nodoc
+const $StartNewArrowEvent = _$StartNewArrowEventTearOff();
+
+/// @nodoc
+mixin _$StartNewArrowEvent {
+  ArrowModel get arrowModel => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $StartNewArrowEventCopyWith<StartNewArrowEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $StartNewArrowEventCopyWith<$Res> {
+  factory $StartNewArrowEventCopyWith(
+          StartNewArrowEvent value, $Res Function(StartNewArrowEvent) then) =
+      _$StartNewArrowEventCopyWithImpl<$Res>;
+  $Res call({ArrowModel arrowModel});
+
+  $ArrowModelCopyWith<$Res> get arrowModel;
+}
+
+/// @nodoc
+class _$StartNewArrowEventCopyWithImpl<$Res>
+    implements $StartNewArrowEventCopyWith<$Res> {
+  _$StartNewArrowEventCopyWithImpl(this._value, this._then);
+
+  final StartNewArrowEvent _value;
+  // ignore: unused_field
+  final $Res Function(StartNewArrowEvent) _then;
+
+  @override
+  $Res call({
+    Object? arrowModel = freezed,
+  }) {
+    return _then(_value.copyWith(
+      arrowModel: arrowModel == freezed
+          ? _value.arrowModel
+          : arrowModel // ignore: cast_nullable_to_non_nullable
+              as ArrowModel,
+    ));
+  }
+
+  @override
+  $ArrowModelCopyWith<$Res> get arrowModel {
+    return $ArrowModelCopyWith<$Res>(_value.arrowModel, (value) {
+      return _then(_value.copyWith(arrowModel: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$StartNewArrowEventCopyWith<$Res>
+    implements $StartNewArrowEventCopyWith<$Res> {
+  factory _$StartNewArrowEventCopyWith(
+          _StartNewArrowEvent value, $Res Function(_StartNewArrowEvent) then) =
+      __$StartNewArrowEventCopyWithImpl<$Res>;
+  @override
+  $Res call({ArrowModel arrowModel});
+
+  @override
+  $ArrowModelCopyWith<$Res> get arrowModel;
+}
+
+/// @nodoc
+class __$StartNewArrowEventCopyWithImpl<$Res>
+    extends _$StartNewArrowEventCopyWithImpl<$Res>
+    implements _$StartNewArrowEventCopyWith<$Res> {
+  __$StartNewArrowEventCopyWithImpl(
+      _StartNewArrowEvent _value, $Res Function(_StartNewArrowEvent) _then)
+      : super(_value, (v) => _then(v as _StartNewArrowEvent));
+
+  @override
+  _StartNewArrowEvent get _value => super._value as _StartNewArrowEvent;
+
+  @override
+  $Res call({
+    Object? arrowModel = freezed,
+  }) {
+    return _then(_StartNewArrowEvent(
+      arrowModel: arrowModel == freezed
+          ? _value.arrowModel
+          : arrowModel // ignore: cast_nullable_to_non_nullable
+              as ArrowModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_StartNewArrowEvent
+    with DiagnosticableTreeMixin
+    implements _StartNewArrowEvent {
+  const _$_StartNewArrowEvent({required this.arrowModel});
+
+  @override
+  final ArrowModel arrowModel;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StartNewArrowEvent(arrowModel: $arrowModel)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'StartNewArrowEvent'))
+      ..add(DiagnosticsProperty('arrowModel', arrowModel));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _StartNewArrowEvent &&
+            const DeepCollectionEquality()
+                .equals(other.arrowModel, arrowModel));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(arrowModel));
+
+  @JsonKey(ignore: true)
+  @override
+  _$StartNewArrowEventCopyWith<_StartNewArrowEvent> get copyWith =>
+      __$StartNewArrowEventCopyWithImpl<_StartNewArrowEvent>(this, _$identity);
+}
+
+abstract class _StartNewArrowEvent implements StartNewArrowEvent {
+  const factory _StartNewArrowEvent({required ArrowModel arrowModel}) =
+      _$_StartNewArrowEvent;
+
+  @override
+  ArrowModel get arrowModel;
+  @override
+  @JsonKey(ignore: true)
+  _$StartNewArrowEventCopyWith<_StartNewArrowEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 class _$DrawArrowsEventTearOff {
   const _$DrawArrowsEventTearOff();
 
@@ -107,6 +260,7 @@ class _$DrawArrowsEventTearOff {
       Offset? endPoint,
       Key? arrowKey,
       AbstractFlowElement? startElement,
+      AbstractFlowElement? endElement,
       Key? startPointKey,
       Key? endPointKey}) {
     return _DrawArrowsEvent(
@@ -114,6 +268,7 @@ class _$DrawArrowsEventTearOff {
       endPoint: endPoint,
       arrowKey: arrowKey,
       startElement: startElement,
+      endElement: endElement,
       startPointKey: startPointKey,
       endPointKey: endPointKey,
     );
@@ -129,6 +284,7 @@ mixin _$DrawArrowsEvent {
   Offset? get endPoint => throw _privateConstructorUsedError;
   Key? get arrowKey => throw _privateConstructorUsedError;
   AbstractFlowElement? get startElement => throw _privateConstructorUsedError;
+  AbstractFlowElement? get endElement => throw _privateConstructorUsedError;
   Key? get startPointKey => throw _privateConstructorUsedError;
   Key? get endPointKey => throw _privateConstructorUsedError;
 
@@ -147,6 +303,7 @@ abstract class $DrawArrowsEventCopyWith<$Res> {
       Offset? endPoint,
       Key? arrowKey,
       AbstractFlowElement? startElement,
+      AbstractFlowElement? endElement,
       Key? startPointKey,
       Key? endPointKey});
 }
@@ -166,6 +323,7 @@ class _$DrawArrowsEventCopyWithImpl<$Res>
     Object? endPoint = freezed,
     Object? arrowKey = freezed,
     Object? startElement = freezed,
+    Object? endElement = freezed,
     Object? startPointKey = freezed,
     Object? endPointKey = freezed,
   }) {
@@ -185,6 +343,10 @@ class _$DrawArrowsEventCopyWithImpl<$Res>
       startElement: startElement == freezed
           ? _value.startElement
           : startElement // ignore: cast_nullable_to_non_nullable
+              as AbstractFlowElement?,
+      endElement: endElement == freezed
+          ? _value.endElement
+          : endElement // ignore: cast_nullable_to_non_nullable
               as AbstractFlowElement?,
       startPointKey: startPointKey == freezed
           ? _value.startPointKey
@@ -210,6 +372,7 @@ abstract class _$DrawArrowsEventCopyWith<$Res>
       Offset? endPoint,
       Key? arrowKey,
       AbstractFlowElement? startElement,
+      AbstractFlowElement? endElement,
       Key? startPointKey,
       Key? endPointKey});
 }
@@ -231,6 +394,7 @@ class __$DrawArrowsEventCopyWithImpl<$Res>
     Object? endPoint = freezed,
     Object? arrowKey = freezed,
     Object? startElement = freezed,
+    Object? endElement = freezed,
     Object? startPointKey = freezed,
     Object? endPointKey = freezed,
   }) {
@@ -250,6 +414,10 @@ class __$DrawArrowsEventCopyWithImpl<$Res>
       startElement: startElement == freezed
           ? _value.startElement
           : startElement // ignore: cast_nullable_to_non_nullable
+              as AbstractFlowElement?,
+      endElement: endElement == freezed
+          ? _value.endElement
+          : endElement // ignore: cast_nullable_to_non_nullable
               as AbstractFlowElement?,
       startPointKey: startPointKey == freezed
           ? _value.startPointKey
@@ -273,6 +441,7 @@ class _$_DrawArrowsEvent
       this.endPoint,
       this.arrowKey,
       this.startElement,
+      this.endElement,
       this.startPointKey,
       this.endPointKey});
 
@@ -285,13 +454,15 @@ class _$_DrawArrowsEvent
   @override
   final AbstractFlowElement? startElement;
   @override
+  final AbstractFlowElement? endElement;
+  @override
   final Key? startPointKey;
   @override
   final Key? endPointKey;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DrawArrowsEvent(startPoint: $startPoint, endPoint: $endPoint, arrowKey: $arrowKey, startElement: $startElement, startPointKey: $startPointKey, endPointKey: $endPointKey)';
+    return 'DrawArrowsEvent(startPoint: $startPoint, endPoint: $endPoint, arrowKey: $arrowKey, startElement: $startElement, endElement: $endElement, startPointKey: $startPointKey, endPointKey: $endPointKey)';
   }
 
   @override
@@ -303,6 +474,7 @@ class _$_DrawArrowsEvent
       ..add(DiagnosticsProperty('endPoint', endPoint))
       ..add(DiagnosticsProperty('arrowKey', arrowKey))
       ..add(DiagnosticsProperty('startElement', startElement))
+      ..add(DiagnosticsProperty('endElement', endElement))
       ..add(DiagnosticsProperty('startPointKey', startPointKey))
       ..add(DiagnosticsProperty('endPointKey', endPointKey));
   }
@@ -319,6 +491,8 @@ class _$_DrawArrowsEvent
             const DeepCollectionEquality()
                 .equals(other.startElement, startElement) &&
             const DeepCollectionEquality()
+                .equals(other.endElement, endElement) &&
+            const DeepCollectionEquality()
                 .equals(other.startPointKey, startPointKey) &&
             const DeepCollectionEquality()
                 .equals(other.endPointKey, endPointKey));
@@ -331,6 +505,7 @@ class _$_DrawArrowsEvent
       const DeepCollectionEquality().hash(endPoint),
       const DeepCollectionEquality().hash(arrowKey),
       const DeepCollectionEquality().hash(startElement),
+      const DeepCollectionEquality().hash(endElement),
       const DeepCollectionEquality().hash(startPointKey),
       const DeepCollectionEquality().hash(endPointKey));
 
@@ -346,6 +521,7 @@ abstract class _DrawArrowsEvent implements DrawArrowsEvent {
       Offset? endPoint,
       Key? arrowKey,
       AbstractFlowElement? startElement,
+      AbstractFlowElement? endElement,
       Key? startPointKey,
       Key? endPointKey}) = _$_DrawArrowsEvent;
 
@@ -357,6 +533,8 @@ abstract class _DrawArrowsEvent implements DrawArrowsEvent {
   Key? get arrowKey;
   @override
   AbstractFlowElement? get startElement;
+  @override
+  AbstractFlowElement? get endElement;
   @override
   Key? get startPointKey;
   @override
@@ -371,9 +549,9 @@ abstract class _DrawArrowsEvent implements DrawArrowsEvent {
 class _$MovedFlowElementUpdateArrowsEventTearOff {
   const _$MovedFlowElementUpdateArrowsEventTearOff();
 
-  _MovedFlowElementUpdateArrowsEvent call({AbstractFlowElement? startElement}) {
+  _MovedFlowElementUpdateArrowsEvent call({AbstractFlowElement? element}) {
     return _MovedFlowElementUpdateArrowsEvent(
-      startElement: startElement,
+      element: element,
     );
   }
 }
@@ -384,7 +562,7 @@ const $MovedFlowElementUpdateArrowsEvent =
 
 /// @nodoc
 mixin _$MovedFlowElementUpdateArrowsEvent {
-  AbstractFlowElement? get startElement => throw _privateConstructorUsedError;
+  AbstractFlowElement? get element => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MovedFlowElementUpdateArrowsEventCopyWith<MovedFlowElementUpdateArrowsEvent>
@@ -397,7 +575,7 @@ abstract class $MovedFlowElementUpdateArrowsEventCopyWith<$Res> {
           MovedFlowElementUpdateArrowsEvent value,
           $Res Function(MovedFlowElementUpdateArrowsEvent) then) =
       _$MovedFlowElementUpdateArrowsEventCopyWithImpl<$Res>;
-  $Res call({AbstractFlowElement? startElement});
+  $Res call({AbstractFlowElement? element});
 }
 
 /// @nodoc
@@ -411,12 +589,12 @@ class _$MovedFlowElementUpdateArrowsEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? startElement = freezed,
+    Object? element = freezed,
   }) {
     return _then(_value.copyWith(
-      startElement: startElement == freezed
-          ? _value.startElement
-          : startElement // ignore: cast_nullable_to_non_nullable
+      element: element == freezed
+          ? _value.element
+          : element // ignore: cast_nullable_to_non_nullable
               as AbstractFlowElement?,
     ));
   }
@@ -430,7 +608,7 @@ abstract class _$MovedFlowElementUpdateArrowsEventCopyWith<$Res>
           $Res Function(_MovedFlowElementUpdateArrowsEvent) then) =
       __$MovedFlowElementUpdateArrowsEventCopyWithImpl<$Res>;
   @override
-  $Res call({AbstractFlowElement? startElement});
+  $Res call({AbstractFlowElement? element});
 }
 
 /// @nodoc
@@ -448,12 +626,12 @@ class __$MovedFlowElementUpdateArrowsEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? startElement = freezed,
+    Object? element = freezed,
   }) {
     return _then(_MovedFlowElementUpdateArrowsEvent(
-      startElement: startElement == freezed
-          ? _value.startElement
-          : startElement // ignore: cast_nullable_to_non_nullable
+      element: element == freezed
+          ? _value.element
+          : element // ignore: cast_nullable_to_non_nullable
               as AbstractFlowElement?,
     ));
   }
@@ -464,14 +642,14 @@ class __$MovedFlowElementUpdateArrowsEventCopyWithImpl<$Res>
 class _$_MovedFlowElementUpdateArrowsEvent
     with DiagnosticableTreeMixin
     implements _MovedFlowElementUpdateArrowsEvent {
-  const _$_MovedFlowElementUpdateArrowsEvent({this.startElement});
+  const _$_MovedFlowElementUpdateArrowsEvent({this.element});
 
   @override
-  final AbstractFlowElement? startElement;
+  final AbstractFlowElement? element;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MovedFlowElementUpdateArrowsEvent(startElement: $startElement)';
+    return 'MovedFlowElementUpdateArrowsEvent(element: $element)';
   }
 
   @override
@@ -479,7 +657,7 @@ class _$_MovedFlowElementUpdateArrowsEvent
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'MovedFlowElementUpdateArrowsEvent'))
-      ..add(DiagnosticsProperty('startElement', startElement));
+      ..add(DiagnosticsProperty('element', element));
   }
 
   @override
@@ -487,13 +665,12 @@ class _$_MovedFlowElementUpdateArrowsEvent
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _MovedFlowElementUpdateArrowsEvent &&
-            const DeepCollectionEquality()
-                .equals(other.startElement, startElement));
+            const DeepCollectionEquality().equals(other.element, element));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(startElement));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(element));
 
   @JsonKey(ignore: true)
   @override
@@ -506,11 +683,10 @@ class _$_MovedFlowElementUpdateArrowsEvent
 abstract class _MovedFlowElementUpdateArrowsEvent
     implements MovedFlowElementUpdateArrowsEvent {
   const factory _MovedFlowElementUpdateArrowsEvent(
-          {AbstractFlowElement? startElement}) =
-      _$_MovedFlowElementUpdateArrowsEvent;
+      {AbstractFlowElement? element}) = _$_MovedFlowElementUpdateArrowsEvent;
 
   @override
-  AbstractFlowElement? get startElement;
+  AbstractFlowElement? get element;
   @override
   @JsonKey(ignore: true)
   _$MovedFlowElementUpdateArrowsEventCopyWith<
@@ -522,9 +698,9 @@ abstract class _MovedFlowElementUpdateArrowsEvent
 class _$DrawArrowsAStarEventTearOff {
   const _$DrawArrowsAStarEventTearOff();
 
-  _DrawArrowsAStarEvent call({Key? arrowKey}) {
+  _DrawArrowsAStarEvent call({ArrowModel? arrowModel}) {
     return _DrawArrowsAStarEvent(
-      arrowKey: arrowKey,
+      arrowModel: arrowModel,
     );
   }
 }
@@ -534,7 +710,7 @@ const $DrawArrowsAStarEvent = _$DrawArrowsAStarEventTearOff();
 
 /// @nodoc
 mixin _$DrawArrowsAStarEvent {
-  Key? get arrowKey => throw _privateConstructorUsedError;
+  ArrowModel? get arrowModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DrawArrowsAStarEventCopyWith<DrawArrowsAStarEvent> get copyWith =>
@@ -546,7 +722,9 @@ abstract class $DrawArrowsAStarEventCopyWith<$Res> {
   factory $DrawArrowsAStarEventCopyWith(DrawArrowsAStarEvent value,
           $Res Function(DrawArrowsAStarEvent) then) =
       _$DrawArrowsAStarEventCopyWithImpl<$Res>;
-  $Res call({Key? arrowKey});
+  $Res call({ArrowModel? arrowModel});
+
+  $ArrowModelCopyWith<$Res>? get arrowModel;
 }
 
 /// @nodoc
@@ -560,14 +738,25 @@ class _$DrawArrowsAStarEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? arrowKey = freezed,
+    Object? arrowModel = freezed,
   }) {
     return _then(_value.copyWith(
-      arrowKey: arrowKey == freezed
-          ? _value.arrowKey
-          : arrowKey // ignore: cast_nullable_to_non_nullable
-              as Key?,
+      arrowModel: arrowModel == freezed
+          ? _value.arrowModel
+          : arrowModel // ignore: cast_nullable_to_non_nullable
+              as ArrowModel?,
     ));
+  }
+
+  @override
+  $ArrowModelCopyWith<$Res>? get arrowModel {
+    if (_value.arrowModel == null) {
+      return null;
+    }
+
+    return $ArrowModelCopyWith<$Res>(_value.arrowModel!, (value) {
+      return _then(_value.copyWith(arrowModel: value));
+    });
   }
 }
 
@@ -578,7 +767,10 @@ abstract class _$DrawArrowsAStarEventCopyWith<$Res>
           $Res Function(_DrawArrowsAStarEvent) then) =
       __$DrawArrowsAStarEventCopyWithImpl<$Res>;
   @override
-  $Res call({Key? arrowKey});
+  $Res call({ArrowModel? arrowModel});
+
+  @override
+  $ArrowModelCopyWith<$Res>? get arrowModel;
 }
 
 /// @nodoc
@@ -594,13 +786,13 @@ class __$DrawArrowsAStarEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? arrowKey = freezed,
+    Object? arrowModel = freezed,
   }) {
     return _then(_DrawArrowsAStarEvent(
-      arrowKey: arrowKey == freezed
-          ? _value.arrowKey
-          : arrowKey // ignore: cast_nullable_to_non_nullable
-              as Key?,
+      arrowModel: arrowModel == freezed
+          ? _value.arrowModel
+          : arrowModel // ignore: cast_nullable_to_non_nullable
+              as ArrowModel?,
     ));
   }
 }
@@ -610,14 +802,14 @@ class __$DrawArrowsAStarEventCopyWithImpl<$Res>
 class _$_DrawArrowsAStarEvent
     with DiagnosticableTreeMixin
     implements _DrawArrowsAStarEvent {
-  const _$_DrawArrowsAStarEvent({this.arrowKey});
+  const _$_DrawArrowsAStarEvent({this.arrowModel});
 
   @override
-  final Key? arrowKey;
+  final ArrowModel? arrowModel;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DrawArrowsAStarEvent(arrowKey: $arrowKey)';
+    return 'DrawArrowsAStarEvent(arrowModel: $arrowModel)';
   }
 
   @override
@@ -625,7 +817,7 @@ class _$_DrawArrowsAStarEvent
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'DrawArrowsAStarEvent'))
-      ..add(DiagnosticsProperty('arrowKey', arrowKey));
+      ..add(DiagnosticsProperty('arrowModel', arrowModel));
   }
 
   @override
@@ -633,12 +825,13 @@ class _$_DrawArrowsAStarEvent
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _DrawArrowsAStarEvent &&
-            const DeepCollectionEquality().equals(other.arrowKey, arrowKey));
+            const DeepCollectionEquality()
+                .equals(other.arrowModel, arrowModel));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(arrowKey));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(arrowModel));
 
   @JsonKey(ignore: true)
   @override
@@ -648,11 +841,11 @@ class _$_DrawArrowsAStarEvent
 }
 
 abstract class _DrawArrowsAStarEvent implements DrawArrowsAStarEvent {
-  const factory _DrawArrowsAStarEvent({Key? arrowKey}) =
+  const factory _DrawArrowsAStarEvent({ArrowModel? arrowModel}) =
       _$_DrawArrowsAStarEvent;
 
   @override
-  Key? get arrowKey;
+  ArrowModel? get arrowModel;
   @override
   @JsonKey(ignore: true)
   _$DrawArrowsAStarEventCopyWith<_DrawArrowsAStarEvent> get copyWith =>

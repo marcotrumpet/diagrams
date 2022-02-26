@@ -22,6 +22,7 @@ class _$ArrowModelTearOff {
       {required Offset startPoint,
       required Key startPointKey,
       required Offset endPoint,
+      Key? endPointKey,
       required Key arrowKey,
       AbstractFlowElement? startElement,
       AbstractFlowElement? endElement,
@@ -30,6 +31,7 @@ class _$ArrowModelTearOff {
       startPoint: startPoint,
       startPointKey: startPointKey,
       endPoint: endPoint,
+      endPointKey: endPointKey,
       arrowKey: arrowKey,
       startElement: startElement,
       endElement: endElement,
@@ -46,6 +48,7 @@ mixin _$ArrowModel {
   Offset get startPoint => throw _privateConstructorUsedError;
   Key get startPointKey => throw _privateConstructorUsedError;
   Offset get endPoint => throw _privateConstructorUsedError;
+  Key? get endPointKey => throw _privateConstructorUsedError;
   Key get arrowKey => throw _privateConstructorUsedError;
   AbstractFlowElement? get startElement => throw _privateConstructorUsedError;
   AbstractFlowElement? get endElement => throw _privateConstructorUsedError;
@@ -65,6 +68,7 @@ abstract class $ArrowModelCopyWith<$Res> {
       {Offset startPoint,
       Key startPointKey,
       Offset endPoint,
+      Key? endPointKey,
       Key arrowKey,
       AbstractFlowElement? startElement,
       AbstractFlowElement? endElement,
@@ -84,6 +88,7 @@ class _$ArrowModelCopyWithImpl<$Res> implements $ArrowModelCopyWith<$Res> {
     Object? startPoint = freezed,
     Object? startPointKey = freezed,
     Object? endPoint = freezed,
+    Object? endPointKey = freezed,
     Object? arrowKey = freezed,
     Object? startElement = freezed,
     Object? endElement = freezed,
@@ -102,6 +107,10 @@ class _$ArrowModelCopyWithImpl<$Res> implements $ArrowModelCopyWith<$Res> {
           ? _value.endPoint
           : endPoint // ignore: cast_nullable_to_non_nullable
               as Offset,
+      endPointKey: endPointKey == freezed
+          ? _value.endPointKey
+          : endPointKey // ignore: cast_nullable_to_non_nullable
+              as Key?,
       arrowKey: arrowKey == freezed
           ? _value.arrowKey
           : arrowKey // ignore: cast_nullable_to_non_nullable
@@ -132,6 +141,7 @@ abstract class _$ArrowModelCopyWith<$Res> implements $ArrowModelCopyWith<$Res> {
       {Offset startPoint,
       Key startPointKey,
       Offset endPoint,
+      Key? endPointKey,
       Key arrowKey,
       AbstractFlowElement? startElement,
       AbstractFlowElement? endElement,
@@ -153,6 +163,7 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
     Object? startPoint = freezed,
     Object? startPointKey = freezed,
     Object? endPoint = freezed,
+    Object? endPointKey = freezed,
     Object? arrowKey = freezed,
     Object? startElement = freezed,
     Object? endElement = freezed,
@@ -171,6 +182,10 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
           ? _value.endPoint
           : endPoint // ignore: cast_nullable_to_non_nullable
               as Offset,
+      endPointKey: endPointKey == freezed
+          ? _value.endPointKey
+          : endPointKey // ignore: cast_nullable_to_non_nullable
+              as Key?,
       arrowKey: arrowKey == freezed
           ? _value.arrowKey
           : arrowKey // ignore: cast_nullable_to_non_nullable
@@ -198,6 +213,7 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
       {required this.startPoint,
       required this.startPointKey,
       required this.endPoint,
+      this.endPointKey,
       required this.arrowKey,
       this.startElement,
       this.endElement,
@@ -210,6 +226,8 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
   @override
   final Offset endPoint;
   @override
+  final Key? endPointKey;
+  @override
   final Key arrowKey;
   @override
   final AbstractFlowElement? startElement;
@@ -221,7 +239,7 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ArrowModel(startPoint: $startPoint, startPointKey: $startPointKey, endPoint: $endPoint, arrowKey: $arrowKey, startElement: $startElement, endElement: $endElement, updateAStarPath: $updateAStarPath)';
+    return 'ArrowModel(startPoint: $startPoint, startPointKey: $startPointKey, endPoint: $endPoint, endPointKey: $endPointKey, arrowKey: $arrowKey, startElement: $startElement, endElement: $endElement, updateAStarPath: $updateAStarPath)';
   }
 
   @override
@@ -232,6 +250,7 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
       ..add(DiagnosticsProperty('startPoint', startPoint))
       ..add(DiagnosticsProperty('startPointKey', startPointKey))
       ..add(DiagnosticsProperty('endPoint', endPoint))
+      ..add(DiagnosticsProperty('endPointKey', endPointKey))
       ..add(DiagnosticsProperty('arrowKey', arrowKey))
       ..add(DiagnosticsProperty('startElement', startElement))
       ..add(DiagnosticsProperty('endElement', endElement))
@@ -248,6 +267,8 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
             const DeepCollectionEquality()
                 .equals(other.startPointKey, startPointKey) &&
             const DeepCollectionEquality().equals(other.endPoint, endPoint) &&
+            const DeepCollectionEquality()
+                .equals(other.endPointKey, endPointKey) &&
             const DeepCollectionEquality().equals(other.arrowKey, arrowKey) &&
             const DeepCollectionEquality()
                 .equals(other.startElement, startElement) &&
@@ -263,6 +284,7 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
       const DeepCollectionEquality().hash(startPoint),
       const DeepCollectionEquality().hash(startPointKey),
       const DeepCollectionEquality().hash(endPoint),
+      const DeepCollectionEquality().hash(endPointKey),
       const DeepCollectionEquality().hash(arrowKey),
       const DeepCollectionEquality().hash(startElement),
       const DeepCollectionEquality().hash(endElement),
@@ -279,6 +301,7 @@ abstract class _ArrowModel implements ArrowModel {
       {required Offset startPoint,
       required Key startPointKey,
       required Offset endPoint,
+      Key? endPointKey,
       required Key arrowKey,
       AbstractFlowElement? startElement,
       AbstractFlowElement? endElement,
@@ -290,6 +313,8 @@ abstract class _ArrowModel implements ArrowModel {
   Key get startPointKey;
   @override
   Offset get endPoint;
+  @override
+  Key? get endPointKey;
   @override
   Key get arrowKey;
   @override

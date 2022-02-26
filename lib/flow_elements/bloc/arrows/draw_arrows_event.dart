@@ -1,4 +1,5 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,6 +12,14 @@ abstract class AbstractDrawArrowsEvent with _$AbstractDrawArrowsEvent {
 }
 
 @freezed
+class StartNewArrowEvent
+    with _$StartNewArrowEvent
+    implements AbstractDrawArrowsEvent {
+  const factory StartNewArrowEvent({required ArrowModel arrowModel}) =
+      _StartNewArrowEvent;
+}
+
+@freezed
 class DrawArrowsEvent
     with _$DrawArrowsEvent
     implements AbstractDrawArrowsEvent {
@@ -19,6 +28,7 @@ class DrawArrowsEvent
     Offset? endPoint,
     Key? arrowKey,
     AbstractFlowElement? startElement,
+    AbstractFlowElement? endElement,
     Key? startPointKey,
     Key? endPointKey,
   }) = _DrawArrowsEvent;
@@ -29,14 +39,15 @@ class MovedFlowElementUpdateArrowsEvent
     with _$MovedFlowElementUpdateArrowsEvent
     implements AbstractDrawArrowsEvent {
   const factory MovedFlowElementUpdateArrowsEvent(
-      {AbstractFlowElement? startElement}) = _MovedFlowElementUpdateArrowsEvent;
+      {AbstractFlowElement? element}) = _MovedFlowElementUpdateArrowsEvent;
 }
 
 @freezed
 class DrawArrowsAStarEvent
     with _$DrawArrowsAStarEvent
     implements AbstractDrawArrowsEvent {
-  const factory DrawArrowsAStarEvent({Key? arrowKey}) = _DrawArrowsAStarEvent;
+  const factory DrawArrowsAStarEvent({ArrowModel? arrowModel}) =
+      _DrawArrowsAStarEvent;
 }
 
 @freezed

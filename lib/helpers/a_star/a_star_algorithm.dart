@@ -1,18 +1,18 @@
 // heavily inspired by https://github.com/RafaelBarbosatec/a_star
 
 import 'package:diagrams/common/grid_property_provider.dart';
+import 'package:diagrams/helpers/a_star/tile_model.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
 
 class AStarAlgorithm {
   final Offset start;
   final Offset end;
-  final _doneList = <Tile>[];
-  final _waitList = <Tile>[];
+  final _doneList = <TileModel>[];
+  final _waitList = <TileModel>[];
 
-  late List<List<Tile>> grid;
-  late List<Rect> barriers;
+  late List<List<TileModel>> grid;
+  late List<Offset> barriers;
   late double squareSide;
 
   AStarAlgorithm({
@@ -20,7 +20,8 @@ class AStarAlgorithm {
     required this.end,
   }) {
     grid = GetIt.I<GridPropertyProvider>().grid;
-    barriers = GetIt.I<GridPropertyProvider>().barriers;
+    barriers = [];
+    barriers = GetIt.I<GridPropertyProvider>().barrierModelToList();
     squareSide = GetIt.I<GridPropertyProvider>().secondarySquareSide;
   }
 
@@ -29,7 +30,7 @@ class AStarAlgorithm {
     _doneList.clear();
     _waitList.clear();
 
-    if (barriers.firstWhereOrNull((element) => element.contains(end)) != null) {
+    if (barriers.contains(end)) {
       return [];
     }
 
@@ -38,7 +39,7 @@ class AStarAlgorithm {
 
     if (startTile == null || endTile == null) return [];
 
-    Tile? winner = _getTileWinner(
+    TileModel? winner = _getTileWinner(
       startTile,
       endTile,
     );
@@ -46,7 +47,7 @@ class AStarAlgorithm {
     List<Offset> path = [end];
 
     if (winner != null) {
-      Tile? tileAux = winner.parent;
+      TileModel? tileAux = winner.parent;
       for (int i = 0; i < winner.g - 1; i++) {
         if (tileAux != null) {
           path.add(tileAux.position);
@@ -61,7 +62,7 @@ class AStarAlgorithm {
   }
 
   /// Method recursive that execute the A* algorithm
-  Tile? _getTileWinner(Tile current, Tile end) {
+  TileModel? _getTileWinner(TileModel current, TileModel end) {
     if (current == end) {
       return current;
     }
@@ -92,7 +93,7 @@ class AStarAlgorithm {
   }
 
   /// Calculates the distance g and h
-  void _analiseDistance(Tile current, Tile end, {Tile? parent}) {
+  void _analiseDistance(TileModel current, TileModel end, {TileModel? parent}) {
     if (current.parent == null) {
       current.parent = parent;
       current.g = (current.parent?.g ?? 0) + 1;
@@ -102,7 +103,7 @@ class AStarAlgorithm {
   }
 
   /// Calculates the distance between two tiles.
-  int _distance(Tile tile1, Tile tile2) {
+  int _distance(TileModel tile1, TileModel tile2) {
     int distX = (tile1.position.dx.toInt() - tile2.position.dx.toInt()).abs();
     int distY = (tile1.position.dy.toInt() - tile2.position.dy.toInt()).abs();
     return distX + distY;
@@ -219,25 +220,11 @@ class AStarAlgorithm {
 //   }
 }
 
-/// Class used to represent each cell
-class Tile {
-  final Offset position;
-  Tile? parent;
-  final List<Tile> neighbors;
-  final bool isBarrier;
-  int g = 0;
-  int h = 0;
-
-  int get f => g + h;
-
-  Tile(this.position, this.neighbors, {this.parent, this.isBarrier = false});
-}
-
-enum TypeResumeDirection {
-  axisX,
-  axisY,
-  topLeft,
-  bottomLeft,
-  topRight,
-  bottomRight,
-}
+// enum TypeResumeDirection {
+//   axisX,
+//   axisY,
+//   topLeft,
+//   bottomLeft,
+//   topRight,
+//   bottomRight,
+// }

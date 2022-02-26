@@ -1,4 +1,6 @@
-import 'package:diagrams/helpers/a_star_algorithm.dart';
+import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/helpers/a_star/barrier_model.dart';
+import 'package:diagrams/helpers/a_star/tile_model.dart';
 import 'package:flutter/material.dart';
 
 class GridPropertyProvider {
@@ -10,22 +12,62 @@ class GridPropertyProvider {
   var mainStrokeWidth = 1.0;
   var secondaryStrokeWith = 0.5;
 
-  var grid = <List<Tile>>[];
-  var barriers = <Rect>[];
+  var grid = <List<TileModel>>[];
+  var barriers = <BarrierModel>[];
+
+  List<Offset> barrierModelToList() {
+    return barriers
+        .map((e) => e.positions)
+        .expand((element) => element)
+        .toList();
+  }
+
+  void updateGridBarriers(AbstractFlowElement abstractFlowElement) {
+    barriers.removeWhere((element) =>
+        element.abstractElementKey == abstractFlowElement.elementKey);
+
+    var pointsOfAbstractElement = <Offset>[];
+
+    for (var el in abstractFlowElement.path.computeMetrics()) {
+      for (var tangentLength
+          in List.generate((el.length.toInt()), (index) => index + 1)) {
+        var pos = el.getTangentForOffset(tangentLength.toDouble())?.position ??
+            Offset.zero;
+        if (abstractFlowElement.anchorPointsModelMap?.anchorPointList.any(
+                (element) => (element.anchorPointPositionRelativeToParent ==
+                    (pos + abstractFlowElement.offset!))) ??
+            false) {
+          debugPrint(
+              'anchorPoint contains this position, so exclude it from barriers because it\'s a possible arrival point.');
+        } else {
+          pointsOfAbstractElement.add(pos + abstractFlowElement.offset!);
+        }
+      }
+    }
+
+    var barrierModel = BarrierModel(
+      abstractElementKey: abstractFlowElement.elementKey!,
+      positions: pointsOfAbstractElement,
+    );
+    barriers.add(barrierModel);
+
+    createGrid();
+    addNeighbors();
+  }
 
   void createGrid() {
     grid = [];
     var gridPainted = gridKey.currentContext?.findRenderObject() as RenderBox;
     List.generate((gridPainted.size.width ~/ secondarySquareSide), (x) {
-      List<Tile> rowList = [];
+      List<TileModel> rowList = [];
       List.generate((gridPainted.size.height ~/ secondarySquareSide), (y) {
         final offset = Offset(x.toDouble() * secondarySquareSide,
             y.toDouble() * secondarySquareSide);
-        bool isBarrier = barriers.where((element) {
-          return element.contains(offset);
+        bool isBarrier = barrierModelToList().where((element) {
+          return element == offset;
         }).isNotEmpty;
         rowList.add(
-          Tile(
+          TileModel(
             offset,
             [],
             isBarrier: isBarrier,
@@ -36,8 +78,8 @@ class GridPropertyProvider {
     });
   }
 
-  Tile? findTileInGrid(Offset offset) {
-    Tile? tile;
+  TileModel? findTileInGrid(Offset offset) {
+    TileModel? tile;
 
     for (var column in grid) {
       for (var cel in column) {
