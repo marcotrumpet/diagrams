@@ -50,7 +50,6 @@ class _MainCanvasState extends State<MainCanvas> {
                     addRemoveElementBloc: context.read<AddRemoveElementBloc>(),
                   ),
                   child: DragTarget<AbstractFlowElement>(
-                    // TODO details.data has old data (without endPoint details)
                     onAcceptWithDetails: (details) {
                       final newOffset = calcNewOffset(details, _gridKey);
                       handleFlowElements(
