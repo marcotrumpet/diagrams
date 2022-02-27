@@ -41,7 +41,6 @@ class ArrowCustomPainter extends CustomPainter {
 
       var pathToFollow = <Offset>[];
 
-// normalizzare endpoint fuori dalla figura, fargli calcolare A* e poi aggiungerlo alla fine come linea a parte
       pathToFollow.addAll(
         AStarAlgorithm(
           start: arrowModel!.startPoint,

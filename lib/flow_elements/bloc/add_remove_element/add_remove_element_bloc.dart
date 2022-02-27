@@ -41,36 +41,6 @@ class AddRemoveElementBloc
             ?.copyWith(anchorPointList: anchorPointListUpdated!),
       );
 
-      // // recursively insert arrow in flow model
-
-      // // add the new arrow model linked to element to the list
-      // var _elementToChange = arrowModelStart.firstWhereOrNull((element) =>
-      //     element.arrowKey == event.arrowModelLinkedToElement.arrowKey)!;
-
-      // arrowModelStart.removeWhere(
-      //     (element) => element.arrowKey == _elementToChange.arrowKey);
-
-      // arrowModelStart = [
-      //   ...arrowModelStart,
-      //   _elementToChange.copyWith(endElement: elementUpdated),
-      // ];
-
-      // anchorPointListUpdated = event
-      //     .elementToManipulate.anchorPointsModelMap?.anchorPointList
-      //     .map((e) {
-      //   if (e.anchorPointKey == event.arrowModelLinkedToElement.endPointKey) {
-      //     e = e.copyWith(arrowModelStart: arrowModelStart);
-      //     return e;
-      //   }
-      //   return e;
-      // }).toList();
-
-      // elementUpdated = event.elementToManipulate.copyWith(
-      //   anchorPointsModelMap: event.elementToManipulate.anchorPointsModelMap
-      //       ?.copyWith(anchorPointList: anchorPointListUpdated!),
-      // );
-      // // recursively insert arrow in flow model
-
       // refresh elements list with updated element
       elementsList
           .removeWhere((el) => el.elementKey == elementUpdated.elementKey);
@@ -79,8 +49,9 @@ class AddRemoveElementBloc
       GetIt.I<GridPropertyProvider>()
           .updateGridBarriers(event.elementToManipulate);
 
-      // probably unecessary to update elements here
-      emit(elementsList);
+      final List<AbstractFlowElement> newList = [...elementsList];
+
+      emit(newList);
     });
 
     on<AddEndingPointToAnchorElementEvent>((event, emit) {
@@ -111,36 +82,6 @@ class AddRemoveElementBloc
             ?.copyWith(anchorPointList: anchorPointListUpdated!),
       );
 
-      // // recursively insert arrow in flow model
-
-      // // add the new arrow model linked to element to the list
-      // var _elementToChange = arrowModelEnd.firstWhereOrNull((element) =>
-      //     element.arrowKey == event.arrowModelLinkedToElement.arrowKey)!;
-
-      // arrowModelEnd.removeWhere(
-      //     (element) => element.arrowKey == _elementToChange.arrowKey);
-
-      // arrowModelEnd = [
-      //   ...arrowModelEnd,
-      //   _elementToChange.copyWith(endElement: elementUpdated),
-      // ];
-
-      // anchorPointListUpdated = event
-      //     .elementToManipulate.anchorPointsModelMap?.anchorPointList
-      //     .map((e) {
-      //   if (e.anchorPointKey == event.arrowModelLinkedToElement.endPointKey) {
-      //     e = e.copyWith(arrowModelEnd: arrowModelEnd);
-      //     return e;
-      //   }
-      //   return e;
-      // }).toList();
-
-      // elementUpdated = event.elementToManipulate.copyWith(
-      //   anchorPointsModelMap: event.elementToManipulate.anchorPointsModelMap
-      //       ?.copyWith(anchorPointList: anchorPointListUpdated!),
-      // );
-      // // recursively insert arrow in flow model
-
       // refresh elements list with updated element
       elementsList
           .removeWhere((el) => el.elementKey == elementUpdated.elementKey);
@@ -149,7 +90,9 @@ class AddRemoveElementBloc
       GetIt.I<GridPropertyProvider>()
           .updateGridBarriers(event.elementToManipulate);
 
-      emit(elementsList);
+      final List<AbstractFlowElement> newList = [...elementsList];
+
+      emit(newList);
     });
 
     on<AddElementEvent>((event, emit) {

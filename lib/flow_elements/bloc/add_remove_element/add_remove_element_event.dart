@@ -16,14 +16,17 @@ abstract class AbstractAddRemoveElementEvent
 class AddElementEvent
     with _$AddElementEvent
     implements AbstractAddRemoveElementEvent {
-  const factory AddElementEvent(
-      {required AbstractFlowElement elementToManipulate}) = _AddElementEvent;
+  /// Add new flow element to canvas
+  const factory AddElementEvent({
+    required AbstractFlowElement elementToManipulate,
+  }) = _AddElementEvent;
 }
 
 @freezed
 class RemoveElementEvent
     with _$RemoveElementEvent
     implements AbstractAddRemoveElementEvent {
+  /// Remove new flow element to canvas
   const factory RemoveElementEvent(
       {required AbstractFlowElement elementToManipulate}) = _RemoveElementEvent;
 }
@@ -32,6 +35,7 @@ class RemoveElementEvent
 class MoveElementEvent
     with _$MoveElementEvent
     implements AbstractAddRemoveElementEvent {
+  /// Call it when element move on the canvas
   const factory MoveElementEvent(
       {required AbstractFlowElement elementToManipulate}) = _MoveElementEvent;
 }
@@ -40,6 +44,7 @@ class MoveElementEvent
 class AddStartingPointToAnchorElementEvent
     with _$AddStartingPointToAnchorElementEvent
     implements AbstractAddRemoveElementEvent {
+  /// Add an arrow starting point to a specific flow element anchor
   const factory AddStartingPointToAnchorElementEvent({
     required AbstractFlowElement elementToManipulate,
     required ArrowModel arrowModelLinkedToElement,
@@ -50,6 +55,7 @@ class AddStartingPointToAnchorElementEvent
 class AddEndingPointToAnchorElementEvent
     with _$AddEndingPointToAnchorElementEvent
     implements AbstractAddRemoveElementEvent {
+  /// Add an arrow ending point to a specific flow element anchor
   const factory AddEndingPointToAnchorElementEvent({
     required AbstractFlowElement elementToManipulate,
     required ArrowModel arrowModelLinkedToElement,

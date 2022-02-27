@@ -25,6 +25,7 @@ class _SideMenuState extends State<SideMenu> {
           child: DragTarget<AbstractFlowElement>(
             onWillAccept: (data) => data != null,
             onAccept: (data) {
+              // TODO delete arrows starting from anchor points of this element
               context
                   .read<AddRemoveElementBloc>()
                   .add(RemoveElementEvent(elementToManipulate: data));

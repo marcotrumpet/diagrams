@@ -46,46 +46,20 @@ class _MainCanvasState extends State<MainCanvas> {
                   foregroundPainter: GridCustomPainter(
                     context: context,
                     flowElementsList:
-                        context.read<AddRemoveElementBloc>().elementsList,
+                        context.watch<AddRemoveElementBloc>().elementsList,
                     addRemoveElementBloc: context.read<AddRemoveElementBloc>(),
                   ),
                   child: DragTarget<AbstractFlowElement>(
-                    // onWillAccept: (data) {
-                    //   if (context
-                    //       .read<AddRemoveElementBloc>()
-                    //       .elementsList
-                    //       .contains(data)) {
-                    //     context.read<AddRemoveElementBloc>().add(
-                    //         RemoveElementEvent(elementToManipulate: data!));
-                    //   }
-                    //   return true;
-                    // },
-                    // onMove: (details) {
-                    //   final newOffset = calcNewOffset(details, _gridKey);
-                    //   handleFlowElements(
-                    //     details: details,
-                    //     context: context,
-                    //     offset: newOffset,
-                    //     drawNewElement: false,
-                    //   );
-                    // },
+                    // TODO details.data has old data (without endPoint details)
                     onAcceptWithDetails: (details) {
                       final newOffset = calcNewOffset(details, _gridKey);
-                      if (context
-                          .read<AddRemoveElementBloc>()
-                          .elementsList
-                          .contains(details.data)) {
-                        handleFlowElements(
-                            details: details,
-                            context: context,
-                            offset: newOffset,
-                            drawNewElement: false);
-                      } else {
-                        handleFlowElements(
-                            details: details,
-                            context: context,
-                            offset: newOffset);
-                      }
+                      handleFlowElements(
+                        details: details,
+                        context: context,
+                        offset: newOffset,
+                        drawNewElement: !isElementInList(
+                            context: context, element: details.data),
+                      );
                     },
                     builder: (context, candidateData, rejectedData) {
                       return const SizedBox.shrink();

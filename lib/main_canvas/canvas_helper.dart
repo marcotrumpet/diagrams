@@ -10,6 +10,7 @@ import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_
 import 'package:diagrams/flow_elements/triangle/triangle_flow_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 Offset calcNewOffset(
     DragTargetDetails<AbstractFlowElement> details, GlobalKey gridKey) {
@@ -26,11 +27,27 @@ Offset calcNewOffset(
   return newOffset;
 }
 
-void handleFlowElements(
-    {required DragTargetDetails<AbstractFlowElement> details,
-    required BuildContext context,
-    required Offset offset,
-    bool drawNewElement = true}) {
+/// Check if flow element is already in list checking his element key
+bool isElementInList({
+  required BuildContext context,
+  required AbstractFlowElement element,
+}) {
+  var founded = context
+          .read<AddRemoveElementBloc>()
+          .elementsList
+          .firstWhereOrNull((e) => e.elementKey == element.elementKey) !=
+      null;
+  return founded;
+}
+
+/// [drawNewElement] set to 'false' mean that the flow element moved so no need
+/// to draw another one
+void handleFlowElements({
+  required DragTargetDetails<AbstractFlowElement> details,
+  required BuildContext context,
+  required Offset offset,
+  bool drawNewElement = true,
+}) {
   AbstractFlowElement elementToManipulate;
   switch (details.data.flowType) {
     case FlowElementTypes.rectangle:
@@ -81,17 +98,14 @@ void handleFlowElements(
   }
   if (drawNewElement) {
     context.read<AddRemoveElementBloc>().add(
-          AddElementEvent(
-            elementToManipulate: elementToManipulate,
-          ),
+          AddElementEvent(elementToManipulate: elementToManipulate),
         );
   } else {
-    context
-        .read<AddRemoveElementBloc>()
-        .add(MoveElementEvent(elementToManipulate: elementToManipulate));
+    context.read<AddRemoveElementBloc>().add(
+          MoveElementEvent(elementToManipulate: elementToManipulate),
+        );
+    context.read<DrawArrowsBloc>().add(
+          MovedFlowElementUpdateArrowsEvent(element: elementToManipulate),
+        );
   }
-
-  context.read<DrawArrowsBloc>().add(
-        MovedFlowElementUpdateArrowsEvent(element: elementToManipulate),
-      );
 }

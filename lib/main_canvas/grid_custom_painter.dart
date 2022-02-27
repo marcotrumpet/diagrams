@@ -96,6 +96,7 @@ class GridCustomPainter extends CustomPainter {
               element.anchorPointPositionRelativeToParent == newPoint)
           ?.anchorPointKey;
 
+// TODO check if this is correct
       if (arrowEndPointFound != null) {
         context.read<DrawArrowsBloc>().add(
               DrawArrowsEvent(
@@ -124,8 +125,9 @@ class GridCustomPainter extends CustomPainter {
         // update flow element with anchor point matching created arrow
         addRemoveElementBloc.add(
           AddStartingPointToAnchorElementEvent(
-              elementToManipulate: elementAnchorPointFound!,
-              arrowModelLinkedToElement: newArrow),
+            elementToManipulate: elementAnchorPointFound!,
+            arrowModelLinkedToElement: newArrow,
+          ),
         );
 
         enablePanUpdate = true;
@@ -156,15 +158,23 @@ class GridCustomPainter extends CustomPainter {
           null);
 
       if (endElementAnchorPointFound != null) {
+        var anchorPointPosition = Offset.zero;
+
         var endPointKey = endElementAnchorPointFound
             .anchorPointsModelMap?.anchorPointList
-            .firstWhereOrNull((element) =>
-                element.anchorPointPositionRelativeToParent == lastDrawnPoint)
-            ?.anchorPointKey;
+            .firstWhereOrNull((element) {
+          if ((element.anchorPointPositionRelativeToParent - lastDrawnPoint)
+                  .distanceSquared <=
+              450) {
+            anchorPointPosition = element.anchorPointPositionRelativeToParent;
+            return true;
+          }
+          return false;
+        })?.anchorPointKey;
         if (endPointKey != null) {
           context.read<DrawArrowsBloc>().add(
                 DrawArrowsEvent(
-                  endPoint: lastDrawnPoint,
+                  endPoint: anchorPointPosition,
                   endPointKey: endPointKey,
                   endElement: endElementAnchorPointFound,
                   arrowKey: arrowEndPointFound?.arrowKey,
@@ -175,20 +185,14 @@ class GridCustomPainter extends CustomPainter {
           // isn't updated yet so the value is still the old one
           var _arrowModel = arrowEndPointFound ??
               context.read<DrawArrowsBloc>().arrowModelList.firstWhere(
-                  (element) =>
-                      element.arrowKey ==
-                      context.read<DrawArrowsBloc>().lastArrowDrawnKey);
+                    (element) =>
+                        element.arrowKey ==
+                        context.read<DrawArrowsBloc>().lastArrowDrawnKey,
+                  );
           _arrowModel = _arrowModel.copyWith(
             endPointKey: endPointKey,
             endElement: endElementAnchorPointFound,
             updateAStarPath: true,
-          );
-
-          addRemoveElementBloc.add(
-            AddEndingPointToAnchorElementEvent(
-              elementToManipulate: endElementAnchorPointFound,
-              arrowModelLinkedToElement: _arrowModel,
-            ),
           );
 
           // apply A* after everything
@@ -197,13 +201,19 @@ class GridCustomPainter extends CustomPainter {
                   arrowModel: _arrowModel,
                 ),
               );
+
+          addRemoveElementBloc.add(
+            AddEndingPointToAnchorElementEvent(
+              elementToManipulate: endElementAnchorPointFound,
+              arrowModelLinkedToElement: _arrowModel,
+            ),
+          );
         }
       }
 
       if (arrowEndPointFound != null) {
         arrowEndPointFound =
             arrowEndPointFound?.copyWith(updateAStarPath: true);
-        // apply A* after everything
         context.read<DrawArrowsBloc>().add(
               DrawArrowsAStarEvent(
                 arrowModel: arrowEndPointFound,
