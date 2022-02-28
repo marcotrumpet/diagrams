@@ -48,6 +48,11 @@ class ArrowCustomPainter extends CustomPainter {
         ).findThePath(),
       );
 
+      context.read<DrawArrowsBloc>().add(SavePathToArrowEvent(
+            arrowKey: arrowModel!.arrowKey,
+            arrowPath: pathToFollow,
+          ));
+
       for (var i = 0; i < pathToFollow.length - 1; i++) {
         canvas.drawLine(pathToFollow[i], pathToFollow[i + 1], pointPaint);
       }

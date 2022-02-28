@@ -16,5 +16,6 @@ class ArrowModel with _$ArrowModel {
     AbstractFlowElement? startElement,
     AbstractFlowElement? endElement,
     @Default(false) bool? updateAStarPath,
+    List<Offset>? currentArrowPath,
   }) = _ArrowModel;
 }

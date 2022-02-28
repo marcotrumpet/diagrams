@@ -57,3 +57,22 @@ class ResetArrowAStarStateEvent
   const factory ResetArrowAStarStateEvent({Key? arrowKey}) =
       _ResetArrowAStarStateEvent;
 }
+
+@freezed
+class SavePathToArrowEvent
+    with _$SavePathToArrowEvent
+    implements AbstractDrawArrowsEvent {
+  const factory SavePathToArrowEvent(
+      {required Key arrowKey,
+      required List<Offset> arrowPath}) = _SavePathToArrowEvent;
+}
+
+@freezed
+class RemoveArrowStartingFromPointEvent
+    with _$RemoveArrowStartingFromPointEvent
+    implements AbstractDrawArrowsEvent {
+  /// Remove arrow with startPoint corresponding to [arrowKeys]. Used when
+  /// user delete an [AbstractFlowElement] from grid
+  const factory RemoveArrowStartingFromPointEvent(
+      {required List<Key> arrowKeys}) = _RemoveArrowStartingFromPointEvent;
+}

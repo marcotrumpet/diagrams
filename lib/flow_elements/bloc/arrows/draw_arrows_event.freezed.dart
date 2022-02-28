@@ -994,3 +994,316 @@ abstract class _ResetArrowAStarStateEvent implements ResetArrowAStarStateEvent {
   _$ResetArrowAStarStateEventCopyWith<_ResetArrowAStarStateEvent>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+class _$SavePathToArrowEventTearOff {
+  const _$SavePathToArrowEventTearOff();
+
+  _SavePathToArrowEvent call(
+      {required Key arrowKey, required List<Offset> arrowPath}) {
+    return _SavePathToArrowEvent(
+      arrowKey: arrowKey,
+      arrowPath: arrowPath,
+    );
+  }
+}
+
+/// @nodoc
+const $SavePathToArrowEvent = _$SavePathToArrowEventTearOff();
+
+/// @nodoc
+mixin _$SavePathToArrowEvent {
+  Key get arrowKey => throw _privateConstructorUsedError;
+  List<Offset> get arrowPath => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SavePathToArrowEventCopyWith<SavePathToArrowEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SavePathToArrowEventCopyWith<$Res> {
+  factory $SavePathToArrowEventCopyWith(SavePathToArrowEvent value,
+          $Res Function(SavePathToArrowEvent) then) =
+      _$SavePathToArrowEventCopyWithImpl<$Res>;
+  $Res call({Key arrowKey, List<Offset> arrowPath});
+}
+
+/// @nodoc
+class _$SavePathToArrowEventCopyWithImpl<$Res>
+    implements $SavePathToArrowEventCopyWith<$Res> {
+  _$SavePathToArrowEventCopyWithImpl(this._value, this._then);
+
+  final SavePathToArrowEvent _value;
+  // ignore: unused_field
+  final $Res Function(SavePathToArrowEvent) _then;
+
+  @override
+  $Res call({
+    Object? arrowKey = freezed,
+    Object? arrowPath = freezed,
+  }) {
+    return _then(_value.copyWith(
+      arrowKey: arrowKey == freezed
+          ? _value.arrowKey
+          : arrowKey // ignore: cast_nullable_to_non_nullable
+              as Key,
+      arrowPath: arrowPath == freezed
+          ? _value.arrowPath
+          : arrowPath // ignore: cast_nullable_to_non_nullable
+              as List<Offset>,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$SavePathToArrowEventCopyWith<$Res>
+    implements $SavePathToArrowEventCopyWith<$Res> {
+  factory _$SavePathToArrowEventCopyWith(_SavePathToArrowEvent value,
+          $Res Function(_SavePathToArrowEvent) then) =
+      __$SavePathToArrowEventCopyWithImpl<$Res>;
+  @override
+  $Res call({Key arrowKey, List<Offset> arrowPath});
+}
+
+/// @nodoc
+class __$SavePathToArrowEventCopyWithImpl<$Res>
+    extends _$SavePathToArrowEventCopyWithImpl<$Res>
+    implements _$SavePathToArrowEventCopyWith<$Res> {
+  __$SavePathToArrowEventCopyWithImpl(
+      _SavePathToArrowEvent _value, $Res Function(_SavePathToArrowEvent) _then)
+      : super(_value, (v) => _then(v as _SavePathToArrowEvent));
+
+  @override
+  _SavePathToArrowEvent get _value => super._value as _SavePathToArrowEvent;
+
+  @override
+  $Res call({
+    Object? arrowKey = freezed,
+    Object? arrowPath = freezed,
+  }) {
+    return _then(_SavePathToArrowEvent(
+      arrowKey: arrowKey == freezed
+          ? _value.arrowKey
+          : arrowKey // ignore: cast_nullable_to_non_nullable
+              as Key,
+      arrowPath: arrowPath == freezed
+          ? _value.arrowPath
+          : arrowPath // ignore: cast_nullable_to_non_nullable
+              as List<Offset>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SavePathToArrowEvent
+    with DiagnosticableTreeMixin
+    implements _SavePathToArrowEvent {
+  const _$_SavePathToArrowEvent(
+      {required this.arrowKey, required this.arrowPath});
+
+  @override
+  final Key arrowKey;
+  @override
+  final List<Offset> arrowPath;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SavePathToArrowEvent(arrowKey: $arrowKey, arrowPath: $arrowPath)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SavePathToArrowEvent'))
+      ..add(DiagnosticsProperty('arrowKey', arrowKey))
+      ..add(DiagnosticsProperty('arrowPath', arrowPath));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SavePathToArrowEvent &&
+            const DeepCollectionEquality().equals(other.arrowKey, arrowKey) &&
+            const DeepCollectionEquality().equals(other.arrowPath, arrowPath));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(arrowKey),
+      const DeepCollectionEquality().hash(arrowPath));
+
+  @JsonKey(ignore: true)
+  @override
+  _$SavePathToArrowEventCopyWith<_SavePathToArrowEvent> get copyWith =>
+      __$SavePathToArrowEventCopyWithImpl<_SavePathToArrowEvent>(
+          this, _$identity);
+}
+
+abstract class _SavePathToArrowEvent implements SavePathToArrowEvent {
+  const factory _SavePathToArrowEvent(
+      {required Key arrowKey,
+      required List<Offset> arrowPath}) = _$_SavePathToArrowEvent;
+
+  @override
+  Key get arrowKey;
+  @override
+  List<Offset> get arrowPath;
+  @override
+  @JsonKey(ignore: true)
+  _$SavePathToArrowEventCopyWith<_SavePathToArrowEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+class _$RemoveArrowStartingFromPointEventTearOff {
+  const _$RemoveArrowStartingFromPointEventTearOff();
+
+  _RemoveArrowStartingFromPointEvent call({required List<Key> arrowKeys}) {
+    return _RemoveArrowStartingFromPointEvent(
+      arrowKeys: arrowKeys,
+    );
+  }
+}
+
+/// @nodoc
+const $RemoveArrowStartingFromPointEvent =
+    _$RemoveArrowStartingFromPointEventTearOff();
+
+/// @nodoc
+mixin _$RemoveArrowStartingFromPointEvent {
+  List<Key> get arrowKeys => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $RemoveArrowStartingFromPointEventCopyWith<RemoveArrowStartingFromPointEvent>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RemoveArrowStartingFromPointEventCopyWith<$Res> {
+  factory $RemoveArrowStartingFromPointEventCopyWith(
+          RemoveArrowStartingFromPointEvent value,
+          $Res Function(RemoveArrowStartingFromPointEvent) then) =
+      _$RemoveArrowStartingFromPointEventCopyWithImpl<$Res>;
+  $Res call({List<Key> arrowKeys});
+}
+
+/// @nodoc
+class _$RemoveArrowStartingFromPointEventCopyWithImpl<$Res>
+    implements $RemoveArrowStartingFromPointEventCopyWith<$Res> {
+  _$RemoveArrowStartingFromPointEventCopyWithImpl(this._value, this._then);
+
+  final RemoveArrowStartingFromPointEvent _value;
+  // ignore: unused_field
+  final $Res Function(RemoveArrowStartingFromPointEvent) _then;
+
+  @override
+  $Res call({
+    Object? arrowKeys = freezed,
+  }) {
+    return _then(_value.copyWith(
+      arrowKeys: arrowKeys == freezed
+          ? _value.arrowKeys
+          : arrowKeys // ignore: cast_nullable_to_non_nullable
+              as List<Key>,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$RemoveArrowStartingFromPointEventCopyWith<$Res>
+    implements $RemoveArrowStartingFromPointEventCopyWith<$Res> {
+  factory _$RemoveArrowStartingFromPointEventCopyWith(
+          _RemoveArrowStartingFromPointEvent value,
+          $Res Function(_RemoveArrowStartingFromPointEvent) then) =
+      __$RemoveArrowStartingFromPointEventCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Key> arrowKeys});
+}
+
+/// @nodoc
+class __$RemoveArrowStartingFromPointEventCopyWithImpl<$Res>
+    extends _$RemoveArrowStartingFromPointEventCopyWithImpl<$Res>
+    implements _$RemoveArrowStartingFromPointEventCopyWith<$Res> {
+  __$RemoveArrowStartingFromPointEventCopyWithImpl(
+      _RemoveArrowStartingFromPointEvent _value,
+      $Res Function(_RemoveArrowStartingFromPointEvent) _then)
+      : super(_value, (v) => _then(v as _RemoveArrowStartingFromPointEvent));
+
+  @override
+  _RemoveArrowStartingFromPointEvent get _value =>
+      super._value as _RemoveArrowStartingFromPointEvent;
+
+  @override
+  $Res call({
+    Object? arrowKeys = freezed,
+  }) {
+    return _then(_RemoveArrowStartingFromPointEvent(
+      arrowKeys: arrowKeys == freezed
+          ? _value.arrowKeys
+          : arrowKeys // ignore: cast_nullable_to_non_nullable
+              as List<Key>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RemoveArrowStartingFromPointEvent
+    with DiagnosticableTreeMixin
+    implements _RemoveArrowStartingFromPointEvent {
+  const _$_RemoveArrowStartingFromPointEvent({required this.arrowKeys});
+
+  @override
+  final List<Key> arrowKeys;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RemoveArrowStartingFromPointEvent(arrowKeys: $arrowKeys)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'RemoveArrowStartingFromPointEvent'))
+      ..add(DiagnosticsProperty('arrowKeys', arrowKeys));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _RemoveArrowStartingFromPointEvent &&
+            const DeepCollectionEquality().equals(other.arrowKeys, arrowKeys));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(arrowKeys));
+
+  @JsonKey(ignore: true)
+  @override
+  _$RemoveArrowStartingFromPointEventCopyWith<
+          _RemoveArrowStartingFromPointEvent>
+      get copyWith => __$RemoveArrowStartingFromPointEventCopyWithImpl<
+          _RemoveArrowStartingFromPointEvent>(this, _$identity);
+}
+
+abstract class _RemoveArrowStartingFromPointEvent
+    implements RemoveArrowStartingFromPointEvent {
+  const factory _RemoveArrowStartingFromPointEvent(
+      {required List<Key> arrowKeys}) = _$_RemoveArrowStartingFromPointEvent;
+
+  @override
+  List<Key> get arrowKeys;
+  @override
+  @JsonKey(ignore: true)
+  _$RemoveArrowStartingFromPointEventCopyWith<
+          _RemoveArrowStartingFromPointEvent>
+      get copyWith => throw _privateConstructorUsedError;
+}

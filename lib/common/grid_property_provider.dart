@@ -22,7 +22,8 @@ class GridPropertyProvider {
         .toList();
   }
 
-  void updateGridBarriers(AbstractFlowElement abstractFlowElement) {
+  void updateGridBarriers(AbstractFlowElement abstractFlowElement,
+      {List<Offset>? endPointToExclude}) {
     barriers.removeWhere((element) =>
         element.abstractElementKey == abstractFlowElement.elementKey);
 
@@ -30,18 +31,16 @@ class GridPropertyProvider {
 
     for (var el in abstractFlowElement.path.computeMetrics()) {
       for (var tangentLength
-          in List.generate((el.length.toInt()), (index) => index + 1)) {
+          in List.generate((el.length.toInt()), (index) => index)) {
         var pos = el.getTangentForOffset(tangentLength.toDouble())?.position ??
             Offset.zero;
-        if (abstractFlowElement.anchorPointsModelMap?.anchorPointList.any(
-                (element) => (element.anchorPointPositionRelativeToParent ==
-                    (pos + abstractFlowElement.offset!))) ??
-            false) {
-          debugPrint(
-              'anchorPoint contains this position, so exclude it from barriers because it\'s a possible arrival point.');
-        } else {
-          pointsOfAbstractElement.add(pos + abstractFlowElement.offset!);
-        }
+        pointsOfAbstractElement.add(pos + abstractFlowElement.offset!);
+      }
+    }
+
+    if (endPointToExclude != null && endPointToExclude.isNotEmpty) {
+      for (var point in endPointToExclude) {
+        pointsOfAbstractElement.remove(point);
       }
     }
 

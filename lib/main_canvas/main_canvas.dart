@@ -69,15 +69,24 @@ class _MainCanvasState extends State<MainCanvas> {
             ),
             BlocConsumer<DrawArrowsBloc, DrawArrowsState>(
               listener: (context, state) {
-                var idx = _arrowModelList.indexWhere((element) =>
-                    element.arrowKey == state.arrowModel!.arrowKey);
+                state.maybeWhen(
+                  (arrowModel) {
+                    var idx = _arrowModelList.indexWhere(
+                        (element) => element.arrowKey == arrowModel!.arrowKey);
 
-                if (idx == -1) {
-                  _arrowModelList.add(state.arrowModel!);
-                } else {
-                  _arrowModelList.removeAt(idx);
-                  _arrowModelList.insert(idx, state.arrowModel!);
-                }
+                    if (idx == -1) {
+                      _arrowModelList.add(arrowModel!);
+                    } else {
+                      _arrowModelList.removeAt(idx);
+                      _arrowModelList.insert(idx, arrowModel!);
+                    }
+                  },
+                  remove: (arrowKey) {
+                    _arrowModelList
+                        .removeWhere((element) => element.arrowKey == arrowKey);
+                  },
+                  orElse: () => null,
+                );
               },
               builder: (context, state) {
                 return Stack(

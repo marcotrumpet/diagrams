@@ -25,9 +25,6 @@ class RoundedRectangleFlowElement extends AbstractFlowElement {
       child: buildChild(context, false),
       feedback: buildChild(context, false),
       childWhenDragging: const SizedBox.shrink(),
-      // onDragEnd: (details) {
-      // TODO check if we can update A* path here
-      // },
     );
   }
 

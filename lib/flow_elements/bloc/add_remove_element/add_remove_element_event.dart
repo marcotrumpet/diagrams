@@ -56,6 +56,7 @@ class AddEndingPointToAnchorElementEvent
     with _$AddEndingPointToAnchorElementEvent
     implements AbstractAddRemoveElementEvent {
   /// Add an arrow ending point to a specific flow element anchor
+  /// In the same time exclude endpoint from barriers to let arrow land there
   const factory AddEndingPointToAnchorElementEvent({
     required AbstractFlowElement elementToManipulate,
     required ArrowModel arrowModelLinkedToElement,

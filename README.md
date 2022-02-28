@@ -10,5 +10,5 @@ In this way I can explore and learn new stuff.
 [x] have a set of basic shapes <br />
 [x] draw arrows to link shapes <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(after many iteration I tryed to adapt [this](https://github.com/RafaelBarbosatec/a_star) A* algorithm to my needs) <br />
-[] have the possibility to change arrow path
+[] change arrow path
 [] many, many, more

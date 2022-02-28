@@ -4,11 +4,12 @@ import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
   // ignore: unused_field
   var _startPoint = Offset.zero;
-  var _arrowModelList = <ArrowModel>[];
+  var _arrowModelList = <ArrowModel>{};
   var _arrowKey = const Key('');
 
   DrawArrowsBloc(DrawArrowsState initialState) : super(initialState) {
@@ -39,18 +40,13 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
               return e;
             }
             return e;
-          }).toList();
+          }).toSet();
         }
       },
     );
 
     on<DrawArrowsAStarEvent>(
       (event, emit) {
-        // TODO double check this. Not sure why need this to provide a clean A* path
-        // GetIt.I<GridPropertyProvider>().createGrid();
-        // GetIt.I<GridPropertyProvider>().addNeighbors();
-        //
-
         emit(
           DrawArrowsState(
             arrowModel: event.arrowModel,
@@ -65,18 +61,16 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
           return e.copyWith(updateAStarPath: false);
         }
         return e;
-      }).toList();
+      }).toSet();
     });
 
     ArrowModel? findStartArrow(ArrowModel arrow, AnchorPointModel anchorPoint) {
-      var arrowIndex = _arrowModelList.indexWhere(
+      var _tmpArrow = _arrowModelList.firstWhereOrNull(
         (element) =>
             element.startElement?.elementKey == arrow.startElement?.elementKey,
       );
 
-      if (arrowIndex != -1) {
-        var _tmpArrow = _arrowModelList.elementAt(arrowIndex);
-
+      if (_tmpArrow != null) {
         var _newStartPoint = anchorPoint.anchorPointPositionRelativeToParent;
 
         var _updatedTmpArrow = _tmpArrow.copyWith(
@@ -84,7 +78,7 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
           updateAStarPath: true,
         );
 
-        _arrowModelList.removeAt(arrowIndex);
+        _arrowModelList.remove(_tmpArrow);
         _arrowModelList.add(_updatedTmpArrow);
 
         return _updatedTmpArrow;
@@ -94,14 +88,12 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
     }
 
     ArrowModel? findEndArrow(ArrowModel arrow, AnchorPointModel anchorPoint) {
-      var arrowIndex = _arrowModelList.indexWhere(
+      var _tmpArrow = _arrowModelList.firstWhereOrNull(
         (element) =>
             element.endElement?.elementKey == arrow.endElement?.elementKey,
       );
 
-      if (arrowIndex != -1) {
-        var _tmpArrow = _arrowModelList.elementAt(arrowIndex);
-
+      if (_tmpArrow != null) {
         var _newEndPoint = anchorPoint.anchorPointPositionRelativeToParent;
 
         var _updatedTmpArrow = _tmpArrow.copyWith(
@@ -109,7 +101,7 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
           updateAStarPath: true,
         );
 
-        _arrowModelList.removeAt(arrowIndex);
+        _arrowModelList.remove(_tmpArrow);
         _arrowModelList.add(_updatedTmpArrow);
 
         return _updatedTmpArrow;
@@ -148,9 +140,32 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
         }
       }
     });
+
+    on<SavePathToArrowEvent>((event, emit) {
+      var arrow = _arrowModelList.firstWhereOrNull(
+        (element) => element.arrowKey == event.arrowKey,
+      );
+      if (arrow == null) return;
+
+      arrow = arrow.copyWith(currentArrowPath: event.arrowPath);
+
+      _arrowModelList.remove(arrow);
+      _arrowModelList.add(arrow);
+    });
+
+    on<RemoveArrowStartingFromPointEvent>((event, emit) {
+      for (var arrowKey in event.arrowKeys) {
+        _arrowModelList.removeWhere((element) => element.arrowKey == arrowKey);
+        emit(
+          DrawArrowsState.remove(
+            arrowKey: arrowKey,
+          ),
+        );
+      }
+    });
   }
 
-  List<ArrowModel> get arrowModelList => _arrowModelList;
+  Set<ArrowModel> get arrowModelList => _arrowModelList;
 
   Key get lastArrowDrawnKey => _arrowKey;
 }

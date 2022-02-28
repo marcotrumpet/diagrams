@@ -1,6 +1,8 @@
 import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
@@ -87,8 +89,10 @@ class AddRemoveElementBloc
           .removeWhere((el) => el.elementKey == elementUpdated.elementKey);
       elementsList.add(elementUpdated);
 
-      GetIt.I<GridPropertyProvider>()
-          .updateGridBarriers(event.elementToManipulate);
+      GetIt.I<GridPropertyProvider>().updateGridBarriers(
+        event.elementToManipulate,
+        endPointToExclude: [event.arrowModelLinkedToElement.endPoint],
+      );
 
       final List<AbstractFlowElement> newList = [...elementsList];
 
@@ -119,8 +123,19 @@ class AddRemoveElementBloc
           element.elementKey == event.elementToManipulate.elementKey);
       elementsList.add(event.elementToManipulate);
       final List<AbstractFlowElement> newList = [...elementsList];
-      GetIt.I<GridPropertyProvider>()
-          .updateGridBarriers(event.elementToManipulate);
+
+      var pointsToExclude = <Offset>[];
+      for (AnchorPointModel item
+          in event.elementToManipulate.anchorPointsModelMap?.anchorPointList ??
+              []) {
+        if (item.arrowModelEnd?.isNotEmpty ?? false) {
+          pointsToExclude.add(item.anchorPointPositionRelativeToParent);
+        }
+      }
+      GetIt.I<GridPropertyProvider>().updateGridBarriers(
+        event.elementToManipulate,
+        endPointToExclude: pointsToExclude,
+      );
       emit(newList);
     });
   }

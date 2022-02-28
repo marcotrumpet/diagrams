@@ -96,7 +96,7 @@ class GridCustomPainter extends CustomPainter {
               element.anchorPointPositionRelativeToParent == newPoint)
           ?.anchorPointKey;
 
-// TODO check if this is correct
+      // TODO check if this is correct
       if (arrowEndPointFound != null) {
         context.read<DrawArrowsBloc>().add(
               DrawArrowsEvent(
@@ -195,19 +195,19 @@ class GridCustomPainter extends CustomPainter {
             updateAStarPath: true,
           );
 
-          // apply A* after everything
-          context.read<DrawArrowsBloc>().add(
-                DrawArrowsAStarEvent(
-                  arrowModel: _arrowModel,
-                ),
-              );
-
           addRemoveElementBloc.add(
             AddEndingPointToAnchorElementEvent(
               elementToManipulate: endElementAnchorPointFound,
               arrowModelLinkedToElement: _arrowModel,
             ),
           );
+
+          // apply A* after everything
+          context.read<DrawArrowsBloc>().add(
+                DrawArrowsAStarEvent(
+                  arrowModel: _arrowModel,
+                ),
+              );
         }
       }
 
