@@ -138,5 +138,48 @@ class AddRemoveElementBloc
       );
       emit(newList);
     });
+
+    on<RefreshLinkedArrowInsideElements>((event, emit) {
+      elementsList = elementsList.map(
+        (element) {
+          var _anchors = <AnchorPointModel>[];
+          for (AnchorPointModel anchor
+              in element.anchorPointsModelMap?.anchorPointList ?? []) {
+            _anchors.add(
+              anchor.copyWith(
+                arrowModelEnd: anchor.arrowModelEnd?.map(
+                  (el) {
+                    if (el.arrowKey == event.arrowModel.arrowKey) {
+                      return event.arrowModel;
+                    }
+                    return el;
+                  },
+                ).toList(),
+                arrowModelStart: anchor.arrowModelStart?.map(
+                  (el) {
+                    if (el.arrowKey == event.arrowModel.arrowKey) {
+                      return event.arrowModel;
+                    }
+                    return el;
+                  },
+                ).toList(),
+              ),
+            );
+          }
+          element = element.copyWith(
+            anchorPointsModelMap: element.anchorPointsModelMap
+                ?.copyWith(anchorPointList: _anchors),
+          );
+
+          return element;
+          // elementsList.removeWhere((el) => el.elementKey == element.elementKey);
+          // elementsList.add(element);
+        },
+      ).toList();
+
+      final List<AbstractFlowElement> newList = [...elementsList];
+
+      emit(newList);
+    });
   }
 }

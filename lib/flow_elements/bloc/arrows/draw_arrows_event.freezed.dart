@@ -1307,3 +1307,156 @@ abstract class _RemoveArrowStartingFromPointEvent
           _RemoveArrowStartingFromPointEvent>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+class _$UpdateArrowModelEventTearOff {
+  const _$UpdateArrowModelEventTearOff();
+
+  _UpdateArrowModelEvent call({required ArrowModel model}) {
+    return _UpdateArrowModelEvent(
+      model: model,
+    );
+  }
+}
+
+/// @nodoc
+const $UpdateArrowModelEvent = _$UpdateArrowModelEventTearOff();
+
+/// @nodoc
+mixin _$UpdateArrowModelEvent {
+  ArrowModel get model => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $UpdateArrowModelEventCopyWith<UpdateArrowModelEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UpdateArrowModelEventCopyWith<$Res> {
+  factory $UpdateArrowModelEventCopyWith(UpdateArrowModelEvent value,
+          $Res Function(UpdateArrowModelEvent) then) =
+      _$UpdateArrowModelEventCopyWithImpl<$Res>;
+  $Res call({ArrowModel model});
+
+  $ArrowModelCopyWith<$Res> get model;
+}
+
+/// @nodoc
+class _$UpdateArrowModelEventCopyWithImpl<$Res>
+    implements $UpdateArrowModelEventCopyWith<$Res> {
+  _$UpdateArrowModelEventCopyWithImpl(this._value, this._then);
+
+  final UpdateArrowModelEvent _value;
+  // ignore: unused_field
+  final $Res Function(UpdateArrowModelEvent) _then;
+
+  @override
+  $Res call({
+    Object? model = freezed,
+  }) {
+    return _then(_value.copyWith(
+      model: model == freezed
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as ArrowModel,
+    ));
+  }
+
+  @override
+  $ArrowModelCopyWith<$Res> get model {
+    return $ArrowModelCopyWith<$Res>(_value.model, (value) {
+      return _then(_value.copyWith(model: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$UpdateArrowModelEventCopyWith<$Res>
+    implements $UpdateArrowModelEventCopyWith<$Res> {
+  factory _$UpdateArrowModelEventCopyWith(_UpdateArrowModelEvent value,
+          $Res Function(_UpdateArrowModelEvent) then) =
+      __$UpdateArrowModelEventCopyWithImpl<$Res>;
+  @override
+  $Res call({ArrowModel model});
+
+  @override
+  $ArrowModelCopyWith<$Res> get model;
+}
+
+/// @nodoc
+class __$UpdateArrowModelEventCopyWithImpl<$Res>
+    extends _$UpdateArrowModelEventCopyWithImpl<$Res>
+    implements _$UpdateArrowModelEventCopyWith<$Res> {
+  __$UpdateArrowModelEventCopyWithImpl(_UpdateArrowModelEvent _value,
+      $Res Function(_UpdateArrowModelEvent) _then)
+      : super(_value, (v) => _then(v as _UpdateArrowModelEvent));
+
+  @override
+  _UpdateArrowModelEvent get _value => super._value as _UpdateArrowModelEvent;
+
+  @override
+  $Res call({
+    Object? model = freezed,
+  }) {
+    return _then(_UpdateArrowModelEvent(
+      model: model == freezed
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as ArrowModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_UpdateArrowModelEvent
+    with DiagnosticableTreeMixin
+    implements _UpdateArrowModelEvent {
+  const _$_UpdateArrowModelEvent({required this.model});
+
+  @override
+  final ArrowModel model;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UpdateArrowModelEvent(model: $model)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UpdateArrowModelEvent'))
+      ..add(DiagnosticsProperty('model', model));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _UpdateArrowModelEvent &&
+            const DeepCollectionEquality().equals(other.model, model));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(model));
+
+  @JsonKey(ignore: true)
+  @override
+  _$UpdateArrowModelEventCopyWith<_UpdateArrowModelEvent> get copyWith =>
+      __$UpdateArrowModelEventCopyWithImpl<_UpdateArrowModelEvent>(
+          this, _$identity);
+}
+
+abstract class _UpdateArrowModelEvent implements UpdateArrowModelEvent {
+  const factory _UpdateArrowModelEvent({required ArrowModel model}) =
+      _$_UpdateArrowModelEvent;
+
+  @override
+  ArrowModel get model;
+  @override
+  @JsonKey(ignore: true)
+  _$UpdateArrowModelEventCopyWith<_UpdateArrowModelEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}

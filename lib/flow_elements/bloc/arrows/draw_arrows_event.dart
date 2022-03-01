@@ -76,3 +76,13 @@ class RemoveArrowStartingFromPointEvent
   const factory RemoveArrowStartingFromPointEvent(
       {required List<Key> arrowKeys}) = _RemoveArrowStartingFromPointEvent;
 }
+
+@freezed
+class UpdateArrowModelEvent
+    with _$UpdateArrowModelEvent
+    implements AbstractDrawArrowsEvent {
+  /// Update arrow model when flow element moved
+  const factory UpdateArrowModelEvent({
+    required ArrowModel model,
+  }) = _UpdateArrowModelEvent;
+}

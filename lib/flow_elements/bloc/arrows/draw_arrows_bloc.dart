@@ -78,7 +78,8 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
           updateAStarPath: true,
         );
 
-        _arrowModelList.remove(_tmpArrow);
+        _arrowModelList
+            .removeWhere((element) => element.arrowKey == _tmpArrow.arrowKey);
         _arrowModelList.add(_updatedTmpArrow);
 
         return _updatedTmpArrow;
@@ -101,7 +102,8 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
           updateAStarPath: true,
         );
 
-        _arrowModelList.remove(_tmpArrow);
+        _arrowModelList
+            .removeWhere((element) => element.arrowKey == _tmpArrow.arrowKey);
         _arrowModelList.add(_updatedTmpArrow);
 
         return _updatedTmpArrow;
@@ -149,7 +151,8 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
 
       arrow = arrow.copyWith(currentArrowPath: event.arrowPath);
 
-      _arrowModelList.remove(arrow);
+      _arrowModelList
+          .removeWhere((element) => element.arrowKey == arrow!.arrowKey);
       _arrowModelList.add(arrow);
     });
 
@@ -162,6 +165,23 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
           ),
         );
       }
+    });
+
+    on<UpdateArrowModelEvent>((event, emit) {
+      var _arrow = _arrowModelList.firstWhereOrNull(
+          (element) => element.arrowKey == event.model.arrowKey);
+
+      if (_arrow == null) return;
+
+      var newArrow = _arrow.copyWith(
+        startPoint: event.model.startPoint,
+        endPoint: event.model.endPoint,
+      );
+
+      _arrowModelList
+          .removeWhere((element) => element.arrowKey == _arrow.arrowKey);
+      _arrowModelList.add(newArrow);
+      debugPrint('done');
     });
   }
 

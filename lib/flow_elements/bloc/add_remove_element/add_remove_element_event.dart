@@ -62,3 +62,13 @@ class AddEndingPointToAnchorElementEvent
     required ArrowModel arrowModelLinkedToElement,
   }) = _AddEndingPointToAnchorElementEvent;
 }
+
+@freezed
+class RefreshLinkedArrowInsideElements
+    with _$RefreshLinkedArrowInsideElements
+    implements AbstractAddRemoveElementEvent {
+  /// The refreshed arrow model needs to be updated inside anchorPoints to be consistent
+  const factory RefreshLinkedArrowInsideElements({
+    required ArrowModel arrowModel,
+  }) = _RefreshLinkedArrowInsideElements;
+}

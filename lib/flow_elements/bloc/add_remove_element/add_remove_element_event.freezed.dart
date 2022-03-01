@@ -925,3 +925,163 @@ abstract class _AddEndingPointToAnchorElementEvent
           _AddEndingPointToAnchorElementEvent>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+class _$RefreshLinkedArrowInsideElementsTearOff {
+  const _$RefreshLinkedArrowInsideElementsTearOff();
+
+  _RefreshLinkedArrowInsideElements call({required ArrowModel arrowModel}) {
+    return _RefreshLinkedArrowInsideElements(
+      arrowModel: arrowModel,
+    );
+  }
+}
+
+/// @nodoc
+const $RefreshLinkedArrowInsideElements =
+    _$RefreshLinkedArrowInsideElementsTearOff();
+
+/// @nodoc
+mixin _$RefreshLinkedArrowInsideElements {
+  ArrowModel get arrowModel => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $RefreshLinkedArrowInsideElementsCopyWith<RefreshLinkedArrowInsideElements>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RefreshLinkedArrowInsideElementsCopyWith<$Res> {
+  factory $RefreshLinkedArrowInsideElementsCopyWith(
+          RefreshLinkedArrowInsideElements value,
+          $Res Function(RefreshLinkedArrowInsideElements) then) =
+      _$RefreshLinkedArrowInsideElementsCopyWithImpl<$Res>;
+  $Res call({ArrowModel arrowModel});
+
+  $ArrowModelCopyWith<$Res> get arrowModel;
+}
+
+/// @nodoc
+class _$RefreshLinkedArrowInsideElementsCopyWithImpl<$Res>
+    implements $RefreshLinkedArrowInsideElementsCopyWith<$Res> {
+  _$RefreshLinkedArrowInsideElementsCopyWithImpl(this._value, this._then);
+
+  final RefreshLinkedArrowInsideElements _value;
+  // ignore: unused_field
+  final $Res Function(RefreshLinkedArrowInsideElements) _then;
+
+  @override
+  $Res call({
+    Object? arrowModel = freezed,
+  }) {
+    return _then(_value.copyWith(
+      arrowModel: arrowModel == freezed
+          ? _value.arrowModel
+          : arrowModel // ignore: cast_nullable_to_non_nullable
+              as ArrowModel,
+    ));
+  }
+
+  @override
+  $ArrowModelCopyWith<$Res> get arrowModel {
+    return $ArrowModelCopyWith<$Res>(_value.arrowModel, (value) {
+      return _then(_value.copyWith(arrowModel: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$RefreshLinkedArrowInsideElementsCopyWith<$Res>
+    implements $RefreshLinkedArrowInsideElementsCopyWith<$Res> {
+  factory _$RefreshLinkedArrowInsideElementsCopyWith(
+          _RefreshLinkedArrowInsideElements value,
+          $Res Function(_RefreshLinkedArrowInsideElements) then) =
+      __$RefreshLinkedArrowInsideElementsCopyWithImpl<$Res>;
+  @override
+  $Res call({ArrowModel arrowModel});
+
+  @override
+  $ArrowModelCopyWith<$Res> get arrowModel;
+}
+
+/// @nodoc
+class __$RefreshLinkedArrowInsideElementsCopyWithImpl<$Res>
+    extends _$RefreshLinkedArrowInsideElementsCopyWithImpl<$Res>
+    implements _$RefreshLinkedArrowInsideElementsCopyWith<$Res> {
+  __$RefreshLinkedArrowInsideElementsCopyWithImpl(
+      _RefreshLinkedArrowInsideElements _value,
+      $Res Function(_RefreshLinkedArrowInsideElements) _then)
+      : super(_value, (v) => _then(v as _RefreshLinkedArrowInsideElements));
+
+  @override
+  _RefreshLinkedArrowInsideElements get _value =>
+      super._value as _RefreshLinkedArrowInsideElements;
+
+  @override
+  $Res call({
+    Object? arrowModel = freezed,
+  }) {
+    return _then(_RefreshLinkedArrowInsideElements(
+      arrowModel: arrowModel == freezed
+          ? _value.arrowModel
+          : arrowModel // ignore: cast_nullable_to_non_nullable
+              as ArrowModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RefreshLinkedArrowInsideElements
+    with DiagnosticableTreeMixin
+    implements _RefreshLinkedArrowInsideElements {
+  const _$_RefreshLinkedArrowInsideElements({required this.arrowModel});
+
+  @override
+  final ArrowModel arrowModel;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RefreshLinkedArrowInsideElements(arrowModel: $arrowModel)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'RefreshLinkedArrowInsideElements'))
+      ..add(DiagnosticsProperty('arrowModel', arrowModel));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _RefreshLinkedArrowInsideElements &&
+            const DeepCollectionEquality()
+                .equals(other.arrowModel, arrowModel));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(arrowModel));
+
+  @JsonKey(ignore: true)
+  @override
+  _$RefreshLinkedArrowInsideElementsCopyWith<_RefreshLinkedArrowInsideElements>
+      get copyWith => __$RefreshLinkedArrowInsideElementsCopyWithImpl<
+          _RefreshLinkedArrowInsideElements>(this, _$identity);
+}
+
+abstract class _RefreshLinkedArrowInsideElements
+    implements RefreshLinkedArrowInsideElements {
+  const factory _RefreshLinkedArrowInsideElements(
+      {required ArrowModel arrowModel}) = _$_RefreshLinkedArrowInsideElements;
+
+  @override
+  ArrowModel get arrowModel;
+  @override
+  @JsonKey(ignore: true)
+  _$RefreshLinkedArrowInsideElementsCopyWith<_RefreshLinkedArrowInsideElements>
+      get copyWith => throw _privateConstructorUsedError;
+}

@@ -184,11 +184,14 @@ class GridCustomPainter extends CustomPainter {
           // need this to update also here endPointKey value. Previous bloc call to DrawArrowsEvent
           // isn't updated yet so the value is still the old one
           var _arrowModel = arrowEndPointFound ??
-              context.read<DrawArrowsBloc>().arrowModelList.firstWhere(
+              context.read<DrawArrowsBloc>().arrowModelList.firstWhereOrNull(
                     (element) =>
                         element.arrowKey ==
                         context.read<DrawArrowsBloc>().lastArrowDrawnKey,
                   );
+
+          if (_arrowModel == null) return;
+
           _arrowModel = _arrowModel.copyWith(
             endPointKey: endPointKey,
             endElement: endElementAnchorPointFound,

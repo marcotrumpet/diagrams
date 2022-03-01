@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
@@ -48,10 +50,12 @@ class ArrowCustomPainter extends CustomPainter {
         ).findThePath(),
       );
 
-      context.read<DrawArrowsBloc>().add(SavePathToArrowEvent(
-            arrowKey: arrowModel!.arrowKey,
-            arrowPath: pathToFollow,
-          ));
+      context.read<DrawArrowsBloc>().add(
+            SavePathToArrowEvent(
+              arrowKey: arrowModel!.arrowKey,
+              arrowPath: pathToFollow,
+            ),
+          );
 
       for (var i = 0; i < pathToFollow.length - 1; i++) {
         canvas.drawLine(pathToFollow[i], pathToFollow[i + 1], pointPaint);
@@ -104,6 +108,14 @@ class ArrowCustomPainter extends CustomPainter {
 
       // draw pointy arrow
       canvas.drawPath(arrowPointPath, pointPaint);
+
+      // Update arrowModel inside linked anchorPoints
+      context.read<DrawArrowsBloc>().add(
+            UpdateArrowModelEvent(model: arrowModel!),
+          );
+      context.read<AddRemoveElementBloc>().add(
+            RefreshLinkedArrowInsideElements(arrowModel: arrowModel!),
+          );
     } else {
       var path = Path()
         ..moveTo(arrowModel!.startPoint.dx, arrowModel!.startPoint.dy)
