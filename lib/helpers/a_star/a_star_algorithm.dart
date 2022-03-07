@@ -12,7 +12,7 @@ class AStarAlgorithm {
   final _waitList = <TileModel>[];
 
   late List<List<TileModel>> grid;
-  late List<Offset> barriers;
+  late List<Rect> barriers;
   late double squareSide;
 
   AStarAlgorithm({
@@ -30,9 +30,9 @@ class AStarAlgorithm {
     _doneList.clear();
     _waitList.clear();
 
-    if (barriers.contains(end)) {
-      return [];
-    }
+    // if (barriers.firstWhereOrNull((element) => element.contains(end)) != null) {
+    //   return [];
+    // }
 
     var startTile = GetIt.I<GridPropertyProvider>().findTileInGrid(start);
     var endTile = GetIt.I<GridPropertyProvider>().findTileInGrid(end);

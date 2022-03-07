@@ -19,10 +19,13 @@ class _$BarrierModelTearOff {
   const _$BarrierModelTearOff();
 
   _BarrierModel call(
-      {required Key abstractElementKey, required List<Offset> positions}) {
+      {required Key abstractElementKey,
+      required List<Offset> positions,
+      required Rect rect}) {
     return _BarrierModel(
       abstractElementKey: abstractElementKey,
       positions: positions,
+      rect: rect,
     );
   }
 }
@@ -34,6 +37,7 @@ const $BarrierModel = _$BarrierModelTearOff();
 mixin _$BarrierModel {
   Key get abstractElementKey => throw _privateConstructorUsedError;
   List<Offset> get positions => throw _privateConstructorUsedError;
+  Rect get rect => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BarrierModelCopyWith<BarrierModel> get copyWith =>
@@ -45,7 +49,7 @@ abstract class $BarrierModelCopyWith<$Res> {
   factory $BarrierModelCopyWith(
           BarrierModel value, $Res Function(BarrierModel) then) =
       _$BarrierModelCopyWithImpl<$Res>;
-  $Res call({Key abstractElementKey, List<Offset> positions});
+  $Res call({Key abstractElementKey, List<Offset> positions, Rect rect});
 }
 
 /// @nodoc
@@ -60,6 +64,7 @@ class _$BarrierModelCopyWithImpl<$Res> implements $BarrierModelCopyWith<$Res> {
   $Res call({
     Object? abstractElementKey = freezed,
     Object? positions = freezed,
+    Object? rect = freezed,
   }) {
     return _then(_value.copyWith(
       abstractElementKey: abstractElementKey == freezed
@@ -70,6 +75,10 @@ class _$BarrierModelCopyWithImpl<$Res> implements $BarrierModelCopyWith<$Res> {
           ? _value.positions
           : positions // ignore: cast_nullable_to_non_nullable
               as List<Offset>,
+      rect: rect == freezed
+          ? _value.rect
+          : rect // ignore: cast_nullable_to_non_nullable
+              as Rect,
     ));
   }
 }
@@ -81,7 +90,7 @@ abstract class _$BarrierModelCopyWith<$Res>
           _BarrierModel value, $Res Function(_BarrierModel) then) =
       __$BarrierModelCopyWithImpl<$Res>;
   @override
-  $Res call({Key abstractElementKey, List<Offset> positions});
+  $Res call({Key abstractElementKey, List<Offset> positions, Rect rect});
 }
 
 /// @nodoc
@@ -98,6 +107,7 @@ class __$BarrierModelCopyWithImpl<$Res> extends _$BarrierModelCopyWithImpl<$Res>
   $Res call({
     Object? abstractElementKey = freezed,
     Object? positions = freezed,
+    Object? rect = freezed,
   }) {
     return _then(_BarrierModel(
       abstractElementKey: abstractElementKey == freezed
@@ -108,6 +118,10 @@ class __$BarrierModelCopyWithImpl<$Res> extends _$BarrierModelCopyWithImpl<$Res>
           ? _value.positions
           : positions // ignore: cast_nullable_to_non_nullable
               as List<Offset>,
+      rect: rect == freezed
+          ? _value.rect
+          : rect // ignore: cast_nullable_to_non_nullable
+              as Rect,
     ));
   }
 }
@@ -116,16 +130,20 @@ class __$BarrierModelCopyWithImpl<$Res> extends _$BarrierModelCopyWithImpl<$Res>
 
 class _$_BarrierModel with DiagnosticableTreeMixin implements _BarrierModel {
   const _$_BarrierModel(
-      {required this.abstractElementKey, required this.positions});
+      {required this.abstractElementKey,
+      required this.positions,
+      required this.rect});
 
   @override
   final Key abstractElementKey;
   @override
   final List<Offset> positions;
+  @override
+  final Rect rect;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'BarrierModel(abstractElementKey: $abstractElementKey, positions: $positions)';
+    return 'BarrierModel(abstractElementKey: $abstractElementKey, positions: $positions, rect: $rect)';
   }
 
   @override
@@ -134,7 +152,8 @@ class _$_BarrierModel with DiagnosticableTreeMixin implements _BarrierModel {
     properties
       ..add(DiagnosticsProperty('type', 'BarrierModel'))
       ..add(DiagnosticsProperty('abstractElementKey', abstractElementKey))
-      ..add(DiagnosticsProperty('positions', positions));
+      ..add(DiagnosticsProperty('positions', positions))
+      ..add(DiagnosticsProperty('rect', rect));
   }
 
   @override
@@ -144,14 +163,16 @@ class _$_BarrierModel with DiagnosticableTreeMixin implements _BarrierModel {
             other is _BarrierModel &&
             const DeepCollectionEquality()
                 .equals(other.abstractElementKey, abstractElementKey) &&
-            const DeepCollectionEquality().equals(other.positions, positions));
+            const DeepCollectionEquality().equals(other.positions, positions) &&
+            const DeepCollectionEquality().equals(other.rect, rect));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(abstractElementKey),
-      const DeepCollectionEquality().hash(positions));
+      const DeepCollectionEquality().hash(positions),
+      const DeepCollectionEquality().hash(rect));
 
   @JsonKey(ignore: true)
   @override
@@ -162,12 +183,15 @@ class _$_BarrierModel with DiagnosticableTreeMixin implements _BarrierModel {
 abstract class _BarrierModel implements BarrierModel {
   const factory _BarrierModel(
       {required Key abstractElementKey,
-      required List<Offset> positions}) = _$_BarrierModel;
+      required List<Offset> positions,
+      required Rect rect}) = _$_BarrierModel;
 
   @override
   Key get abstractElementKey;
   @override
   List<Offset> get positions;
+  @override
+  Rect get rect;
   @override
   @JsonKey(ignore: true)
   _$BarrierModelCopyWith<_BarrierModel> get copyWith =>

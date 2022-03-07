@@ -12,6 +12,14 @@ class AddRemoveElementBloc
   List<AbstractFlowElement> elementsList = [];
   AddRemoveElementBloc(List<AbstractFlowElement> initialState)
       : super(initialState) {
+    // bool _elementHasArrows(AbstractFlowElement element) {
+    //   var anchorPoint = element.anchorPointsModelMap?.anchorPointList
+    //       .firstWhereOrNull((element) =>
+    //           (element.arrowModelEnd?.isNotEmpty ?? false) ||
+    //           (element.arrowModelStart?.isNotEmpty ?? false));
+    //   return anchorPoint != null;
+    // }
+
     on<AddStartingPointToAnchorElementEvent>((event, emit) {
       //find arrow model list for the specific anchor point
       var arrowModelStart = event
@@ -91,7 +99,7 @@ class AddRemoveElementBloc
 
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
         event.elementToManipulate,
-        endPointToExclude: [event.arrowModelLinkedToElement.endPoint],
+        endPointsToExclude: [event.arrowModelLinkedToElement.endPoint],
       );
 
       final List<AbstractFlowElement> newList = [...elementsList];
@@ -125,17 +133,23 @@ class AddRemoveElementBloc
       final List<AbstractFlowElement> newList = [...elementsList];
 
       var pointsToExclude = <Offset>[];
-      for (AnchorPointModel item
+      for (AnchorPointModel anchorPoint
           in event.elementToManipulate.anchorPointsModelMap?.anchorPointList ??
               []) {
-        if (item.arrowModelEnd?.isNotEmpty ?? false) {
-          pointsToExclude.add(item.anchorPointPositionRelativeToParent);
+        if (anchorPoint.arrowModelEnd?.isNotEmpty ?? false) {
+          pointsToExclude.add(anchorPoint.anchorPointPositionRelativeToParent);
+        }
+        if (anchorPoint.arrowModelStart?.isNotEmpty ?? false) {
+          anchorPoint.arrowModelStart?.forEach((element) {
+            pointsToExclude.add(element.endPoint);
+          });
         }
       }
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
         event.elementToManipulate,
-        endPointToExclude: pointsToExclude,
+        endPointsToExclude: pointsToExclude,
       );
+
       emit(newList);
     });
 

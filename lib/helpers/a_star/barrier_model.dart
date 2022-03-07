@@ -9,5 +9,6 @@ class BarrierModel with _$BarrierModel {
   const factory BarrierModel({
     required Key abstractElementKey,
     required List<Offset> positions,
+    required Rect rect,
   }) = _BarrierModel;
 }

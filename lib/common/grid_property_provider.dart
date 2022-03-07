@@ -2,6 +2,7 @@ import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/helpers/a_star/barrier_model.dart';
 import 'package:diagrams/helpers/a_star/tile_model.dart';
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 class GridPropertyProvider {
   final gridKey = GlobalKey();
@@ -14,47 +15,70 @@ class GridPropertyProvider {
 
   var grid = <List<TileModel>>[];
   var barriers = <BarrierModel>[];
+  var totalEndPointsToExclude = <Offset>[];
 
-  List<Offset> barrierModelToList() {
-    return barriers
-        .map((e) => e.positions)
-        .expand((element) => element)
-        .toList();
+  List<Rect> barrierModelToList() {
+    return barriers.map((e) => e.rect).toList();
   }
 
   void updateGridBarriers(AbstractFlowElement abstractFlowElement,
-      {List<Offset>? endPointToExclude}) {
+      {List<Offset>? endPointsToExclude}) {
+    if (endPointsToExclude?.isNotEmpty ?? false) {
+      totalEndPointsToExclude.clear();
+      totalEndPointsToExclude.addAll(endPointsToExclude ?? []);
+    } else {
+      totalEndPointsToExclude.addAll(endPointsToExclude ?? []);
+    }
     barriers.removeWhere((element) =>
         element.abstractElementKey == abstractFlowElement.elementKey);
 
-    var pointsOfAbstractElement = <Offset>[];
+    var newRect = abstractFlowElement.path
+        .getBounds()
+        .translate(
+            abstractFlowElement.offset!.dx, abstractFlowElement.offset!.dy)
+        .inflate(secondarySquareSide);
 
-    for (var el in abstractFlowElement.path.computeMetrics()) {
-      for (var tangentLength
-          in List.generate((el.length.toInt()), (index) => index)) {
-        var pos = el.getTangentForOffset(tangentLength.toDouble())?.position ??
-            Offset.zero;
-        pointsOfAbstractElement.add(pos + abstractFlowElement.offset!);
-      }
-    }
+    // var upd = newRect;
 
-    if (endPointToExclude != null && endPointToExclude.isNotEmpty) {
-      for (var point in endPointToExclude) {
-        pointsOfAbstractElement.remove(point);
-      }
-    }
+    // for (Offset offset in endPointsToExclude ?? []) {
+    //   var newR = Rect.fromCenter(
+    //     center: offset,
+    //     width: secondarySquareSide,
+    //     height: secondarySquareSide,
+    //   );
+
+    //   upd = upd.expandToInclude(newR);
+    // }
+
+    // var pointsOfAbstractElement = <Offset>[];
+
+    // for (var el in abstractFlowElement.path.computeMetrics()) {
+    //   for (var tangentLength
+    //       in List.generate((el.length.toInt()), (index) => index)) {
+    //     var pos = el.getTangentForOffset(tangentLength.toDouble())?.position ??
+    //         Offset.zero;
+    //     pointsOfAbstractElement.add(pos + abstractFlowElement.offset!);
+    //   }
+    // }
+
+    // if (endPointsToExclude != null && endPointsToExclude.isNotEmpty) {
+    //   for (var point in endPointsToExclude) {
+    //     pointsOfAbstractElement.remove(point);
+    //   }
+    // }
 
     var barrierModel = BarrierModel(
       abstractElementKey: abstractFlowElement.elementKey!,
-      positions: pointsOfAbstractElement,
+      positions: [], // delete it
+      rect: newRect,
     );
     barriers.add(barrierModel);
 
-    createGrid();
+    createGrid(endPointsToExclude: totalEndPointsToExclude);
     addNeighbors();
   }
 
-  void createGrid() {
+  void createGrid({List<Offset>? endPointsToExclude}) {
     grid = [];
     var gridPainted = gridKey.currentContext?.findRenderObject() as RenderBox;
     List.generate((gridPainted.size.width ~/ secondarySquareSide), (x) {
@@ -63,7 +87,13 @@ class GridPropertyProvider {
         final offset = Offset(x.toDouble() * secondarySquareSide,
             y.toDouble() * secondarySquareSide);
         bool isBarrier = barrierModelToList().where((element) {
-          return element == offset;
+          var endpointInRect = endPointsToExclude?.firstWhereOrNull((e) {
+            return element.contains(e);
+          });
+          if (endpointInRect != null) {
+            return false;
+          }
+          return element.contains(offset);
         }).isNotEmpty;
         rowList.add(
           TileModel(

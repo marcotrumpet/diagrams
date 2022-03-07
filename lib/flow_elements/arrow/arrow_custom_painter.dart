@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
@@ -14,6 +15,10 @@ class ArrowCustomPainter extends CustomPainter {
   final BuildContext context;
 
   ArrowCustomPainter({required this.arrowModel, required this.context});
+
+  Offset midPoint(Offset start, Offset end) {
+    return Offset((start.dx + end.dx) / 2, (start.dy + end.dy) / 2);
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -34,6 +39,12 @@ class ArrowCustomPainter extends CustomPainter {
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
+
+    var test = Paint()
+      ..color = Colors.red
+      ..strokeWidth = 5
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
 
     if (arrowModel?.updateAStarPath ?? false) {
       // Reset updateAStarPath to let bloc force redraw after
@@ -57,9 +68,32 @@ class ArrowCustomPainter extends CustomPainter {
             ),
           );
 
+      var _direction = double.infinity;
+      var pointsWhereTurn = <Offset>[];
+
       for (var i = 0; i < pathToFollow.length - 1; i++) {
+        if (i + 1 < pathToFollow.length) {
+          var newDirection = (pathToFollow[i + 1] - pathToFollow[i]).direction;
+          if (newDirection != _direction) {
+            pointsWhereTurn.add(pathToFollow[i]);
+
+            _direction = newDirection;
+          }
+        }
         canvas.drawLine(pathToFollow[i], pathToFollow[i + 1], pointPaint);
       }
+
+      // Draw middle point of paths' segments
+      //
+      // for (var i = 0; i < pointsWhereTurn.length; i++) {
+      //   if (i + 1 >= pointsWhereTurn.length) {
+      //     var _midPoint = midPoint(pointsWhereTurn[i], arrowModel!.endPoint);
+      //     canvas.drawPoints(PointMode.points, [_midPoint], test);
+      //   } else {
+      //     var _midPoint = midPoint(pointsWhereTurn[i], pointsWhereTurn[i + 1]);
+      //     canvas.drawPoints(PointMode.points, [_midPoint], test);
+      //   }
+      // }
 
       if (pathToFollow.isEmpty) return;
 

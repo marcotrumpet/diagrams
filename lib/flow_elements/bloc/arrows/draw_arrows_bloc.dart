@@ -141,6 +141,25 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
           );
         }
       }
+
+      for (var arrow in _arrowModelList) {
+        for (var point in arrow.currentArrowPath ?? []) {
+          if (event.element?.path
+                  .getBounds()
+                  .inflate(15)
+                  .translate(
+                      event.element!.offset!.dx, event.element!.offset!.dy)
+                  .contains(point) ??
+              false) {
+            emit(
+              DrawArrowsState(
+                arrowModel: arrow.copyWith(updateAStarPath: true),
+              ),
+            );
+            break;
+          }
+        }
+      }
     });
 
     on<SavePathToArrowEvent>((event, emit) {
@@ -181,7 +200,6 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
       _arrowModelList
           .removeWhere((element) => element.arrowKey == _arrow.arrowKey);
       _arrowModelList.add(newArrow);
-      debugPrint('done');
     });
   }
 

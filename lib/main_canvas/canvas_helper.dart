@@ -104,8 +104,8 @@ void handleFlowElements({
     context.read<AddRemoveElementBloc>().add(
           MoveElementEvent(elementToManipulate: elementToManipulate),
         );
-    context.read<DrawArrowsBloc>().add(
-          MovedFlowElementUpdateArrowsEvent(element: elementToManipulate),
-        );
   }
+  context.read<DrawArrowsBloc>().add(
+        MovedFlowElementUpdateArrowsEvent(element: elementToManipulate),
+      );
 }
