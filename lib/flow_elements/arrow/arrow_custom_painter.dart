@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
@@ -40,11 +39,11 @@ class ArrowCustomPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
 
-    var test = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 5
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
+    // var test = Paint()
+    //   ..color = Colors.red
+    //   ..strokeWidth = 5
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeCap = StrokeCap.round;
 
     if (arrowModel?.updateAStarPath ?? false) {
       // Reset updateAStarPath to let bloc force redraw after
