@@ -1,6 +1,9 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
+import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/side_menu/shapes_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +16,7 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  double toolBoxWidth = 100.0;
+  double toolBoxWidth = 130.0;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +28,17 @@ class _SideMenuState extends State<SideMenu> {
           child: DragTarget<AbstractFlowElement>(
             onWillAccept: (data) => data != null,
             onAccept: (data) {
+              for (AnchorPointModel item
+                  in data.anchorPointsModelMap?.anchorPointList ?? []) {
+                var keys =
+                    item.arrowModelStart?.map((e) => e.arrowKey).toList() ??
+                        <Key>[];
+                context.read<DrawArrowsBloc>().add(
+                      RemoveArrowStartingFromPointEvent(
+                        arrowKeys: keys,
+                      ),
+                    );
+              }
               context
                   .read<AddRemoveElementBloc>()
                   .add(RemoveElementEvent(elementToManipulate: data));
@@ -57,19 +71,9 @@ class _SideMenuState extends State<SideMenu> {
         ),
         MouseRegion(
           cursor: SystemMouseCursors.resizeLeftRight,
-          child: Draggable(
-            feedback: Container(
-              color: Theme.of(context).indicatorColor.withOpacity(0.5),
-              width: 5,
-            ),
-            childWhenDragging: Container(
-              color: Theme.of(context).indicatorColor.withOpacity(0.5),
-              width: 5,
-            ),
-            dragAnchorStrategy: pointerDragAnchorStrategy,
-            axis: Axis.horizontal,
-            onDragUpdate: (de) {
-              var deltaValue = (de.localPosition.dx - toolBoxWidth);
+          child: GestureDetector(
+            onHorizontalDragUpdate: (details) {
+              var deltaValue = (details.globalPosition.dx - toolBoxWidth);
               var tempDelta =
                   (toolBoxWidth += deltaValue).clamp(100, 250).toDouble();
               setState(() {
@@ -77,7 +81,7 @@ class _SideMenuState extends State<SideMenu> {
               });
             },
             child: Container(
-              color: Theme.of(context).indicatorColor,
+              color: Theme.of(context).disabledColor,
               width: 5,
             ),
           ),

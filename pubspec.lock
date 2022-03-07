@@ -326,15 +326,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
-  menubar:
-    dependency: "direct main"
-    description:
-      path: "plugins/menubar"
-      ref: HEAD
-      resolved-ref: "89c350f787e1d7bff12b3517e5671146211ee70e"
-      url: "https://github.com/google/flutter-desktop-embedding.git"
-    source: git
-    version: "0.1.0"
   meta:
     dependency: transitive
     description:
@@ -398,6 +389,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  rxdart:
+    dependency: "direct main"
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.27.3"
   shelf:
     dependency: transitive
     description:
@@ -459,13 +457,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  system_tray:
-    dependency: "direct main"
-    description:
-      name: system_tray
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.9"
   term_glyph:
     dependency: transitive
     description:
@@ -487,6 +478,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  touchable:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: b83e3e9eb552e459939bea4b464b4e94b8bd7091
+      url: "git://github.com/marcotrumpet/touchable.git"
+    source: git
+    version: "1.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -524,4 +524,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.16.0 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=1.16.0"

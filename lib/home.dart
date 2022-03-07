@@ -16,7 +16,9 @@ class _DiagramsHomeState extends State<DiagramsHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () {
           context
               .read<UnselectElementsBloc>()

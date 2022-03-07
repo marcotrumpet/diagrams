@@ -3,8 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  menubar
-  system_tray
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

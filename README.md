@@ -1,16 +1,26 @@
 # diagrams
 
-A new Flutter project.
+This is a test project to play around with CustomPainter and an excuse to test Flutter Web and Flutter Desktop.
 
-## Getting Started
+The main idea is to basically rewrite [draw.io](draw.io) as close as possible.
+In this way I can explore and learn new stuff.
 
-This project is a starting point for a Flutter application.
+### goals
 
-A few resources to get you started if this is your first Flutter project:
+[x] have a set of basic shapes <br />
+[x] draw arrows to link shapes <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(after many iteration I tryed to adapt [this](https://github.com/RafaelBarbosatec/a_star) A* algorithm to my needs) <br />
+[] change arrow path
+[] many, many, more
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### examples
+
+This first image is the empty grid when app starts: <br />
+<img src="readme_images/1.png" alt="drawing" width="600"/>
+
+When you add elements you can link them with arrows, the A* alghorithm takes care of finding the shortest path: <br />
+<img src="readme_images/2.png" alt="drawing" width="600"/>
+
+When you add elements that cross arrows, the A* alghorithm takes care of finding the shortest path avoiding collision with element not linked to the arrow: <br />
+<img src="readme_images/3.png" alt="drawing" width="600"/>
