@@ -25,8 +25,8 @@ void main() async {
           create: (context) => AddRemoveElementBloc([]),
         ),
         BlocProvider(
-          create: (context) =>
-              UnselectElementsBloc(UnselectElementsState(unselect: false)),
+          create: (context) => UnselectElementsBloc(
+              const UnselectElementsState(unselect: false)),
         ),
         BlocProvider(
           create: (context) => DrawArrowsBloc(
