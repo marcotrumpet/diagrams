@@ -25,6 +25,7 @@ dependencies:
     git:
       url: git://github.com/marcotrumpet/touchable.git
       ref: master # branch name
+  golden_toolkit: 0.13.0
   # window_size:
   #   git:
   #     url: https://github.com/google/flutter-desktop-embedding.git

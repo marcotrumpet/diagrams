@@ -10,7 +10,11 @@ In this way I can explore and learn new stuff.
 [x] have a set of basic shapes <br />
 [x] draw arrows to link shapes <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(after many iteration I tryed to adapt [this](https://github.com/RafaelBarbosatec/a_star) A* algorithm to my needs) <br />
-[] change arrow path
+[] change arrow path <br />
+[] change elements dimensions <br />
+[] textfields inside elements <br />
+[] change elements properties (color, border, background) <br />
+[] change text properties <br />
 [] many, many, more
 
 

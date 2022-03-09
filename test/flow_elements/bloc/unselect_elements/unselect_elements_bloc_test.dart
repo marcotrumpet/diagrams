@@ -5,7 +5,7 @@ import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void unselectElementsBloc() {
+void unselectElementsBlocTest() {
   late UnselectElementsBloc unselectElementsBloc;
 
   setUp(() {
@@ -35,7 +35,7 @@ void unselectElementsBloc() {
     );
 
     blocTest<UnselectElementsBloc, UnselectElementsState>(
-      'select only if key matches (match ok)',
+      'select only if key matches',
       build: () => unselectElementsBloc,
       act: (bloc) => bloc.add(UnselectElementsEvent(
         unselect: false,
@@ -50,7 +50,7 @@ void unselectElementsBloc() {
     );
 
     blocTest<UnselectElementsBloc, UnselectElementsState>(
-      'unselect only if key matches (match ok)',
+      'unselect only if key matches',
       build: () => unselectElementsBloc,
       act: (bloc) => bloc.add(UnselectElementsEvent(
         unselect: true,
