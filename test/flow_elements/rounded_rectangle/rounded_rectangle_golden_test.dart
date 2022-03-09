@@ -1,13 +1,13 @@
-import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
+import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 import '../../golden_test.dart';
 
-void rectangleGoldenTest() {
-  group('rectangleGoldenTest', () {
-    testGoldens('test RectangleFlowElement', (tester) async {
+void roundedRectangleGoldenTest() {
+  group('roundedRectangleGoldenTest', () {
+    testGoldens('test roundedRectangleFlowElement', (tester) async {
       await tester.pumpWidgetBuilder(
         mainTestableApp(),
         wrapper: materialAppWrapper(
@@ -16,11 +16,11 @@ void rectangleGoldenTest() {
       );
 
       await tester.drag(
-        find.byType(Draggable<RectangleFlowElement>),
+        find.byType(Draggable<RoundedRectangleFlowElement>),
         const Offset(250, 250),
       );
 
-      await screenMatchesGolden(tester, 'rectangle/golden_test');
+      await screenMatchesGolden(tester, 'rounded_rectangle/golden_test');
 
       await tester.tap(
         find.descendant(
@@ -31,7 +31,8 @@ void rectangleGoldenTest() {
         ),
       );
 
-      await screenMatchesGolden(tester, 'rectangle/unselected_golden_test');
+      await screenMatchesGolden(
+          tester, 'rounded_rectangle/unselected_golden_test');
     });
   });
 }

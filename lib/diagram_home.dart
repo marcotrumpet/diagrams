@@ -18,6 +18,7 @@ class _DiagramHomeState extends State<DiagramHome> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: GestureDetector(
+        key: const Key('unselect_flow_elements'),
         behavior: HitTestBehavior.translucent,
         onTap: () {
           context

@@ -28,3 +28,10 @@ When you add elements you can link them with arrows, the A* alghorithm takes car
 
 When you add elements that cross arrows, the A* alghorithm takes care of finding the shortest path avoiding collision with element not linked to the arrow: <br />
 <img src="readme_images/3.png" alt="drawing" width="600"/>
+
+
+### tests
+
+To run bloc tests `flutter test test/bloc_test.dart` <br />
+To run golden tests `flutter test test/golden_test.dart --tags=golden` <br />
+To update golden tests `flutter test test/golden_test.dart --update-goldens --tags=golden`
