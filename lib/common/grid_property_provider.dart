@@ -38,35 +38,6 @@ class GridPropertyProvider {
             abstractFlowElement.offset!.dx, abstractFlowElement.offset!.dy)
         .inflate(secondarySquareSide);
 
-    // var upd = newRect;
-
-    // for (Offset offset in endPointsToExclude ?? []) {
-    //   var newR = Rect.fromCenter(
-    //     center: offset,
-    //     width: secondarySquareSide,
-    //     height: secondarySquareSide,
-    //   );
-
-    //   upd = upd.expandToInclude(newR);
-    // }
-
-    // var pointsOfAbstractElement = <Offset>[];
-
-    // for (var el in abstractFlowElement.path.computeMetrics()) {
-    //   for (var tangentLength
-    //       in List.generate((el.length.toInt()), (index) => index)) {
-    //     var pos = el.getTangentForOffset(tangentLength.toDouble())?.position ??
-    //         Offset.zero;
-    //     pointsOfAbstractElement.add(pos + abstractFlowElement.offset!);
-    //   }
-    // }
-
-    // if (endPointsToExclude != null && endPointsToExclude.isNotEmpty) {
-    //   for (var point in endPointsToExclude) {
-    //     pointsOfAbstractElement.remove(point);
-    //   }
-    // }
-
     var barrierModel = BarrierModel(
       abstractElementKey: abstractFlowElement.elementKey!,
       positions: [], // delete it

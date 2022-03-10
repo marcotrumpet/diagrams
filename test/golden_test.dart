@@ -7,31 +7,34 @@ import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_
 import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 
+import 'flow_elements/arrow/arrow_golden_test.dart';
 import 'flow_elements/circle/circle_golden_test.dart';
 import 'flow_elements/rectangle/rectangle_golden_test.dart';
 import 'flow_elements/rounded_rectangle/rounded_rectangle_golden_test.dart';
 import 'flow_elements/triangle/triangle_golden_test.dart';
 import 'main/main_golden_test.dart';
 
+late AppTheme appTheme;
+late AddRemoveElementBloc addRemoveElementBloc;
+late UnselectElementsBloc unselectElementsBloc;
+late DrawArrowsBloc drawArrowsBloc;
+
 Widget mainTestableApp() {
   return MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => AppTheme(),
+        create: (context) => appTheme,
       ),
       BlocProvider(
-        create: (context) => AddRemoveElementBloc([]),
+        create: (context) => addRemoveElementBloc,
       ),
       BlocProvider(
-        create: (context) => UnselectElementsBloc(
-          const UnselectElementsState(unselect: false),
-        ),
+        create: (context) => unselectElementsBloc,
       ),
       BlocProvider(
-        create: (context) => DrawArrowsBloc(
-          const DrawArrowsState(),
-        ),
+        create: (context) => drawArrowsBloc,
       ),
     ],
     child: const DiagramsApp(),
@@ -39,9 +42,21 @@ Widget mainTestableApp() {
 }
 
 void main() {
+  setUp(() {
+    appTheme = AppTheme();
+    addRemoveElementBloc = AddRemoveElementBloc([]);
+    unselectElementsBloc = UnselectElementsBloc(
+      const UnselectElementsState(unselect: false),
+    );
+    drawArrowsBloc = DrawArrowsBloc(
+      const DrawArrowsState(),
+    );
+  });
+
   mainGoldenTest();
   rectangleGoldenTest();
   roundedRectangleGoldenTest();
   triangleGoldenTest();
   circleGoldenTest();
+  arrowGoldenTest();
 }
