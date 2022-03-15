@@ -1,9 +1,7 @@
 import 'package:diagrams/diagram_app.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,20 +19,23 @@ late AddRemoveElementBloc addRemoveElementBloc;
 late UnselectElementsBloc unselectElementsBloc;
 late DrawArrowsBloc drawArrowsBloc;
 
-Widget mainTestableApp() {
+Widget mainTestableApp({
+  AddRemoveElementBloc? addRemoveElement,
+  DrawArrowsBloc? drawArrows,
+}) {
   return MultiBlocProvider(
     providers: [
       BlocProvider(
         create: (context) => appTheme,
       ),
       BlocProvider(
-        create: (context) => addRemoveElementBloc,
+        create: (context) => addRemoveElement ?? addRemoveElementBloc,
       ),
       BlocProvider(
         create: (context) => unselectElementsBloc,
       ),
       BlocProvider(
-        create: (context) => drawArrowsBloc,
+        create: (context) => drawArrows ?? drawArrowsBloc,
       ),
     ],
     child: const DiagramsApp(),
@@ -42,21 +43,12 @@ Widget mainTestableApp() {
 }
 
 void main() {
-  setUp(() {
-    appTheme = AppTheme();
-    addRemoveElementBloc = AddRemoveElementBloc([]);
-    unselectElementsBloc = UnselectElementsBloc(
-      const UnselectElementsState(unselect: false),
-    );
-    drawArrowsBloc = DrawArrowsBloc(
-      const DrawArrowsState(),
-    );
+  group('goldenTest', () {
+    mainGoldenTest();
+    rectangleGoldenTest();
+    roundedRectangleGoldenTest();
+    triangleGoldenTest();
+    circleGoldenTest();
+    arrowGoldenTest();
   });
-
-  mainGoldenTest();
-  rectangleGoldenTest();
-  roundedRectangleGoldenTest();
-  triangleGoldenTest();
-  circleGoldenTest();
-  arrowGoldenTest();
 }
