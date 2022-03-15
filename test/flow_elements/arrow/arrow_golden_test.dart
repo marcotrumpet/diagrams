@@ -1,9 +1,11 @@
 import 'package:diagrams/common/grid_property_provider.dart';
+import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';
+import 'package:diagrams/flow_elements/triangle/triangle_flow_element.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -53,16 +55,21 @@ void arrowGoldenTest() {
 
         await tester.tap(find.byKey(const Key('unselect_flow_elements')));
 
-        var rectangle =
-            find.byKey(_addRemoveElementBloc.elementsList.first.elementKey!);
+        var rectangle = find.byKey(_addRemoveElementBloc.elementsList
+            .firstWhere(
+                (element) => element.flowType == FlowElementTypes.rectangle)
+            .elementKey!);
 
         var firstAnchor = _addRemoveElementBloc
             .elementsList.first.anchorPointsModelMap!.anchorPointList
             .firstWhere(
                 (element) => element.alignment == Alignment.bottomRight);
 
-        var secondAnchor = _addRemoveElementBloc
-            .elementsList.last.anchorPointsModelMap!.anchorPointList
+        var secondAnchor = _addRemoveElementBloc.elementsList
+            .firstWhere((element) =>
+                element.flowType == FlowElementTypes.roundedRectangle)
+            .anchorPointsModelMap!
+            .anchorPointList
             .firstWhere((element) => element.alignment == Alignment.centerLeft);
 
         final gesture =
@@ -118,7 +125,10 @@ void arrowGoldenTest() {
       await setupBasicCanvas(tester);
 
       await tester.drag(
-        find.byKey(_addRemoveElementBloc.elementsList.first.elementKey!),
+        find.byKey(_addRemoveElementBloc.elementsList
+            .firstWhere(
+                (element) => element.flowType == FlowElementTypes.rectangle)
+            .elementKey!),
         const Offset(50, 50),
       );
 
@@ -128,13 +138,41 @@ void arrowGoldenTest() {
       await setupBasicCanvas(tester);
 
       await tester.drag(
-        find.byKey(_addRemoveElementBloc.elementsList.last.elementKey!),
+        find.byKey(_addRemoveElementBloc.elementsList
+            .firstWhere((element) =>
+                element.flowType == FlowElementTypes.roundedRectangle)
+            .elementKey!),
         const Offset(50, 50),
       );
 
       await tester.pumpAndSettle(const Duration(milliseconds: 800));
 
       await screenMatchesGolden(tester, 'arrow/move_end_element_golden_test');
+    });
+    testGoldens('add third element between linked elements and redraw arrow',
+        (tester) async {
+      await setupBasicCanvas(tester);
+
+      await tester.drag(
+        find.byType(Draggable<TriangleFlowElement>),
+        const Offset(250, 150),
+      );
+
+      await tester.pumpAndSettle(const Duration(milliseconds: 800));
+
+      await screenMatchesGolden(tester, 'arrow/add_third_element_golden_test');
+
+      await tester.drag(
+        find.byKey(_addRemoveElementBloc.elementsList
+            .firstWhere(
+                (element) => element.flowType == FlowElementTypes.triangle)
+            .elementKey!),
+        const Offset(50, 50),
+      );
+
+      await tester.pumpAndSettle(const Duration(milliseconds: 800));
+
+      await screenMatchesGolden(tester, 'arrow/move_third_element_golden_test');
     });
   });
 }
