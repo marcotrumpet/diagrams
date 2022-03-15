@@ -9,3 +9,11 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 printf "\e[33;1m%s\e[0m\n" 'Finished running the Flutter analyzer'
+
+_term() { 
+  echo "Caught SIGTERM signal!" 
+  exit 1
+}
+
+trap _term SIGINT
+trap _term SIGTERM
