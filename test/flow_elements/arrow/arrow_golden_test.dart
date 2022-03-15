@@ -53,10 +53,6 @@ void arrowGoldenTest() {
 
         await tester.tap(find.byKey(const Key('unselect_flow_elements')));
 
-        final gesture =
-            await tester.createGesture(kind: PointerDeviceKind.mouse);
-        addTearDown(gesture.removePointer);
-
         var rectangle =
             find.byKey(_addRemoveElementBloc.elementsList.first.elementKey!);
 
@@ -68,6 +64,10 @@ void arrowGoldenTest() {
         var secondAnchor = _addRemoveElementBloc
             .elementsList.last.anchorPointsModelMap!.anchorPointList
             .firstWhere((element) => element.alignment == Alignment.centerLeft);
+
+        final gesture =
+            await tester.createGesture(kind: PointerDeviceKind.mouse);
+        addTearDown(gesture.removePointer);
 
         await tester.runAsync(() async {
           await gesture.addPointer(location: Offset.zero);
@@ -84,22 +84,27 @@ void arrowGoldenTest() {
 
         final parent = _gridKey.currentContext?.findRenderObject() as RenderBox;
 
-        var first = parent
+        var startDragPoint = parent
             .localToGlobal(firstAnchor.anchorPointPositionRelativeToParent);
-        var second = parent
+        var endDragPoint = parent
             .localToGlobal(secondAnchor.anchorPointPositionRelativeToParent);
 
-        var drag =
-            await tester.startGesture(first, kind: PointerDeviceKind.mouse);
-
         await tester.runAsync(() async {
-          await drag.moveTo(
-            second,
-          );
-        });
+          await gesture.down(startDragPoint);
 
-        await drag.up();
-        await tester.pump();
+          await gesture.moveTo(
+            (startDragPoint - endDragPoint),
+          );
+
+          await gesture.moveTo(
+            endDragPoint,
+          );
+
+          await gesture.up();
+
+          await tester.pumpAndSettle(const Duration(milliseconds: 500));
+        });
+        // await tester.pump();
       };
     });
     testGoldens('draw A* arrow', (tester) async {
@@ -109,21 +114,27 @@ void arrowGoldenTest() {
           tester, 'arrow/rect_to_rrect_arrow_golden_test');
     });
 
-    // testGoldens('move start element and redraw arrow', (tester) async {
-    //   await setupBasicCanvas(tester);
-    //   debugPrint(_addRemoveElementBloc.elementsList.first.offset.toString());
+    testGoldens('move start element and redraw arrow', (tester) async {
+      await setupBasicCanvas(tester);
 
-    //   await screenMatchesGolden(tester, 'arrow/move_start_element_golden_test');
+      await tester.drag(
+        find.byKey(_addRemoveElementBloc.elementsList.first.elementKey!),
+        const Offset(50, 50),
+      );
 
-    //   await tester.drag(
-    //     find.byKey(_addRemoveElementBloc.elementsList.first.elementKey ??
-    //         _addRemoveElementBloc.elementsList.last.elementKey!),
-    //     const Offset(400, 50),
-    //   );
+      await screenMatchesGolden(tester, 'arrow/move_start_element_golden_test');
+    });
+    testGoldens('move end element and redraw arrow', (tester) async {
+      await setupBasicCanvas(tester);
 
-    //   debugPrint(_addRemoveElementBloc.elementsList.first.offset.toString());
+      await tester.drag(
+        find.byKey(_addRemoveElementBloc.elementsList.last.elementKey!),
+        const Offset(50, 50),
+      );
 
-    //   await screenMatchesGolden(tester, 'arrow/move_start_element_golden_test');
-    // });
+      await tester.pumpAndSettle(const Duration(milliseconds: 800));
+
+      await screenMatchesGolden(tester, 'arrow/move_end_element_golden_test');
+    });
   });
 }

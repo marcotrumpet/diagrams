@@ -57,20 +57,25 @@ class GridPropertyProvider {
       List.generate((gridPainted.size.height ~/ secondarySquareSide), (y) {
         final offset = Offset(x.toDouble() * secondarySquareSide,
             y.toDouble() * secondarySquareSide);
-        bool isBarrier = barrierModelToList().where((element) {
-          var endpointInRect = endPointsToExclude?.firstWhereOrNull((e) {
-            return element.contains(e);
+        bool? isBarrier;
+        if (endPointsToExclude?.contains(offset) ?? false) {
+          isBarrier = false;
+        } else {
+          barrierModelToList().forEach((element) {
+            var endpointInRect = endPointsToExclude?.firstWhereOrNull((e) {
+              return element.contains(e);
+            });
+            if (endpointInRect != null) {
+              isBarrier = false;
+            }
+            isBarrier = element.contains(offset);
           });
-          if (endpointInRect != null) {
-            return false;
-          }
-          return element.contains(offset);
-        }).isNotEmpty;
+        }
         rowList.add(
           TileModel(
             offset,
             [],
-            isBarrier: isBarrier,
+            isBarrier: isBarrier ?? false,
           ),
         );
       });

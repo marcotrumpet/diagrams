@@ -97,9 +97,16 @@ class AddRemoveElementBloc
           .removeWhere((el) => el.elementKey == elementUpdated.elementKey);
       elementsList.add(elementUpdated);
 
+      var end = event.arrowModelLinkedToElement.endPoint;
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
         event.elementToManipulate,
-        endPointsToExclude: [event.arrowModelLinkedToElement.endPoint],
+        endPointsToExclude: [
+          end,
+          Offset(end.dx - 15, end.dy),
+          Offset(end.dx + 15, end.dy),
+          Offset(end.dx, end.dy + 15),
+          Offset(end.dx, end.dy - 15),
+        ],
       );
 
       final List<AbstractFlowElement> newList = [...elementsList];
@@ -137,11 +144,27 @@ class AddRemoveElementBloc
           in event.elementToManipulate.anchorPointsModelMap?.anchorPointList ??
               []) {
         if (anchorPoint.arrowModelEnd?.isNotEmpty ?? false) {
-          pointsToExclude.add(anchorPoint.anchorPointPositionRelativeToParent);
+          pointsToExclude.addAll([
+            anchorPoint.anchorPointPositionRelativeToParent,
+            Offset(anchorPoint.anchorPointPositionRelativeToParent.dx - 15,
+                anchorPoint.anchorPointPositionRelativeToParent.dy),
+            Offset(anchorPoint.anchorPointPositionRelativeToParent.dx + 15,
+                anchorPoint.anchorPointPositionRelativeToParent.dy),
+            Offset(anchorPoint.anchorPointPositionRelativeToParent.dx,
+                anchorPoint.anchorPointPositionRelativeToParent.dy + 15),
+            Offset(anchorPoint.anchorPointPositionRelativeToParent.dx,
+                anchorPoint.anchorPointPositionRelativeToParent.dy - 15),
+          ]);
         }
         if (anchorPoint.arrowModelStart?.isNotEmpty ?? false) {
           anchorPoint.arrowModelStart?.forEach((element) {
-            pointsToExclude.add(element.endPoint);
+            pointsToExclude.addAll([
+              element.endPoint,
+              Offset(element.endPoint.dx - 15, element.endPoint.dy),
+              Offset(element.endPoint.dx + 15, element.endPoint.dy),
+              Offset(element.endPoint.dx, element.endPoint.dy + 15),
+              Offset(element.endPoint.dx, element.endPoint.dy - 15),
+            ]);
           });
         }
       }
