@@ -20,6 +20,16 @@ class AddRemoveElementBloc
     //   return anchorPoint != null;
     // }
 
+    List<Offset> calcSurroundingPoints(Offset point) {
+      return [
+        point,
+        Offset(point.dx - 15, point.dy),
+        Offset(point.dx + 15, point.dy),
+        Offset(point.dx, point.dy + 15),
+        Offset(point.dx, point.dy - 15),
+      ];
+    }
+
     on<AddStartingPointToAnchorElementEvent>((event, emit) {
       //find arrow model list for the specific anchor point
       var arrowModelStart = event
@@ -56,8 +66,11 @@ class AddRemoveElementBloc
           .removeWhere((el) => el.elementKey == elementUpdated.elementKey);
       elementsList.add(elementUpdated);
 
-      GetIt.I<GridPropertyProvider>()
-          .updateGridBarriers(event.elementToManipulate);
+      GetIt.I<GridPropertyProvider>().updateGridBarriers(
+        event.elementToManipulate,
+        endPointsToExclude:
+            calcSurroundingPoints(event.arrowModelLinkedToElement.startPoint),
+      );
 
       final List<AbstractFlowElement> newList = [...elementsList];
 
@@ -100,13 +113,7 @@ class AddRemoveElementBloc
       var end = event.arrowModelLinkedToElement.endPoint;
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
         event.elementToManipulate,
-        endPointsToExclude: [
-          end,
-          Offset(end.dx - 15, end.dy),
-          Offset(end.dx + 15, end.dy),
-          Offset(end.dx, end.dy + 15),
-          Offset(end.dx, end.dy - 15),
-        ],
+        endPointsToExclude: calcSurroundingPoints(end),
       );
 
       final List<AbstractFlowElement> newList = [...elementsList];
@@ -144,17 +151,8 @@ class AddRemoveElementBloc
           in event.elementToManipulate.anchorPointsModelMap?.anchorPointList ??
               []) {
         if (anchorPoint.arrowModelEnd?.isNotEmpty ?? false) {
-          pointsToExclude.addAll([
-            anchorPoint.anchorPointPositionRelativeToParent,
-            Offset(anchorPoint.anchorPointPositionRelativeToParent.dx - 15,
-                anchorPoint.anchorPointPositionRelativeToParent.dy),
-            Offset(anchorPoint.anchorPointPositionRelativeToParent.dx + 15,
-                anchorPoint.anchorPointPositionRelativeToParent.dy),
-            Offset(anchorPoint.anchorPointPositionRelativeToParent.dx,
-                anchorPoint.anchorPointPositionRelativeToParent.dy + 15),
-            Offset(anchorPoint.anchorPointPositionRelativeToParent.dx,
-                anchorPoint.anchorPointPositionRelativeToParent.dy - 15),
-          ]);
+          pointsToExclude.addAll(calcSurroundingPoints(
+              anchorPoint.anchorPointPositionRelativeToParent));
         }
         if (anchorPoint.arrowModelStart?.isNotEmpty ?? false) {
           anchorPoint.arrowModelStart?.forEach((element) {

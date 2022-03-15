@@ -22,7 +22,7 @@ void rectangleGoldenTest() {
       const DrawArrowsState(),
     );
   });
-  testGoldens('test RectangleFlowElement', (tester) async {
+  testGoldens('test rectangleFlowElement', (tester) async {
     await tester.pumpWidgetBuilder(mainTestableApp());
 
     await tester.drag(

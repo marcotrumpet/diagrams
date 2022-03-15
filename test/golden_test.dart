@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'flow_elements/arrow/arrow_golden_test.dart';
-import 'flow_elements/circle/circle_golden_test.dart';
-import 'flow_elements/rectangle/rectangle_golden_test.dart';
-import 'flow_elements/rounded_rectangle/rounded_rectangle_golden_test.dart';
-import 'flow_elements/triangle/triangle_golden_test.dart';
-import 'main/main_golden_test.dart';
+import 'flow_elements/arrow/arrow_golden.dart';
+import 'flow_elements/circle/circle_golden.dart';
+import 'flow_elements/rectangle/rectangle_golden.dart';
+import 'flow_elements/rounded_rectangle/rounded_rectangle_golden.dart';
+import 'flow_elements/triangle/triangle_golden.dart';
+import 'main/main_golden.dart';
 
 late AppTheme appTheme;
 late AddRemoveElementBloc addRemoveElementBloc;
