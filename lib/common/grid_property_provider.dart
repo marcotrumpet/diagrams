@@ -38,35 +38,6 @@ class GridPropertyProvider {
             abstractFlowElement.offset!.dx, abstractFlowElement.offset!.dy)
         .inflate(secondarySquareSide);
 
-    // var upd = newRect;
-
-    // for (Offset offset in endPointsToExclude ?? []) {
-    //   var newR = Rect.fromCenter(
-    //     center: offset,
-    //     width: secondarySquareSide,
-    //     height: secondarySquareSide,
-    //   );
-
-    //   upd = upd.expandToInclude(newR);
-    // }
-
-    // var pointsOfAbstractElement = <Offset>[];
-
-    // for (var el in abstractFlowElement.path.computeMetrics()) {
-    //   for (var tangentLength
-    //       in List.generate((el.length.toInt()), (index) => index)) {
-    //     var pos = el.getTangentForOffset(tangentLength.toDouble())?.position ??
-    //         Offset.zero;
-    //     pointsOfAbstractElement.add(pos + abstractFlowElement.offset!);
-    //   }
-    // }
-
-    // if (endPointsToExclude != null && endPointsToExclude.isNotEmpty) {
-    //   for (var point in endPointsToExclude) {
-    //     pointsOfAbstractElement.remove(point);
-    //   }
-    // }
-
     var barrierModel = BarrierModel(
       abstractElementKey: abstractFlowElement.elementKey!,
       positions: [], // delete it
@@ -86,20 +57,25 @@ class GridPropertyProvider {
       List.generate((gridPainted.size.height ~/ secondarySquareSide), (y) {
         final offset = Offset(x.toDouble() * secondarySquareSide,
             y.toDouble() * secondarySquareSide);
-        bool isBarrier = barrierModelToList().where((element) {
-          var endpointInRect = endPointsToExclude?.firstWhereOrNull((e) {
-            return element.contains(e);
+        bool? isBarrier;
+        if (endPointsToExclude?.contains(offset) ?? false) {
+          isBarrier = false;
+        } else {
+          barrierModelToList().forEach((element) {
+            var endpointInRect = endPointsToExclude?.firstWhereOrNull((e) {
+              return element.contains(e);
+            });
+            if (endpointInRect != null) {
+              isBarrier = false;
+            }
+            isBarrier = element.contains(offset);
           });
-          if (endpointInRect != null) {
-            return false;
-          }
-          return element.contains(offset);
-        }).isNotEmpty;
+        }
         rowList.add(
           TileModel(
             offset,
             [],
-            isBarrier: isBarrier,
+            isBarrier: isBarrier ?? false,
           ),
         );
       });

@@ -1,0 +1,30 @@
+# Name of your workflow.
+name: flutter tests
+# Trigger the workflow on push or pull request.
+on: [pull_request]
+# A workflow run is made up of one or more jobs.
+jobs:
+  # id of job, a string that is unique to the "jobs" node above.
+  flutter_tests:
+    # The type of machine to run the job on.
+    runs-on: macOS-latest
+    # Contains a sequence of tasks.
+    steps:
+    # The branch or tag ref that triggered the workflow will be 
+    # checked out.
+    # https://github.com/actions/checkout
+    - uses: actions/checkout@v2
+    # Sets up a flutter environment.
+    # https://github.com/marketplace/actions/flutter-action
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable' # or: 'dev' or 'beta'
+        flutter-version: '2.10.3'
+        cache: true
+        cache-key: flutter # optional, change this to force refresh cache
+    - name: Install dependencies
+      run: flutter pub get
+    - name: Run bloc tests
+      run: flutter test test/bloc_test.dart
+    - name: Run golden tests
+      run: flutter test test/golden_test.dart --tags=golden

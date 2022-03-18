@@ -8,7 +8,6 @@ part 'anchor_point_model.freezed.dart';
 class AnchorPointModelMap with _$AnchorPointModelMap {
   const factory AnchorPointModelMap({
     required List<AnchorPointModel> anchorPointList,
-    required Widget child,
   }) = _AnchorPointModelMap;
 }
 
@@ -21,5 +20,6 @@ class AnchorPointModel with _$AnchorPointModel {
     required Alignment alignment,
     @Default([]) List<ArrowModel>? arrowModelStart,
     @Default([]) List<ArrowModel>? arrowModelEnd,
+    required Widget child,
   }) = _AnchorPointModel;
 }

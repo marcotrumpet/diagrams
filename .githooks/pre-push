@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+if [[ `git status --porcelain` ]]; then
+  printf "\e[31;1m%s\e[0m\n" 'This script needs to run against committed code only. Please commit or stash you changes.'
+  exit 1
+fi
+printf "\e[33;1m%s\e[0m\n" 'Running test coverage'
+flutter test --coverage
+if [ $? -ne 0 ]; then
+  printf "\e[31;1m%s\e[0m\n" 'test coverage error'
+  exit 1
+fi
+printf "\e[33;1m%s\e[0m\n" 'Finished running test coverage'
+printf "\e[33;1m%s\e[0m\n" 'Running bloc tests'
+flutter test test/bloc_test.dart
+if [ $? -ne 0 ]; then
+  printf "\e[31;1m%s\e[0m\n" 'bloc tests error'
+  exit 1
+fi
+printf "\e[33;1m%s\e[0m\n" 'Finished running bloc tests'
+printf "\e[33;1m%s\e[0m\n" 'Running golden tests'
+flutter test test/golden_test.dart --tags=golden
+if [ $? -ne 0 ]; then
+  printf "\e[31;1m%s\e[0m\n" 'golden tests error'
+  exit 1
+fi
+printf "\e[33;1m%s\e[0m\n" 'Finished running golden tests'
+
+_term() { 
+  echo "Caught SIGTERM signal!" 
+  exit 1
+}
+
+trap _term SIGINT
+trap _term SIGTERM

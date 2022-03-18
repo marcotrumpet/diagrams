@@ -1,4 +1,4 @@
-import 'package:diagrams/home.dart';
+import 'package:diagrams/diagram_home.dart';
 import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +33,7 @@ class _DiagramsAppState extends State<DiagramsApp> {
           title: 'Diagrams',
           theme: theme,
           debugShowCheckedModeBanner: false,
-          home: const DiagramsHome(),
+          home: const DiagramHome(),
         );
       },
     );

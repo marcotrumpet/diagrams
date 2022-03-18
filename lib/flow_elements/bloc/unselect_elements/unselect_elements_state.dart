@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class UnselectElementsState {
-  final bool unselect;
-  final Key? elementKey;
+part 'unselect_elements_state.freezed.dart';
 
-  UnselectElementsState({required this.unselect, this.elementKey});
+@freezed
+class UnselectElementsState with _$UnselectElementsState {
+  const factory UnselectElementsState(
+      {required bool unselect, Key? elementKey}) = _UnselectElementsState;
 }

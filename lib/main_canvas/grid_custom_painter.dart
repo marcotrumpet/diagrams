@@ -63,15 +63,37 @@ class GridCustomPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
+    void resetVariables() {
+      lastDrawnPoint = Offset.zero;
+      arrowEndPointFound = null;
+      elementAnchorPointFound = null;
+    }
+
+    double roundBaseFifteen(double n) {
+      var lowest = n - (n % 15);
+      var highest = (n + 15) - ((n + 15) % 15);
+
+      return (n - lowest).abs() <= (n - highest).abs() ? lowest : highest;
+    }
+
+    Offset normalizedStartPointToGrid(Offset point) {
+      var newPoint = Offset(
+        roundBaseFifteen(point.dx),
+        roundBaseFifteen(point.dy),
+      );
+
+      return newPoint;
+    }
+
     Offset normalizedPointToGrid(Offset point) {
-      var newPoint = Offset((point.dx - point.dx % 15).roundToDouble(),
-          (point.dy - point.dy % 15).roundToDouble());
+      var newPoint =
+          Offset((point.dx - point.dx % 15), (point.dy - point.dy % 15));
 
       return newPoint;
     }
 
     void onPanDown(DragDownDetails details) {
-      var newPoint = normalizedPointToGrid(details.localPosition);
+      var newPoint = normalizedStartPointToGrid(details.localPosition);
       elementAnchorPointFound = flowElementsList?.firstWhereOrNull((e) =>
           e.anchorPointsModelMap!.anchorPointList.firstWhereOrNull((e) {
             return (e.anchorPointPositionRelativeToParent - newPoint)
@@ -83,17 +105,20 @@ class GridCustomPainter extends CustomPainter {
       arrowEndPointFound = context
           .read<DrawArrowsBloc>()
           .arrowModelList
-          .firstWhereOrNull((element) => element.endPoint == newPoint);
+          .firstWhereOrNull((element) => (element.endPoint == newPoint));
 
       if (elementAnchorPointFound == null && arrowEndPointFound == null) {
         enablePanUpdate = false;
+        resetVariables();
         return;
       }
 
       var startPointKey = elementAnchorPointFound
           ?.anchorPointsModelMap?.anchorPointList
           .firstWhereOrNull((element) =>
-              element.anchorPointPositionRelativeToParent == newPoint)
+              (element.anchorPointPositionRelativeToParent - newPoint)
+                  .distanceSquared <=
+              450)
           ?.anchorPointKey;
 
       // TODO check if this is correct
@@ -110,11 +135,11 @@ class GridCustomPainter extends CustomPainter {
         var newArrow = ArrowModel(
           startPoint: newPoint,
           endPoint: Offset.infinite,
+          endPointKey: UniqueKey(),
           arrowKey: UniqueKey(),
           startElement: elementAnchorPointFound,
           startPointKey: startPointKey,
         );
-
         // create new arrow given starting point matching flow element anchor point
         context.read<DrawArrowsBloc>().add(
               StartNewArrowEvent(
@@ -138,10 +163,18 @@ class GridCustomPainter extends CustomPainter {
       if (!enablePanUpdate) return;
       lastDrawnPoint = normalizedPointToGrid(details.localPosition);
 
+      var currentArrow = context
+          .read<DrawArrowsBloc>()
+          .arrowModelList
+          .firstWhereOrNull((element) =>
+              element.arrowKey ==
+              context.read<DrawArrowsBloc>().lastArrowDrawnKey)
+          ?.copyWith(endPoint: lastDrawnPoint);
+
       context.read<DrawArrowsBloc>().add(
             DrawArrowsEvent(
               endPoint: lastDrawnPoint,
-              arrowKey: arrowEndPointFound?.arrowKey,
+              arrowKey: arrowEndPointFound?.arrowKey ?? currentArrow?.arrowKey,
             ),
           );
     }
@@ -190,7 +223,10 @@ class GridCustomPainter extends CustomPainter {
                         context.read<DrawArrowsBloc>().lastArrowDrawnKey,
                   );
 
-          if (_arrowModel == null) return;
+          if (_arrowModel == null) {
+            resetVariables();
+            return;
+          }
 
           _arrowModel = _arrowModel.copyWith(
             endPointKey: endPointKey,
@@ -214,15 +250,55 @@ class GridCustomPainter extends CustomPainter {
         }
       }
 
+      var currentArrow = context
+          .read<DrawArrowsBloc>()
+          .arrowModelList
+          .firstWhereOrNull((element) =>
+              element.arrowKey ==
+              context.read<DrawArrowsBloc>().lastArrowDrawnKey)
+          ?.copyWith(endPoint: lastDrawnPoint);
+
       if (arrowEndPointFound != null) {
-        arrowEndPointFound =
-            arrowEndPointFound?.copyWith(updateAStarPath: true);
+        arrowEndPointFound = arrowEndPointFound?.copyWith(
+          updateAStarPath: true,
+          endPoint: lastDrawnPoint,
+          endPointKey: UniqueKey(),
+        );
+
+        context.read<DrawArrowsBloc>().add(
+              DrawArrowsEvent(
+                endPoint: arrowEndPointFound!.endPoint,
+                endPointKey: arrowEndPointFound!.endPointKey,
+                arrowKey: arrowEndPointFound!.arrowKey,
+              ),
+            );
+
         context.read<DrawArrowsBloc>().add(
               DrawArrowsAStarEvent(
                 arrowModel: arrowEndPointFound,
               ),
             );
+      } else if (currentArrow != null) {
+        currentArrow = currentArrow.copyWith(
+          updateAStarPath: true,
+          endPoint: lastDrawnPoint,
+        );
+
+        context.read<DrawArrowsBloc>().add(
+              DrawArrowsEvent(
+                endPoint: currentArrow.endPoint,
+                endPointKey: currentArrow.endPointKey,
+                arrowKey: currentArrow.arrowKey,
+              ),
+            );
+
+        context.read<DrawArrowsBloc>().add(
+              DrawArrowsAStarEvent(
+                arrowModel: currentArrow,
+              ),
+            );
       }
+      resetVariables();
     }
 
     for (var i = 0; i < size.width / mainSquareSide; i++) {

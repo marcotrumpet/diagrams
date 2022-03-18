@@ -10,7 +10,11 @@ In this way I can explore and learn new stuff.
 [x] have a set of basic shapes <br />
 [x] draw arrows to link shapes <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(after many iteration I tryed to adapt [this](https://github.com/RafaelBarbosatec/a_star) A* algorithm to my needs) <br />
-[] change arrow path
+[] change arrow path <br />
+[] change elements dimensions <br />
+[] textfields inside elements <br />
+[] change elements properties (color, border, background) <br />
+[] change text properties <br />
 [] many, many, more
 
 
@@ -24,3 +28,18 @@ When you add elements you can link them with arrows, the A* alghorithm takes car
 
 When you add elements that cross arrows, the A* alghorithm takes care of finding the shortest path avoiding collision with element not linked to the arrow: <br />
 <img src="readme_images/3.png" alt="drawing" width="600"/>
+
+
+### tests
+
+To manually run test use:
+
+To run bloc tests `flutter test test/bloc_test.dart` <br />
+To run golden tests `flutter test test/golden_test.dart --tags=golden` <br />
+To update golden tests `flutter test test/golden_test.dart --update-goldens --tags=golden`
+
+Inside `.githooks` folder there are a pre-commit script that performs formatter and analyzer and a pre-push script that runs tests and the coverage command.
+
+If you are on vscode, in order to get the test coverage, you need to install [flutter coverage](https://marketplace.visualstudio.com/items?itemName=Flutterando.flutter-coverage) and [coverage-gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters).
+
+There is also a `flutter_test.yml` intended to be used inside github actions that will perform tests on pull requests.

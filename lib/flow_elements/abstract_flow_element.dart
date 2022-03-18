@@ -24,7 +24,6 @@ abstract class AbstractFlowElement {
       this.offset,
       this.anchorPointsModelMap = const AnchorPointModelMap(
         anchorPointList: [],
-        child: AnchorPoint(),
       )}) {
     _setDimensionPoints();
   }
@@ -56,14 +55,15 @@ abstract class AbstractFlowElement {
 
     return AnchorPointModelMap(
       anchorPointList: _anchorPointsMap.map((e) {
+        var key = UniqueKey();
         return AnchorPointModel(
-          anchorPointKey: UniqueKey(),
+          anchorPointKey: key,
           anchorPointPosition: e.values.first,
           anchorPointPositionRelativeToParent: e.values.first + offset,
           alignment: e.keys.first,
+          child: AnchorPoint(key: key),
         );
       }).toList(),
-      child: const AnchorPoint(),
     );
   }
 
@@ -83,7 +83,6 @@ abstract class AbstractFlowElement {
     if (data.anchorPointsModelMap?.anchorPointList.isEmpty ?? true) {
       return const AnchorPointModelMap(
         anchorPointList: [],
-        child: AnchorPoint(),
       );
     }
 
@@ -158,7 +157,7 @@ abstract class AbstractFlowElement {
                               builder: (context, opacity, _) {
                                 return Opacity(
                                   opacity: opacity,
-                                  child: anchorPointsModelMap!.child,
+                                  child: anchorPoint.child,
                                 );
                               },
                             ),

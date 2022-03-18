@@ -5,19 +5,20 @@ import 'package:diagrams/side_menu/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DiagramsHome extends StatefulWidget {
-  const DiagramsHome({Key? key}) : super(key: key);
+class DiagramHome extends StatefulWidget {
+  const DiagramHome({Key? key}) : super(key: key);
 
   @override
-  _DiagramsHomeState createState() => _DiagramsHomeState();
+  _DiagramHomeState createState() => _DiagramHomeState();
 }
 
-class _DiagramsHomeState extends State<DiagramsHome> {
+class _DiagramHomeState extends State<DiagramHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: GestureDetector(
+        key: const Key('unselect_flow_elements'),
         behavior: HitTestBehavior.translucent,
         onTap: () {
           context
