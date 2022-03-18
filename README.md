@@ -32,6 +32,14 @@ When you add elements that cross arrows, the A* alghorithm takes care of finding
 
 ### tests
 
+To manually run test use:
+
 To run bloc tests `flutter test test/bloc_test.dart` <br />
 To run golden tests `flutter test test/golden_test.dart --tags=golden` <br />
 To update golden tests `flutter test test/golden_test.dart --update-goldens --tags=golden`
+
+Inside `.githooks` folder there are a pre-commit script that performs formatter and analyzer and a pre-push script that runs tests and the coverage command.
+
+If you are on vscode, in order to get the test coverage, you need to install [flutter coverage](https://marketplace.visualstudio.com/items?itemName=Flutterando.flutter-coverage) and [coverage-gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters).
+
+There is also a `flutter_test.yml` intended to be used inside github actions that will perform tests on pull requests.
