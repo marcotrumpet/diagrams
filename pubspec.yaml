@@ -21,10 +21,6 @@ dependencies:
   flutter_bloc: 8.0.1
   bloc_test: 9.0.2
   get_it: 7.2.0
-  touchable:
-    git:
-      url: git://github.com/marcotrumpet/touchable.git
-      ref: master # branch name
   golden_toolkit: 0.13.0
   # window_size:
   #   git:

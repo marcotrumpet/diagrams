@@ -3,6 +3,7 @@ import 'package:diagrams/diagram_app.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
+import 'package:diagrams/flow_elements/bloc/handle_points/handle_points_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/theme/app_theme.dart';
@@ -31,6 +32,13 @@ void main() async {
         BlocProvider(
           create: (context) => DrawArrowsBloc(
             const DrawArrowsState(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => HandlePointsBloc(
+            addRemoveElementBloc:
+                BlocProvider.of<AddRemoveElementBloc>(context),
+            drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
           ),
         ),
       ],
