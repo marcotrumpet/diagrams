@@ -5,12 +5,12 @@ import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_elemen
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
+import 'package:diagrams/flow_elements/bloc/handle_points/handle_points_bloc.dart';
 import 'package:diagrams/main_canvas/canvas_helper.dart';
 import 'package:diagrams/main_canvas/grid_custom_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:touchable/touchable.dart';
 
 class MainCanvas extends StatefulWidget {
   const MainCanvas({Key? key}) : super(key: key);
@@ -34,38 +34,42 @@ class _MainCanvasState extends State<MainCanvas> {
           clipBehavior: Clip.hardEdge,
           fit: StackFit.expand,
           children: [
-            CanvasTouchDetector(
-              gesturesToOverride: const [
-                GestureType.onPanDown,
-                GestureType.onPanUpdate,
-                GestureType.onPanEnd,
-              ],
-              builder: (context) {
-                return CustomPaint(
-                  key: _gridKey,
-                  foregroundPainter: GridCustomPainter(
-                    context: context,
-                    flowElementsList:
-                        context.watch<AddRemoveElementBloc>().elementsList,
-                    addRemoveElementBloc: context.read<AddRemoveElementBloc>(),
-                  ),
-                  child: DragTarget<AbstractFlowElement>(
-                    onAcceptWithDetails: (details) {
-                      final newOffset = calcNewOffset(details, _gridKey);
-                      handleFlowElements(
-                        details: details,
-                        context: context,
-                        offset: newOffset,
-                        drawNewElement: !isElementInList(
-                            context: context, element: details.data),
-                      );
-                    },
-                    builder: (context, candidateData, rejectedData) {
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                );
-              },
+            GestureDetector(
+              onPanStart: (details) => context
+                  .read<HandlePointsBloc>()
+                  .add(HandlePointsEvent.panDown(details.localPosition)),
+              onPanUpdate: (details) => context
+                  .read<HandlePointsBloc>()
+                  .add(HandlePointsEvent.panUpdate(details.localPosition)),
+              onPanEnd: (details) => context
+                  .read<HandlePointsBloc>()
+                  .add(const HandlePointsEvent.panEnd()),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+            RepaintBoundary(
+              child: CustomPaint(
+                key: _gridKey,
+                foregroundPainter: GridCustomPainter(
+                  context: context,
+                ),
+                child: DragTarget<AbstractFlowElement>(
+                  onAcceptWithDetails: (details) {
+                    final newOffset = calcNewOffset(details, _gridKey);
+                    handleFlowElements(
+                      details: details,
+                      context: context,
+                      offset: newOffset,
+                      drawNewElement: !isElementInList(
+                          context: context, element: details.data),
+                    );
+                  },
+                  builder: (context, candidateData, rejectedData) {
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
             ),
             BlocConsumer<DrawArrowsBloc, DrawArrowsState>(
               listener: (context, state) {
