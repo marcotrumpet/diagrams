@@ -3,6 +3,7 @@ import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
+import 'package:diagrams/flow_elements/bloc/handle_points/handle_points_bloc.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/triangle/triangle_flow_element.dart';
@@ -20,12 +21,18 @@ late SetupCanvas setupBasicCanvas;
 late SetupCanvas setupSingleElementCanvas;
 late AddRemoveElementBloc _addRemoveElementBloc;
 late DrawArrowsBloc _drawArrowsBloc;
+late HandlePointsBloc _handlePointsBloc;
 
 void resetBlocs() {
   _addRemoveElementBloc = AddRemoveElementBloc([]);
 
   _drawArrowsBloc = DrawArrowsBloc(
     const DrawArrowsState(),
+  );
+
+  _handlePointsBloc = HandlePointsBloc(
+    addRemoveElementBloc: _addRemoveElementBloc,
+    drawArrowsBloc: _drawArrowsBloc,
   );
 }
 
@@ -41,6 +48,7 @@ void arrowGoldenTest() {
           mainTestableApp(
             addRemoveElement: _addRemoveElementBloc,
             drawArrows: _drawArrowsBloc,
+            handlePoints: _handlePointsBloc,
           ),
         );
 
@@ -175,7 +183,7 @@ void arrowGoldenTest() {
 
           await gesture.up();
 
-          await tester.pumpAndSettle(const Duration(milliseconds: 500));
+          await tester.pumpAndSettle(const Duration(milliseconds: 800));
         });
       };
     });

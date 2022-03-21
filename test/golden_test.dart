@@ -19,10 +19,12 @@ late AppTheme appTheme;
 late AddRemoveElementBloc addRemoveElementBloc;
 late UnselectElementsBloc unselectElementsBloc;
 late DrawArrowsBloc drawArrowsBloc;
+late HandlePointsBloc handlePointsBloc;
 
 Widget mainTestableApp({
   AddRemoveElementBloc? addRemoveElement,
   DrawArrowsBloc? drawArrows,
+  HandlePointsBloc? handlePoints,
 }) {
   return MultiBlocProvider(
     providers: [
@@ -39,10 +41,13 @@ Widget mainTestableApp({
         create: (context) => drawArrows ?? drawArrowsBloc,
       ),
       BlocProvider(
-        create: (context) => HandlePointsBloc(
-          addRemoveElementBloc: BlocProvider.of<AddRemoveElementBloc>(context),
-          drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
-        ),
+        create: (context) =>
+            handlePoints ??
+            HandlePointsBloc(
+              addRemoveElementBloc:
+                  BlocProvider.of<AddRemoveElementBloc>(context),
+              drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+            ),
       ),
     ],
     child: const DiagramsApp(),
