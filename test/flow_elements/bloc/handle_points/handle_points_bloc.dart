@@ -22,14 +22,11 @@ void handlePointsBlocTest() {
       build: () => bloc,
       expect: () => [],
       verify: (bloc) {
-        if (bloc.lastDrawnPoint != Offset.zero) {
-          throw Exception('lastDrawnPoint has been initialized');
-        }
         if (bloc.arrowEndPointFound != null) {
           throw Exception('arrowEndPointFound is not null');
         }
-        if (bloc.elementAnchorPointFound != null) {
-          throw Exception('elementAnchorPointFound is not null');
+        if (bloc.currentArrow != null) {
+          throw Exception('currentArrow is not null');
         }
       },
     );

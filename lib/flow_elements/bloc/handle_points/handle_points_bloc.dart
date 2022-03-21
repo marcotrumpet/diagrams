@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:diagrams/flow_elements/abstract_flow_element.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
@@ -18,16 +18,15 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
 
   var enablePanUpdate = true;
   ArrowModel? arrowEndPointFound;
-  AbstractFlowElement? elementAnchorPointFound;
-  Offset lastDrawnPoint = Offset.zero;
+  ArrowModel? currentArrow;
+
   HandlePointsBloc({
     required this.addRemoveElementBloc,
     required this.drawArrowsBloc,
   }) : super(const _Initial()) {
     void resetVariables() {
-      lastDrawnPoint = Offset.zero;
       arrowEndPointFound = null;
-      elementAnchorPointFound = null;
+      currentArrow = null;
     }
 
     double roundBaseFifteen(double n) {
@@ -55,14 +54,18 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
 
     void onPanDown(Offset offset) {
       var newPoint = normalizedStartPointToGrid(offset);
-      elementAnchorPointFound =
-          addRemoveElementBloc.elementsList.firstWhereOrNull((e) =>
-              e.anchorPointsModelMap!.anchorPointList.firstWhereOrNull((e) {
-                return (e.anchorPointPositionRelativeToParent - newPoint)
-                        .distanceSquared <=
-                    450;
-              }) !=
-              null);
+      AnchorPointModel? startPoint;
+
+      var elementAnchorPointFound =
+          addRemoveElementBloc.elementsList.firstWhereOrNull((e) {
+        startPoint =
+            e.anchorPointsModelMap?.anchorPointList.firstWhereOrNull((e) {
+          return (e.anchorPointPositionRelativeToParent - newPoint)
+                  .distanceSquared <=
+              450;
+        });
+        return startPoint != null;
+      });
 
       arrowEndPointFound = drawArrowsBloc.arrowModelList
           .firstWhereOrNull((element) => (element.endPoint == newPoint));
@@ -73,13 +76,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
         return;
       }
 
-      var startPointKey = elementAnchorPointFound
-          ?.anchorPointsModelMap?.anchorPointList
-          .firstWhereOrNull((element) =>
-              (element.anchorPointPositionRelativeToParent - newPoint)
-                  .distanceSquared <=
-              450)
-          ?.anchorPointKey;
+      var startPointKey = startPoint?.anchorPointKey;
 
       // TODO check if this is correct
       if (arrowEndPointFound != null) {
@@ -121,12 +118,15 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
 
     void onPanUpdate(Offset offset) {
       if (!enablePanUpdate) return;
-      lastDrawnPoint = normalizedPointToGrid(offset);
+      var lastDrawnPoint = normalizedPointToGrid(offset);
 
-      var currentArrow = drawArrowsBloc.arrowModelList
+      currentArrow ??= drawArrowsBloc.arrowModelList
           .firstWhereOrNull(
               (element) => element.arrowKey == drawArrowsBloc.lastArrowDrawnKey)
           ?.copyWith(endPoint: lastDrawnPoint);
+
+      arrowEndPointFound =
+          arrowEndPointFound?.copyWith(endPoint: lastDrawnPoint);
 
       drawArrowsBloc.add(
         DrawArrowsEvent(
@@ -136,13 +136,15 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
       );
     }
 
-    void onPanEnd() {
+    void onPanEnd(Offset offset) {
       if (!enablePanUpdate) return;
+      var normalizedOffset = normalizedPointToGrid(offset);
 
       var endElementAnchorPointFound =
           addRemoveElementBloc.elementsList.firstWhereOrNull((e) =>
               e.anchorPointsModelMap!.anchorPointList.firstWhereOrNull((e) {
-                return (e.anchorPointPositionRelativeToParent - lastDrawnPoint)
+                return (e.anchorPointPositionRelativeToParent -
+                            normalizedOffset)
                         .distanceSquared <=
                     450;
               }) !=
@@ -154,7 +156,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
         var endPointKey = endElementAnchorPointFound
             .anchorPointsModelMap?.anchorPointList
             .firstWhereOrNull((element) {
-          if ((element.anchorPointPositionRelativeToParent - lastDrawnPoint)
+          if ((element.anchorPointPositionRelativeToParent - normalizedOffset)
                   .distanceSquared <=
               450) {
             anchorPointPosition = element.anchorPointPositionRelativeToParent;
@@ -210,12 +212,12 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
       var currentArrow = drawArrowsBloc.arrowModelList
           .firstWhereOrNull(
               (element) => element.arrowKey == drawArrowsBloc.lastArrowDrawnKey)
-          ?.copyWith(endPoint: lastDrawnPoint);
+          ?.copyWith(endPoint: normalizedOffset);
 
       if (arrowEndPointFound != null) {
         arrowEndPointFound = arrowEndPointFound?.copyWith(
           updateAStarPath: true,
-          endPoint: lastDrawnPoint,
+          endPoint: normalizedOffset,
           endPointKey: UniqueKey(),
         );
 
@@ -235,7 +237,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
       } else if (currentArrow != null) {
         currentArrow = currentArrow.copyWith(
           updateAStarPath: true,
-          endPoint: lastDrawnPoint,
+          endPoint: normalizedOffset,
         );
 
         drawArrowsBloc.add(

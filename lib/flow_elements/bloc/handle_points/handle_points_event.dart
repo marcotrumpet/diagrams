@@ -4,5 +4,5 @@ part of 'handle_points_bloc.dart';
 class HandlePointsEvent with _$HandlePointsEvent {
   const factory HandlePointsEvent.panDown(Offset offset) = _PanDown;
   const factory HandlePointsEvent.panUpdate(Offset offset) = _PanUpdate;
-  const factory HandlePointsEvent.panEnd() = _PanEnd;
+  const factory HandlePointsEvent.panEnd(Offset offset) = _PanEnd;
 }

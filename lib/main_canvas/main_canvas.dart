@@ -34,20 +34,40 @@ class _MainCanvasState extends State<MainCanvas> {
           clipBehavior: Clip.hardEdge,
           fit: StackFit.expand,
           children: [
-            GestureDetector(
-              onPanStart: (details) => context
-                  .read<HandlePointsBloc>()
-                  .add(HandlePointsEvent.panDown(details.localPosition)),
-              onPanUpdate: (details) => context
-                  .read<HandlePointsBloc>()
-                  .add(HandlePointsEvent.panUpdate(details.localPosition)),
-              onPanEnd: (details) => context
-                  .read<HandlePointsBloc>()
-                  .add(const HandlePointsEvent.panEnd()),
+            Listener(
+              onPointerDown: (event) {
+                context
+                    .read<HandlePointsBloc>()
+                    .add(HandlePointsEvent.panDown(event.localPosition));
+              },
+              onPointerMove: (event) {
+                context
+                    .read<HandlePointsBloc>()
+                    .add(HandlePointsEvent.panUpdate(event.localPosition));
+              },
+              onPointerUp: (event) {
+                context
+                    .read<HandlePointsBloc>()
+                    .add(HandlePointsEvent.panEnd(event.localPosition));
+              },
               child: Container(
                 color: Colors.transparent,
               ),
             ),
+            // GestureDetector(
+            //   onPanStart: (details) => context
+            //       .read<HandlePointsBloc>()
+            //       .add(HandlePointsEvent.panDown(details.localPosition)),
+            //   onPanUpdate: (details) => context
+            //       .read<HandlePointsBloc>()
+            //       .add(HandlePointsEvent.panUpdate(details.localPosition)),
+            //   onPanEnd: (details) => context
+            //       .read<HandlePointsBloc>()
+            //       .add(const HandlePointsEvent.panEnd()),
+            //   child: Container(
+            //     color: Colors.transparent,
+            //   ),
+            // ),
             RepaintBoundary(
               child: CustomPaint(
                 key: _gridKey,
@@ -94,18 +114,19 @@ class _MainCanvasState extends State<MainCanvas> {
               },
               builder: (context, state) {
                 return Stack(
-                  children: _arrowModelList
-                      .map(
-                        (arrow) => RepaintBoundary(
-                          child: CustomPaint(
-                            painter: ArrowCustomPainter(
-                              arrowModel: arrow,
-                              context: context,
-                            ),
+                  children: _arrowModelList.map(
+                    (arrow) {
+                      return RepaintBoundary(
+                        child: CustomPaint(
+                          key: arrow.arrowKey,
+                          painter: ArrowCustomPainter(
+                            arrowModel: arrow,
+                            context: context,
                           ),
                         ),
-                      )
-                      .toList(),
+                      );
+                    },
+                  ).toList(),
                 );
               },
             ),

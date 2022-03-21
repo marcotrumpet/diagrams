@@ -29,8 +29,10 @@ class _$HandlePointsEventTearOff {
     );
   }
 
-  _PanEnd panEnd() {
-    return const _PanEnd();
+  _PanEnd panEnd(Offset offset) {
+    return _PanEnd(
+      offset,
+    );
   }
 }
 
@@ -39,25 +41,27 @@ const $HandlePointsEvent = _$HandlePointsEventTearOff();
 
 /// @nodoc
 mixin _$HandlePointsEvent {
+  Offset get offset => throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Offset offset) panDown,
     required TResult Function(Offset offset) panUpdate,
-    required TResult Function() panEnd,
+    required TResult Function(Offset offset) panEnd,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Offset offset)? panDown,
     TResult Function(Offset offset)? panUpdate,
-    TResult Function()? panEnd,
+    TResult Function(Offset offset)? panEnd,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Offset offset)? panDown,
     TResult Function(Offset offset)? panUpdate,
-    TResult Function()? panEnd,
+    TResult Function(Offset offset)? panEnd,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -83,6 +87,10 @@ mixin _$HandlePointsEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $HandlePointsEventCopyWith<HandlePointsEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -90,6 +98,7 @@ abstract class $HandlePointsEventCopyWith<$Res> {
   factory $HandlePointsEventCopyWith(
           HandlePointsEvent value, $Res Function(HandlePointsEvent) then) =
       _$HandlePointsEventCopyWithImpl<$Res>;
+  $Res call({Offset offset});
 }
 
 /// @nodoc
@@ -100,12 +109,26 @@ class _$HandlePointsEventCopyWithImpl<$Res>
   final HandlePointsEvent _value;
   // ignore: unused_field
   final $Res Function(HandlePointsEvent) _then;
+
+  @override
+  $Res call({
+    Object? offset = freezed,
+  }) {
+    return _then(_value.copyWith(
+      offset: offset == freezed
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as Offset,
+    ));
+  }
 }
 
 /// @nodoc
-abstract class _$PanDownCopyWith<$Res> {
+abstract class _$PanDownCopyWith<$Res>
+    implements $HandlePointsEventCopyWith<$Res> {
   factory _$PanDownCopyWith(_PanDown value, $Res Function(_PanDown) then) =
       __$PanDownCopyWithImpl<$Res>;
+  @override
   $Res call({Offset offset});
 }
 
@@ -166,7 +189,7 @@ class _$_PanDown implements _PanDown {
   TResult when<TResult extends Object?>({
     required TResult Function(Offset offset) panDown,
     required TResult Function(Offset offset) panUpdate,
-    required TResult Function() panEnd,
+    required TResult Function(Offset offset) panEnd,
   }) {
     return panDown(offset);
   }
@@ -176,7 +199,7 @@ class _$_PanDown implements _PanDown {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Offset offset)? panDown,
     TResult Function(Offset offset)? panUpdate,
-    TResult Function()? panEnd,
+    TResult Function(Offset offset)? panEnd,
   }) {
     return panDown?.call(offset);
   }
@@ -186,7 +209,7 @@ class _$_PanDown implements _PanDown {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Offset offset)? panDown,
     TResult Function(Offset offset)? panUpdate,
-    TResult Function()? panEnd,
+    TResult Function(Offset offset)? panEnd,
     required TResult orElse(),
   }) {
     if (panDown != null) {
@@ -233,17 +256,21 @@ class _$_PanDown implements _PanDown {
 abstract class _PanDown implements HandlePointsEvent {
   const factory _PanDown(Offset offset) = _$_PanDown;
 
+  @override
   Offset get offset;
+  @override
   @JsonKey(ignore: true)
   _$PanDownCopyWith<_PanDown> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$PanUpdateCopyWith<$Res> {
+abstract class _$PanUpdateCopyWith<$Res>
+    implements $HandlePointsEventCopyWith<$Res> {
   factory _$PanUpdateCopyWith(
           _PanUpdate value, $Res Function(_PanUpdate) then) =
       __$PanUpdateCopyWithImpl<$Res>;
+  @override
   $Res call({Offset offset});
 }
 
@@ -305,7 +332,7 @@ class _$_PanUpdate implements _PanUpdate {
   TResult when<TResult extends Object?>({
     required TResult Function(Offset offset) panDown,
     required TResult Function(Offset offset) panUpdate,
-    required TResult Function() panEnd,
+    required TResult Function(Offset offset) panEnd,
   }) {
     return panUpdate(offset);
   }
@@ -315,7 +342,7 @@ class _$_PanUpdate implements _PanUpdate {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Offset offset)? panDown,
     TResult Function(Offset offset)? panUpdate,
-    TResult Function()? panEnd,
+    TResult Function(Offset offset)? panEnd,
   }) {
     return panUpdate?.call(offset);
   }
@@ -325,7 +352,7 @@ class _$_PanUpdate implements _PanUpdate {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Offset offset)? panDown,
     TResult Function(Offset offset)? panUpdate,
-    TResult Function()? panEnd,
+    TResult Function(Offset offset)? panEnd,
     required TResult orElse(),
   }) {
     if (panUpdate != null) {
@@ -372,16 +399,21 @@ class _$_PanUpdate implements _PanUpdate {
 abstract class _PanUpdate implements HandlePointsEvent {
   const factory _PanUpdate(Offset offset) = _$_PanUpdate;
 
+  @override
   Offset get offset;
+  @override
   @JsonKey(ignore: true)
   _$PanUpdateCopyWith<_PanUpdate> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$PanEndCopyWith<$Res> {
+abstract class _$PanEndCopyWith<$Res>
+    implements $HandlePointsEventCopyWith<$Res> {
   factory _$PanEndCopyWith(_PanEnd value, $Res Function(_PanEnd) then) =
       __$PanEndCopyWithImpl<$Res>;
+  @override
+  $Res call({Offset offset});
 }
 
 /// @nodoc
@@ -392,35 +424,58 @@ class __$PanEndCopyWithImpl<$Res> extends _$HandlePointsEventCopyWithImpl<$Res>
 
   @override
   _PanEnd get _value => super._value as _PanEnd;
+
+  @override
+  $Res call({
+    Object? offset = freezed,
+  }) {
+    return _then(_PanEnd(
+      offset == freezed
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as Offset,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_PanEnd implements _PanEnd {
-  const _$_PanEnd();
+  const _$_PanEnd(this.offset);
+
+  @override
+  final Offset offset;
 
   @override
   String toString() {
-    return 'HandlePointsEvent.panEnd()';
+    return 'HandlePointsEvent.panEnd(offset: $offset)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _PanEnd);
+        (other.runtimeType == runtimeType &&
+            other is _PanEnd &&
+            const DeepCollectionEquality().equals(other.offset, offset));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(offset));
+
+  @JsonKey(ignore: true)
+  @override
+  _$PanEndCopyWith<_PanEnd> get copyWith =>
+      __$PanEndCopyWithImpl<_PanEnd>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Offset offset) panDown,
     required TResult Function(Offset offset) panUpdate,
-    required TResult Function() panEnd,
+    required TResult Function(Offset offset) panEnd,
   }) {
-    return panEnd();
+    return panEnd(offset);
   }
 
   @override
@@ -428,9 +483,9 @@ class _$_PanEnd implements _PanEnd {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Offset offset)? panDown,
     TResult Function(Offset offset)? panUpdate,
-    TResult Function()? panEnd,
+    TResult Function(Offset offset)? panEnd,
   }) {
-    return panEnd?.call();
+    return panEnd?.call(offset);
   }
 
   @override
@@ -438,11 +493,11 @@ class _$_PanEnd implements _PanEnd {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Offset offset)? panDown,
     TResult Function(Offset offset)? panUpdate,
-    TResult Function()? panEnd,
+    TResult Function(Offset offset)? panEnd,
     required TResult orElse(),
   }) {
     if (panEnd != null) {
-      return panEnd();
+      return panEnd(offset);
     }
     return orElse();
   }
@@ -483,7 +538,13 @@ class _$_PanEnd implements _PanEnd {
 }
 
 abstract class _PanEnd implements HandlePointsEvent {
-  const factory _PanEnd() = _$_PanEnd;
+  const factory _PanEnd(Offset offset) = _$_PanEnd;
+
+  @override
+  Offset get offset;
+  @override
+  @JsonKey(ignore: true)
+  _$PanEndCopyWith<_PanEnd> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
