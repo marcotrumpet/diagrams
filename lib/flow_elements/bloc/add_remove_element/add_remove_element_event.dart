@@ -41,6 +41,15 @@ class MoveElementEvent
 }
 
 @freezed
+class ScaleElementEvent
+    with _$ScaleElementEvent
+    implements AbstractAddRemoveElementEvent {
+  /// Call it when element move on the canvas
+  const factory ScaleElementEvent(
+      {required AbstractFlowElement elementToManipulate}) = _ScaleElementEvent;
+}
+
+@freezed
 class AddStartingPointToAnchorElementEvent
     with _$AddStartingPointToAnchorElementEvent
     implements AbstractAddRemoveElementEvent {

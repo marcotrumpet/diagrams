@@ -67,6 +67,12 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
         return startPoint != null;
       });
 
+      if (!(elementAnchorPointFound?.anchorPointsVisible ?? true)) {
+        enablePanUpdate = false;
+        resetVariables();
+        return;
+      }
+
       arrowEndPointFound = drawArrowsBloc.arrowModelList
           .firstWhereOrNull((element) => (element.endPoint == newPoint));
 

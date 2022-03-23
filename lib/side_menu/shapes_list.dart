@@ -9,20 +9,24 @@ import 'package:flutter/material.dart';
 final rectangle = RectangleFlowElement(
   flowType: FlowElementTypes.rectangle,
   path: rectangleShape,
+  isSideMenu: true,
 );
 
 final roundedRectangle = RoundedRectangleFlowElement(
   flowType: FlowElementTypes.roundedRectangle,
   path: roundedRectangleShape,
+  isSideMenu: true,
 );
 
 final triangle = TriangleFlowElement(
   flowType: FlowElementTypes.triangle,
   path: triangleShape,
+  isSideMenu: true,
 );
 final circle = CircleFlowElement(
   flowType: FlowElementTypes.circle,
   path: circleShape,
+  isSideMenu: true,
 );
 
 List<Draggable<AbstractFlowElement>> basicShapesList(BuildContext context) {
@@ -30,26 +34,26 @@ List<Draggable<AbstractFlowElement>> basicShapesList(BuildContext context) {
     Draggable<RectangleFlowElement>(
       hitTestBehavior: HitTestBehavior.opaque,
       data: rectangle,
-      child: rectangle.buildChild(context, true),
-      feedback: rectangle.buildChild(context, true),
+      child: rectangle.buildChild(context),
+      feedback: rectangle.buildChild(context),
     ),
     Draggable<RoundedRectangleFlowElement>(
       hitTestBehavior: HitTestBehavior.opaque,
       data: roundedRectangle,
-      child: roundedRectangle.buildChild(context, true),
-      feedback: roundedRectangle.buildChild(context, true),
+      child: roundedRectangle.buildChild(context),
+      feedback: roundedRectangle.buildChild(context),
     ),
     Draggable<TriangleFlowElement>(
       hitTestBehavior: HitTestBehavior.opaque,
       data: triangle,
-      child: triangle.buildChild(context, true),
-      feedback: triangle.buildChild(context, true),
+      child: triangle.buildChild(context),
+      feedback: triangle.buildChild(context),
     ),
     Draggable<CircleFlowElement>(
       hitTestBehavior: HitTestBehavior.opaque,
       data: circle,
-      child: circle.buildChild(context, true),
-      feedback: circle.buildChild(context, true),
+      child: circle.buildChild(context),
+      feedback: circle.buildChild(context),
     ),
   ];
 }

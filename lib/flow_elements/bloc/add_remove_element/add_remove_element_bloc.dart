@@ -140,6 +140,21 @@ class AddRemoveElementBloc
       },
     );
 
+    on<ScaleElementEvent>(
+      ((event, emit) {
+        // var element = event.elementToManipulate.copyWith(
+        //     anchorPointsModelMap: event.elementToManipulate.updateAnchorPoints(
+        //         event.elementToManipulate,
+        //         event.elementToManipulate.offset!,
+        //         event.elementToManipulate.path));
+        elementsList.removeWhere((element) =>
+            element.elementKey == event.elementToManipulate.elementKey);
+        elementsList.add(event.elementToManipulate);
+        final List<AbstractFlowElement> newList = [...elementsList];
+        emit(newList);
+      }),
+    );
+
     on<MoveElementEvent>((event, emit) {
       elementsList.removeWhere((element) =>
           element.elementKey == event.elementToManipulate.elementKey);

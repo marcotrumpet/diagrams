@@ -1,6 +1,7 @@
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/circle/circle_custom_painter.dart';
+import 'package:diagrams/flow_elements/dimension_points/dimension_point_model.dart';
 import 'package:flutter/material.dart';
 
 class CircleFlowElement extends AbstractFlowElement {
@@ -10,33 +11,35 @@ class CircleFlowElement extends AbstractFlowElement {
     Offset? offset,
     Key? elementKey,
     AnchorPointModelMap? anchorPointsModelMap,
+    DimensionPointModelMap? dimensionPointModelMap,
+    isSideMenu = false,
   }) : super(
           flowType: flowType,
           elementKey: elementKey,
           offset: offset,
           path: path,
           anchorPointsModelMap: anchorPointsModelMap,
+          dimensionPointModelMap: dimensionPointModelMap,
+          isSideMenu: isSideMenu,
         );
 
   @override
   Widget concreteBuild(BuildContext context) {
     return Draggable<CircleFlowElement>(
       data: this,
-      child: buildChild(context, false),
-      feedback: buildChild(context, false),
+      child: buildChild(context),
+      feedback: buildChild(context),
       childWhenDragging: const SizedBox.shrink(),
     );
   }
 
   @override
-  Widget buildChild(BuildContext context, bool small) {
+  Widget buildChild(BuildContext context) {
     return RepaintBoundary(
       child: CustomPaint(
         foregroundPainter: CircleCustomPainter(path: path, context: context),
         child: Container(
           color: Colors.transparent,
-          width: small ? 40 : 90,
-          height: small ? 40 : 90,
         ),
       ),
     );
@@ -49,6 +52,7 @@ class CircleFlowElement extends AbstractFlowElement {
     Key? elementKey,
     Path? path,
     AnchorPointModelMap? anchorPointsModelMap,
+    DimensionPointModelMap? dimensionPointModelMap,
   }) {
     return CircleFlowElement(
       flowType: flowType ?? this.flowType,
@@ -56,6 +60,8 @@ class CircleFlowElement extends AbstractFlowElement {
       offset: offset ?? this.offset,
       path: path ?? this.path,
       anchorPointsModelMap: anchorPointsModelMap ?? this.anchorPointsModelMap,
+      dimensionPointModelMap:
+          dimensionPointModelMap ?? this.dimensionPointModelMap,
     );
   }
 }

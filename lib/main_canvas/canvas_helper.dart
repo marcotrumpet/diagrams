@@ -54,11 +54,13 @@ void handleFlowElements({
       elementToManipulate = (details.data as RectangleFlowElement).copyWith(
         offset: offset,
         elementKey: details.data.elementKey ?? UniqueKey(),
-        path: rectangleShapeBig,
+        path: details.data.path != rectangleShape
+            ? details.data.path
+            : rectangleShapeBig,
         anchorPointsModelMap: details.data.anchorPointsModelMap == null
             ? details.data.setAnchorPoints(offset, rectangleShapeBig)
             : details.data
-                .updateAnchorPoints(details.data, offset, rectangleShapeBig),
+                .updateAnchorPoints(details.data, offset, details.data.path),
       );
       break;
     case FlowElementTypes.roundedRectangle:
@@ -69,8 +71,8 @@ void handleFlowElements({
         path: roundedRectangleShapeBig,
         anchorPointsModelMap: details.data.anchorPointsModelMap == null
             ? details.data.setAnchorPoints(offset, roundedRectangleShapeBig)
-            : details.data.updateAnchorPoints(
-                details.data, offset, roundedRectangleShapeBig),
+            : details.data
+                .updateAnchorPoints(details.data, offset, details.data.path),
       );
       break;
     case FlowElementTypes.triangle:
@@ -81,7 +83,7 @@ void handleFlowElements({
         anchorPointsModelMap: details.data.anchorPointsModelMap == null
             ? details.data.setAnchorPoints(offset, triangleShapeBig)
             : details.data
-                .updateAnchorPoints(details.data, offset, triangleShapeBig),
+                .updateAnchorPoints(details.data, offset, details.data.path),
       );
       break;
     case FlowElementTypes.circle:
@@ -92,7 +94,7 @@ void handleFlowElements({
         anchorPointsModelMap: details.data.anchorPointsModelMap == null
             ? details.data.setAnchorPoints(offset, circleShapeBig)
             : details.data
-                .updateAnchorPoints(details.data, offset, circleShapeBig),
+                .updateAnchorPoints(details.data, offset, details.data.path),
       );
       break;
   }
