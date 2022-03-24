@@ -36,7 +36,6 @@ void drawArrowsBlocTest() {
             anchorPointPositionRelativeToParent:
                 endPoint + const Offset(10, 10),
             alignment: Alignment.topLeft,
-            child: Container(),
           ),
         ],
       ));
@@ -53,7 +52,6 @@ void drawArrowsBlocTest() {
             anchorPointPositionRelativeToParent:
                 startPoint + const Offset(100, 100),
             alignment: Alignment.topLeft,
-            child: Container(),
           ),
         ],
       ));

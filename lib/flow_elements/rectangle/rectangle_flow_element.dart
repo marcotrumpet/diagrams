@@ -35,6 +35,7 @@ class RectangleFlowElement extends AbstractFlowElement {
 
   @override
   Widget buildChild(BuildContext context) {
+    final _bounds = path.getBounds();
     return RepaintBoundary(
       child: CustomPaint(
         foregroundPainter: RectangleCustomPainter(
@@ -42,6 +43,8 @@ class RectangleFlowElement extends AbstractFlowElement {
           context: context,
         ),
         child: Container(
+          width: _bounds.width,
+          height: _bounds.height,
           color: Colors.transparent,
         ),
       ),

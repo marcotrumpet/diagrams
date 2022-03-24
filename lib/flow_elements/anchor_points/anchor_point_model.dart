@@ -20,6 +20,5 @@ class AnchorPointModel with _$AnchorPointModel {
     required Alignment alignment,
     @Default([]) List<ArrowModel>? arrowModelStart,
     @Default([]) List<ArrowModel>? arrowModelEnd,
-    required Widget child,
   }) = _AnchorPointModel;
 }

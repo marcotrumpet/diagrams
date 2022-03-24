@@ -50,6 +50,9 @@ class _MainCanvasState extends State<MainCanvas> {
                     .read<HandlePointsBloc>()
                     .add(HandlePointsEvent.panEnd(event.localPosition));
               },
+              // onPointerHover: (details) {
+              //   debugPrint(details.localPosition.toString());
+              // },
               child: Container(
                 color: Colors.transparent,
               ),

@@ -75,7 +75,6 @@ abstract class AbstractFlowElement {
           anchorPointPosition: e.values.first,
           anchorPointPositionRelativeToParent: e.values.first + offset,
           alignment: e.keys.first,
-          child: AnchorPoint(key: key),
         );
       }).toList(),
     );
@@ -119,25 +118,6 @@ abstract class AbstractFlowElement {
               },
             ).toList() ??
             []);
-
-    // var _tmpAnchorPointList = <AnchorPointModel>[];
-
-    // for (var anchor in data.anchorPointsModelMap!.anchorPointList) {
-    //   for (var element in _anchorPointsMap) {
-    //     if (element[anchor.alignment] != null &&
-    //         path.contains(element[anchor.alignment]!)) {
-    //       _tmpAnchorPointList.add(anchor.copyWith(
-    //         anchorPointPosition: element[anchor.alignment]!,
-    //         anchorPointPositionRelativeToParent:
-    //             element[anchor.alignment]! + offset,
-    //       ));
-    //     }
-    //   }
-    // }
-
-    // return data.anchorPointsModelMap!.copyWith(
-    //   anchorPointList: _tmpAnchorPointList,
-    // );
   }
 
   DimensionPointModelMap setDimensionPoints(Offset offset, Path path) {
@@ -165,13 +145,15 @@ abstract class AbstractFlowElement {
           child: DimensionPoint(
             key: key,
             element: this,
+            alignment: e.keys.first,
           ),
         );
       },
     ).toList());
   }
 
-  DimensionPointModelMap updateDimensionPoints(Offset offset, Path path) {
+  DimensionPointModelMap updateDimensionPoints(Offset offset, Path path,
+      {bool updateElementPosition = false}) {
     final boundRect = path.getBounds();
     var _dimensionPointsList = [
       {Alignment.topLeft: boundRect.topLeft},
@@ -183,24 +165,33 @@ abstract class AbstractFlowElement {
       {Alignment.centerLeft: Offset(boundRect.left, boundRect.height / 2)},
       {Alignment.centerRight: Offset(boundRect.right, boundRect.height / 2)},
     ];
+
+    var el = updateElementPosition ? copyWith(offset: offset) : this;
+
     return DimensionPointModelMap(
         dimensionPointList: dimensionPointModelMap?.dimensionPointList.map(
               (e) {
+                var _newDimensionPointKey =
+                    updateElementPosition ? UniqueKey() : e.dimensionPointKey;
+                var _dimensionPointPosition = _dimensionPointsList
+                    .firstWhere((element) => element.keys.first == e.alignment)
+                    .values
+                    .first;
+                var _dimensionPointPositionRelativeToParent =
+                    _dimensionPointsList
+                            .firstWhere(
+                                (element) => element.keys.first == e.alignment)
+                            .values
+                            .first +
+                        offset;
                 return e.copyWith(
-                  dimensionPointPosition: _dimensionPointsList
-                      .firstWhere(
-                          (element) => element.keys.first == e.alignment)
-                      .values
-                      .first,
-                  dimensionPointPositionRelativeToParent: _dimensionPointsList
-                          .firstWhere(
-                              (element) => element.keys.first == e.alignment)
-                          .values
-                          .first +
-                      offset,
+                  dimensionPointPosition: _dimensionPointPosition,
+                  dimensionPointPositionRelativeToParent:
+                      _dimensionPointPositionRelativeToParent,
                   child: DimensionPoint(
-                    key: e.dimensionPointKey,
-                    element: this,
+                    key: _newDimensionPointKey,
+                    element: el,
+                    alignment: e.alignment,
                   ),
                 );
               },
@@ -211,7 +202,7 @@ abstract class AbstractFlowElement {
   Widget build(BuildContext context) {
     return Container(
       transform: Matrix4.translationValues(
-          (offset?.dx ?? 0) - 10, (offset?.dy ?? 0) - 10, 0),
+          (offset?.dx ?? 0) - 5, (offset?.dy ?? 0) - 5, 0),
       child: BlocBuilder<UnselectElementsBloc, UnselectElementsState>(
         buildWhen: (previous, current) =>
             elementKey == current.elementKey || current.elementKey == null,
@@ -235,83 +226,61 @@ abstract class AbstractFlowElement {
             },
             builder: (context, _) {
               var pathBounds = path.getBounds();
-              return Container(
-                margin: const EdgeInsets.all(10),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    context.read<UnselectElementsBloc>().add(
-                        UnselectElementsEvent(
-                            unselect: !unselectElementState.unselect,
-                            elementKey: elementKey));
-                  },
-                  child: SizedBox(
-                    width: pathBounds.width + 10,
-                    height: pathBounds.height + 10,
-                    child: Stack(
-                      key: elementKey,
-                      children: [
-                        concreteBuild(context),
-                        if (anchorPointsModelMap!.anchorPointList.isNotEmpty)
-                          for (var anchorPoint
-                              in anchorPointsModelMap!.anchorPointList)
-                            Container(
-                              transform: Matrix4.translationValues(
-                                  anchorPoint.anchorPointPosition.dx - 10,
-                                  anchorPoint.anchorPointPosition.dy - 10,
-                                  0),
-                              child: MouseRegion(
-                                cursor: !unselectElementState.unselect
-                                    ? SystemMouseCursors.basic
-                                    : SystemMouseCursors.grab,
-                                opaque: false,
-                                onEnter: (event) {
-                                  if (!unselectElementState.unselect) return;
-                                  _showAnchorPointsValueNotifier.value = 1.0;
-                                },
-                                onExit: (event) {
-                                  if (!unselectElementState.unselect) return;
-                                  _showAnchorPointsValueNotifier.value = 0.0;
-                                },
-                                child: ValueListenableBuilder<double>(
-                                  valueListenable:
-                                      _showAnchorPointsValueNotifier,
-                                  builder: (context, opacity, _) {
-                                    return Opacity(
-                                      opacity: opacity,
-                                      child: anchorPoint.child,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                        if (dimensionPointModelMap != null &&
-                            dimensionPointModelMap!
-                                .dimensionPointList.isNotEmpty &&
-                            !unselectElementState.unselect)
-                          RepaintBoundary(
-                            child: CustomPaint(
-                              painter: DotLineCustomPainter(
-                                  path: path, context: context),
+              return GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  context.read<UnselectElementsBloc>().add(
+                      UnselectElementsEvent(
+                          unselect: !unselectElementState.unselect,
+                          elementKey: elementKey));
+                },
+                child: Stack(
+                  key: elementKey,
+                  children: [
+                    SizedBox(
+                      width: pathBounds.width + 10,
+                      height: pathBounds.height + 10,
+                      // color: Colors.red,
+                    ),
+                    Positioned.fill(
+                      child: Center(child: concreteBuild(context)),
+                    ),
+                    if (anchorPointsModelMap!.anchorPointList.isNotEmpty)
+                      for (var anchorPoint
+                          in anchorPointsModelMap!.anchorPointList)
+                        AnchorPoint(
+                          model: anchorPoint,
+                          unselect: unselectElementState.unselect,
+                          showAnchorPointsVN: _showAnchorPointsValueNotifier,
+                        ),
+                    if (dimensionPointModelMap != null &&
+                        dimensionPointModelMap!.dimensionPointList.isNotEmpty &&
+                        !unselectElementState.unselect)
+                      Container(
+                        transform: Matrix4.translationValues(5, 5, 0),
+                        child: RepaintBoundary(
+                          child: CustomPaint(
+                            painter: DotLineCustomPainter(
+                              path: path,
+                              context: context,
                             ),
                           ),
-                        if (dimensionPointModelMap != null &&
-                            dimensionPointModelMap!
-                                .dimensionPointList.isNotEmpty &&
-                            !unselectElementState.unselect)
-                          for (var dimensionPoint
-                              in dimensionPointModelMap!.dimensionPointList)
-                            Container(
-                              transform: Matrix4.translationValues(
-                                dimensionPoint.dimensionPointPosition.dx,
-                                dimensionPoint.dimensionPointPosition.dy,
-                                0,
-                              ),
-                              child: dimensionPoint.child,
-                            ),
-                      ],
-                    ),
-                  ),
+                        ),
+                      ),
+                    if (dimensionPointModelMap != null &&
+                        dimensionPointModelMap!.dimensionPointList.isNotEmpty &&
+                        !unselectElementState.unselect)
+                      for (var dimensionPoint
+                          in dimensionPointModelMap!.dimensionPointList)
+                        Container(
+                          transform: Matrix4.translationValues(
+                            dimensionPoint.dimensionPointPosition.dx,
+                            dimensionPoint.dimensionPointPosition.dy,
+                            0,
+                          ),
+                          child: dimensionPoint.child,
+                        ),
+                  ],
                 ),
               );
             },

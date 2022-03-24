@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:diagrams/common/app_extensions.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
@@ -29,31 +30,8 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
       currentArrow = null;
     }
 
-    double roundBaseFifteen(double n) {
-      var lowest = n - (n % 15);
-      var highest = (n + 15) - ((n + 15) % 15);
-
-      return (n - lowest).abs() <= (n - highest).abs() ? lowest : highest;
-    }
-
-    Offset normalizedStartPointToGrid(Offset point) {
-      var newPoint = Offset(
-        roundBaseFifteen(point.dx),
-        roundBaseFifteen(point.dy),
-      );
-
-      return newPoint;
-    }
-
-    Offset normalizedPointToGrid(Offset point) {
-      var newPoint =
-          Offset((point.dx - point.dx % 15), (point.dy - point.dy % 15));
-
-      return newPoint;
-    }
-
     void onPanDown(Offset offset) {
-      var newPoint = normalizedStartPointToGrid(offset);
+      var newPoint = offset.normalizedStartPointToGrid();
       AnchorPointModel? startPoint;
 
       var elementAnchorPointFound =
@@ -124,7 +102,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
 
     void onPanUpdate(Offset offset) {
       if (!enablePanUpdate) return;
-      var lastDrawnPoint = normalizedPointToGrid(offset);
+      var lastDrawnPoint = offset.normalizedPointToGrid();
 
       currentArrow ??= drawArrowsBloc.arrowModelList
           .firstWhereOrNull(
@@ -144,7 +122,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
 
     void onPanEnd(Offset offset) {
       if (!enablePanUpdate) return;
-      var normalizedOffset = normalizedPointToGrid(offset);
+      var normalizedOffset = offset.normalizedPointToGrid();
 
       var endElementAnchorPointFound =
           addRemoveElementBloc.elementsList.firstWhereOrNull((e) =>

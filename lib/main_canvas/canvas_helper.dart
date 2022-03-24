@@ -61,6 +61,10 @@ void handleFlowElements({
             ? details.data.setAnchorPoints(offset, rectangleShapeBig)
             : details.data
                 .updateAnchorPoints(details.data, offset, details.data.path),
+        dimensionPointModelMap: drawNewElement
+            ? null
+            : details.data.updateDimensionPoints(offset, details.data.path,
+                updateElementPosition: true),
       );
       break;
     case FlowElementTypes.roundedRectangle:

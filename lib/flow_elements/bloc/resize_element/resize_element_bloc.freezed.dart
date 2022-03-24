@@ -18,10 +18,13 @@ class _$ResizeElementEventTearOff {
   const _$ResizeElementEventTearOff();
 
   _Resize resize(
-      {required AbstractFlowElement element, required Offset offset}) {
+      {required AbstractFlowElement element,
+      required Offset offset,
+      required Alignment alignment}) {
     return _Resize(
       element: element,
       offset: offset,
+      alignment: alignment,
     );
   }
 
@@ -39,20 +42,25 @@ const $ResizeElementEvent = _$ResizeElementEventTearOff();
 mixin _$ResizeElementEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(AbstractFlowElement element, Offset offset)
+    required TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)
         resize,
     required TResult Function(Key elementKey) clearMap,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(AbstractFlowElement element, Offset offset)? resize,
+    TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)?
+        resize,
     TResult Function(Key elementKey)? clearMap,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(AbstractFlowElement element, Offset offset)? resize,
+    TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)?
+        resize,
     TResult Function(Key elementKey)? clearMap,
     required TResult orElse(),
   }) =>
@@ -99,7 +107,7 @@ class _$ResizeElementEventCopyWithImpl<$Res>
 abstract class _$ResizeCopyWith<$Res> {
   factory _$ResizeCopyWith(_Resize value, $Res Function(_Resize) then) =
       __$ResizeCopyWithImpl<$Res>;
-  $Res call({AbstractFlowElement element, Offset offset});
+  $Res call({AbstractFlowElement element, Offset offset, Alignment alignment});
 }
 
 /// @nodoc
@@ -115,6 +123,7 @@ class __$ResizeCopyWithImpl<$Res> extends _$ResizeElementEventCopyWithImpl<$Res>
   $Res call({
     Object? element = freezed,
     Object? offset = freezed,
+    Object? alignment = freezed,
   }) {
     return _then(_Resize(
       element: element == freezed
@@ -125,6 +134,10 @@ class __$ResizeCopyWithImpl<$Res> extends _$ResizeElementEventCopyWithImpl<$Res>
           ? _value.offset
           : offset // ignore: cast_nullable_to_non_nullable
               as Offset,
+      alignment: alignment == freezed
+          ? _value.alignment
+          : alignment // ignore: cast_nullable_to_non_nullable
+              as Alignment,
     ));
   }
 }
@@ -132,16 +145,19 @@ class __$ResizeCopyWithImpl<$Res> extends _$ResizeElementEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Resize implements _Resize {
-  const _$_Resize({required this.element, required this.offset});
+  const _$_Resize(
+      {required this.element, required this.offset, required this.alignment});
 
   @override
   final AbstractFlowElement element;
   @override
   final Offset offset;
+  @override
+  final Alignment alignment;
 
   @override
   String toString() {
-    return 'ResizeElementEvent.resize(element: $element, offset: $offset)';
+    return 'ResizeElementEvent.resize(element: $element, offset: $offset, alignment: $alignment)';
   }
 
   @override
@@ -150,14 +166,16 @@ class _$_Resize implements _Resize {
         (other.runtimeType == runtimeType &&
             other is _Resize &&
             const DeepCollectionEquality().equals(other.element, element) &&
-            const DeepCollectionEquality().equals(other.offset, offset));
+            const DeepCollectionEquality().equals(other.offset, offset) &&
+            const DeepCollectionEquality().equals(other.alignment, alignment));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(element),
-      const DeepCollectionEquality().hash(offset));
+      const DeepCollectionEquality().hash(offset),
+      const DeepCollectionEquality().hash(alignment));
 
   @JsonKey(ignore: true)
   @override
@@ -167,31 +185,36 @@ class _$_Resize implements _Resize {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(AbstractFlowElement element, Offset offset)
+    required TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)
         resize,
     required TResult Function(Key elementKey) clearMap,
   }) {
-    return resize(element, offset);
+    return resize(element, offset, alignment);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(AbstractFlowElement element, Offset offset)? resize,
+    TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)?
+        resize,
     TResult Function(Key elementKey)? clearMap,
   }) {
-    return resize?.call(element, offset);
+    return resize?.call(element, offset, alignment);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(AbstractFlowElement element, Offset offset)? resize,
+    TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)?
+        resize,
     TResult Function(Key elementKey)? clearMap,
     required TResult orElse(),
   }) {
     if (resize != null) {
-      return resize(element, offset);
+      return resize(element, offset, alignment);
     }
     return orElse();
   }
@@ -231,10 +254,12 @@ class _$_Resize implements _Resize {
 abstract class _Resize implements ResizeElementEvent {
   const factory _Resize(
       {required AbstractFlowElement element,
-      required Offset offset}) = _$_Resize;
+      required Offset offset,
+      required Alignment alignment}) = _$_Resize;
 
   AbstractFlowElement get element;
   Offset get offset;
+  Alignment get alignment;
   @JsonKey(ignore: true)
   _$ResizeCopyWith<_Resize> get copyWith => throw _privateConstructorUsedError;
 }
@@ -303,7 +328,8 @@ class _$_ClearMap implements _ClearMap {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(AbstractFlowElement element, Offset offset)
+    required TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)
         resize,
     required TResult Function(Key elementKey) clearMap,
   }) {
@@ -313,7 +339,9 @@ class _$_ClearMap implements _ClearMap {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(AbstractFlowElement element, Offset offset)? resize,
+    TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)?
+        resize,
     TResult Function(Key elementKey)? clearMap,
   }) {
     return clearMap?.call(elementKey);
@@ -322,7 +350,9 @@ class _$_ClearMap implements _ClearMap {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(AbstractFlowElement element, Offset offset)? resize,
+    TResult Function(
+            AbstractFlowElement element, Offset offset, Alignment alignment)?
+        resize,
     TResult Function(Key elementKey)? clearMap,
     required TResult orElse(),
   }) {

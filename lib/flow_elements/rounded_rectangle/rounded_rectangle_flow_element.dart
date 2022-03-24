@@ -35,10 +35,16 @@ class RoundedRectangleFlowElement extends AbstractFlowElement {
 
   @override
   Widget buildChild(BuildContext context) {
+    final _bounds = path.getBounds();
     return RepaintBoundary(
       child: CustomPaint(
-        painter: RoundedRectangleCustomPainter(path: path, context: context),
+        painter: RoundedRectangleCustomPainter(
+          path: path,
+          context: context,
+        ),
         child: Container(
+          width: _bounds.width,
+          height: _bounds.height,
           color: Colors.transparent,
         ),
       ),

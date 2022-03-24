@@ -42,7 +42,13 @@ void main() async {
             drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
           ),
         ),
-        BlocProvider(create: (context) => ResizeElementBloc()),
+        BlocProvider(
+          create: (context) => ResizeElementBloc(
+            addRemoveElementBloc:
+                BlocProvider.of<AddRemoveElementBloc>(context),
+            drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+          ),
+        ),
       ],
       child: const DiagramsApp(),
     ),

@@ -3,48 +3,34 @@ import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DimensionPoint extends StatefulWidget {
+class DimensionPoint extends StatelessWidget {
   final AbstractFlowElement element;
-  const DimensionPoint({Key? key, required this.element}) : super(key: key);
+  final Alignment alignment;
+  const DimensionPoint({
+    Key? key,
+    required this.element,
+    required this.alignment,
+  }) : super(key: key);
 
-  @override
-  State<DimensionPoint> createState() => _DimensionPointState();
-}
-
-class _DimensionPointState extends State<DimensionPoint> {
-  // var offset = const Offset(1, 1);
-
-  _handleUpdate(DragUpdateDetails details) {
+  _handleUpdate(DragUpdateDetails details, BuildContext context) {
     var offset = details.delta;
+
     context.read<ResizeElementBloc>().add(
-          ResizeElementEvent.resize(element: widget.element, offset: offset),
+          ResizeElementEvent.resize(
+            element: element,
+            offset: offset,
+            alignment: alignment,
+          ),
         );
   }
 
-  // _handleEnd(DragEndDetails details) {
-  //   var bounds = widget.element.path.getBounds();
-  //   context.read<AddRemoveElementBloc>().add(
-  //         ScaleElementEvent(
-  //           elementToManipulate: widget.element.copyWith(
-  //             path: widget.element.path.transform(Matrix4.diagonal3Values(
-  //                     1 + offset.dx / bounds.width,
-  //                     1 + offset.dy / bounds.height,
-  //                     0)
-  //                 .storage),
-  //           ),
-  //         ),
-  //       );
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      transform: Matrix4.translationValues(-7.5, -7.5, 0),
-      width: 15,
-      height: 15,
+    return SizedBox(
+      width: 10,
+      height: 10,
       child: GestureDetector(
-        onPanUpdate: _handleUpdate,
-        // onPanEnd: _handleEnd,
+        onPanUpdate: (d) => _handleUpdate(d, context),
         behavior: HitTestBehavior.translucent,
         child: Container(
           decoration: BoxDecoration(
