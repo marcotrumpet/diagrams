@@ -532,6 +532,149 @@ abstract class _MoveElementEvent implements MoveElementEvent {
 }
 
 /// @nodoc
+class _$ScaleElementEventTearOff {
+  const _$ScaleElementEventTearOff();
+
+  _ScaleElementEvent call({required AbstractFlowElement elementToManipulate}) {
+    return _ScaleElementEvent(
+      elementToManipulate: elementToManipulate,
+    );
+  }
+}
+
+/// @nodoc
+const $ScaleElementEvent = _$ScaleElementEventTearOff();
+
+/// @nodoc
+mixin _$ScaleElementEvent {
+  AbstractFlowElement get elementToManipulate =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ScaleElementEventCopyWith<ScaleElementEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScaleElementEventCopyWith<$Res> {
+  factory $ScaleElementEventCopyWith(
+          ScaleElementEvent value, $Res Function(ScaleElementEvent) then) =
+      _$ScaleElementEventCopyWithImpl<$Res>;
+  $Res call({AbstractFlowElement elementToManipulate});
+}
+
+/// @nodoc
+class _$ScaleElementEventCopyWithImpl<$Res>
+    implements $ScaleElementEventCopyWith<$Res> {
+  _$ScaleElementEventCopyWithImpl(this._value, this._then);
+
+  final ScaleElementEvent _value;
+  // ignore: unused_field
+  final $Res Function(ScaleElementEvent) _then;
+
+  @override
+  $Res call({
+    Object? elementToManipulate = freezed,
+  }) {
+    return _then(_value.copyWith(
+      elementToManipulate: elementToManipulate == freezed
+          ? _value.elementToManipulate
+          : elementToManipulate // ignore: cast_nullable_to_non_nullable
+              as AbstractFlowElement,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$ScaleElementEventCopyWith<$Res>
+    implements $ScaleElementEventCopyWith<$Res> {
+  factory _$ScaleElementEventCopyWith(
+          _ScaleElementEvent value, $Res Function(_ScaleElementEvent) then) =
+      __$ScaleElementEventCopyWithImpl<$Res>;
+  @override
+  $Res call({AbstractFlowElement elementToManipulate});
+}
+
+/// @nodoc
+class __$ScaleElementEventCopyWithImpl<$Res>
+    extends _$ScaleElementEventCopyWithImpl<$Res>
+    implements _$ScaleElementEventCopyWith<$Res> {
+  __$ScaleElementEventCopyWithImpl(
+      _ScaleElementEvent _value, $Res Function(_ScaleElementEvent) _then)
+      : super(_value, (v) => _then(v as _ScaleElementEvent));
+
+  @override
+  _ScaleElementEvent get _value => super._value as _ScaleElementEvent;
+
+  @override
+  $Res call({
+    Object? elementToManipulate = freezed,
+  }) {
+    return _then(_ScaleElementEvent(
+      elementToManipulate: elementToManipulate == freezed
+          ? _value.elementToManipulate
+          : elementToManipulate // ignore: cast_nullable_to_non_nullable
+              as AbstractFlowElement,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_ScaleElementEvent
+    with DiagnosticableTreeMixin
+    implements _ScaleElementEvent {
+  const _$_ScaleElementEvent({required this.elementToManipulate});
+
+  @override
+  final AbstractFlowElement elementToManipulate;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ScaleElementEvent(elementToManipulate: $elementToManipulate)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ScaleElementEvent'))
+      ..add(DiagnosticsProperty('elementToManipulate', elementToManipulate));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ScaleElementEvent &&
+            const DeepCollectionEquality()
+                .equals(other.elementToManipulate, elementToManipulate));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(elementToManipulate));
+
+  @JsonKey(ignore: true)
+  @override
+  _$ScaleElementEventCopyWith<_ScaleElementEvent> get copyWith =>
+      __$ScaleElementEventCopyWithImpl<_ScaleElementEvent>(this, _$identity);
+}
+
+abstract class _ScaleElementEvent implements ScaleElementEvent {
+  const factory _ScaleElementEvent(
+          {required AbstractFlowElement elementToManipulate}) =
+      _$_ScaleElementEvent;
+
+  @override
+  AbstractFlowElement get elementToManipulate;
+  @override
+  @JsonKey(ignore: true)
+  _$ScaleElementEventCopyWith<_ScaleElementEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 class _$AddStartingPointToAnchorElementEventTearOff {
   const _$AddStartingPointToAnchorElementEventTearOff();
 

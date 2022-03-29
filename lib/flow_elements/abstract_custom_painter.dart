@@ -16,6 +16,7 @@ abstract class AbstractCustomPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     var backgroundPaint = Paint()..color = Theme.of(context).canvasColor;
+
     canvas.drawPath(path, backgroundPaint);
     canvas.drawPath(path, borderPaint);
     canvas.clipPath(path);
@@ -39,7 +40,9 @@ class DotLineCustomPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeJoin = StrokeJoin.round;
 
-    var boundsPath = Path()..addRect(path.getBounds());
+    var newPath = path;
+
+    var boundsPath = Path()..addRect(newPath.getBounds());
 
     Path dashPath = Path();
 
@@ -57,6 +60,7 @@ class DotLineCustomPainter extends CustomPainter {
         distance += dashSpace;
       }
     }
+
     canvas.drawPath(dashPath, _paint);
   }
 

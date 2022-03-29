@@ -4,6 +4,7 @@ import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_elemen
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/flow_elements/bloc/handle_points/handle_points_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/theme/app_theme.dart';
@@ -27,7 +28,10 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => UnselectElementsBloc(
-              const UnselectElementsState(unselect: false)),
+            const UnselectElementsState(
+              selectedElementList: SelectedElementList(),
+            ),
+          ),
         ),
         BlocProvider(
           create: (context) => DrawArrowsBloc(
@@ -39,6 +43,14 @@ void main() async {
             addRemoveElementBloc:
                 BlocProvider.of<AddRemoveElementBloc>(context),
             drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+            unselectElementsBloc:
+                BlocProvider.of<UnselectElementsBloc>(context),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => ResizeElementBloc(
+            addRemoveElementBloc:
+                BlocProvider.of<AddRemoveElementBloc>(context),
           ),
         ),
       ],

@@ -54,20 +54,6 @@ class _MainCanvasState extends State<MainCanvas> {
                 color: Colors.transparent,
               ),
             ),
-            // GestureDetector(
-            //   onPanStart: (details) => context
-            //       .read<HandlePointsBloc>()
-            //       .add(HandlePointsEvent.panDown(details.localPosition)),
-            //   onPanUpdate: (details) => context
-            //       .read<HandlePointsBloc>()
-            //       .add(HandlePointsEvent.panUpdate(details.localPosition)),
-            //   onPanEnd: (details) => context
-            //       .read<HandlePointsBloc>()
-            //       .add(const HandlePointsEvent.panEnd()),
-            //   child: Container(
-            //     color: Colors.transparent,
-            //   ),
-            // ),
             RepaintBoundary(
               child: CustomPaint(
                 key: _gridKey,
@@ -78,7 +64,7 @@ class _MainCanvasState extends State<MainCanvas> {
                   onAcceptWithDetails: (details) {
                     final newOffset = calcNewOffset(details, _gridKey);
                     handleFlowElements(
-                      details: details,
+                      element: details.data,
                       context: context,
                       offset: newOffset,
                       drawNewElement: !isElementInList(
@@ -133,8 +119,6 @@ class _MainCanvasState extends State<MainCanvas> {
             BlocBuilder<AddRemoveElementBloc, List<AbstractFlowElement>>(
               builder: (context, elementsList) {
                 return Stack(
-                  clipBehavior: Clip.hardEdge,
-                  fit: StackFit.expand,
                   children: elementsList.map((e) => e.build(context)).toList(),
                 );
               },

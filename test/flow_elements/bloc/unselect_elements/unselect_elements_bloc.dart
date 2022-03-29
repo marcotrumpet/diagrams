@@ -9,8 +9,11 @@ void unselectElementsBlocTest() {
   late UnselectElementsBloc unselectElementsBloc;
 
   setUp(() {
-    unselectElementsBloc =
-        UnselectElementsBloc(const UnselectElementsState(unselect: false));
+    unselectElementsBloc = UnselectElementsBloc(
+      const UnselectElementsState(
+        selectedElementList: SelectedElementList(),
+      ),
+    );
   });
 
   group('unselectElementsBloc', () {
@@ -21,46 +24,46 @@ void unselectElementsBlocTest() {
     );
 
     blocTest<UnselectElementsBloc, UnselectElementsState>(
-      'is true when element is unselected',
+      'element selected',
       build: () => unselectElementsBloc,
-      act: (bloc) => bloc.add(UnselectElementsEvent(unselect: true)),
-      expect: () => [const UnselectElementsState(unselect: true)],
-    );
-
-    blocTest<UnselectElementsBloc, UnselectElementsState>(
-      'is false when element is selected',
-      build: () => unselectElementsBloc,
-      act: (bloc) => bloc.add(UnselectElementsEvent(unselect: false)),
-      expect: () => [const UnselectElementsState(unselect: false)],
-    );
-
-    blocTest<UnselectElementsBloc, UnselectElementsState>(
-      'select only if key matches',
-      build: () => unselectElementsBloc,
-      act: (bloc) => bloc.add(UnselectElementsEvent(
-        unselect: false,
-        elementKey: const Key('testKey'),
-      )),
+      act: (bloc) => bloc.add(
+        UnselectElementsEvent(
+          selected: true,
+          elementKey: const Key('test'),
+        ),
+      ),
       expect: () => [
         const UnselectElementsState(
-          unselect: false,
-          elementKey: Key('testKey'),
-        )
+          selectedElementList: SelectedElementList(
+            selectedElements: [
+              SelectedElement(
+                selected: true,
+                elementKey: Key('test'),
+              ),
+            ],
+          ),
+        ),
       ],
     );
 
     blocTest<UnselectElementsBloc, UnselectElementsState>(
-      'unselect only if key matches',
+      'element unselected',
       build: () => unselectElementsBloc,
       act: (bloc) => bloc.add(UnselectElementsEvent(
-        unselect: true,
-        elementKey: const Key('testKey'),
+        selected: false,
+        elementKey: const Key('test'),
       )),
       expect: () => [
         const UnselectElementsState(
-          unselect: true,
-          elementKey: Key('testKey'),
-        )
+          selectedElementList: SelectedElementList(
+            selectedElements: [
+              SelectedElement(
+                selected: false,
+                elementKey: Key('test'),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   });

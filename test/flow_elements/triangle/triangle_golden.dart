@@ -16,7 +16,9 @@ void triangleGoldenTest() {
     appTheme = AppTheme();
     addRemoveElementBloc = AddRemoveElementBloc([]);
     unselectElementsBloc = UnselectElementsBloc(
-      const UnselectElementsState(unselect: false),
+      const UnselectElementsState(
+        selectedElementList: SelectedElementList(),
+      ),
     );
     drawArrowsBloc = DrawArrowsBloc(
       const DrawArrowsState(),

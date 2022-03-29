@@ -1,4 +1,5 @@
 import 'package:diagrams/common/grid_property_provider.dart';
+import 'package:diagrams/common/update_barrier_model.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
@@ -61,15 +62,23 @@ class AddRemoveElementBloc
             ?.copyWith(anchorPointList: anchorPointListUpdated!),
       );
 
+      // elementUpdated.updateDimensionPoints(
+      //   elementUpdated.offset!,
+      //   elementUpdated.path,
+      //   updateAbstractElementInfo: true,
+      // );
+
       // refresh elements list with updated element
       elementsList
           .removeWhere((el) => el.elementKey == elementUpdated.elementKey);
       elementsList.add(elementUpdated);
 
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
-        event.elementToManipulate,
-        endPointsToExclude:
-            calcSurroundingPoints(event.arrowModelLinkedToElement.startPoint),
+        UpdateBarrierModel(
+          abstractFlowElement: event.elementToManipulate,
+          endPointsToExclude:
+              calcSurroundingPoints(event.arrowModelLinkedToElement.startPoint),
+        ),
       );
 
       final List<AbstractFlowElement> newList = [...elementsList];
@@ -105,6 +114,12 @@ class AddRemoveElementBloc
             ?.copyWith(anchorPointList: anchorPointListUpdated!),
       );
 
+      // elementUpdated.updateDimensionPoints(
+      //   elementUpdated.offset!,
+      //   elementUpdated.path,
+      //   updateAbstractElementInfo: true,
+      // );
+
       // refresh elements list with updated element
       elementsList
           .removeWhere((el) => el.elementKey == elementUpdated.elementKey);
@@ -112,8 +127,10 @@ class AddRemoveElementBloc
 
       var end = event.arrowModelLinkedToElement.endPoint;
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
-        event.elementToManipulate,
-        endPointsToExclude: calcSurroundingPoints(end),
+        UpdateBarrierModel(
+          abstractFlowElement: event.elementToManipulate,
+          endPointsToExclude: calcSurroundingPoints(end),
+        ),
       );
 
       final List<AbstractFlowElement> newList = [...elementsList];
@@ -124,8 +141,11 @@ class AddRemoveElementBloc
     on<AddElementEvent>((event, emit) {
       elementsList.add(event.elementToManipulate);
       final List<AbstractFlowElement> newList = [...elementsList];
-      GetIt.I<GridPropertyProvider>()
-          .updateGridBarriers(event.elementToManipulate);
+      GetIt.I<GridPropertyProvider>().updateGridBarriers(
+        UpdateBarrierModel(
+          abstractFlowElement: event.elementToManipulate,
+        ),
+      );
       emit(newList);
     });
 
@@ -134,10 +154,23 @@ class AddRemoveElementBloc
         elementsList.removeWhere((element) =>
             element.elementKey == event.elementToManipulate.elementKey);
         final List<AbstractFlowElement> newList = [...elementsList];
-        GetIt.I<GridPropertyProvider>()
-            .updateGridBarriers(event.elementToManipulate);
+        GetIt.I<GridPropertyProvider>().updateGridBarriers(
+          UpdateBarrierModel(
+            abstractFlowElement: event.elementToManipulate,
+          ),
+        );
         emit(newList);
       },
+    );
+
+    on<ScaleElementEvent>(
+      ((event, emit) {
+        elementsList.removeWhere((element) =>
+            element.elementKey == event.elementToManipulate.elementKey);
+        elementsList.add(event.elementToManipulate);
+        final List<AbstractFlowElement> newList = [...elementsList];
+        emit(newList);
+      }),
     );
 
     on<MoveElementEvent>((event, emit) {
@@ -156,21 +189,16 @@ class AddRemoveElementBloc
         }
         if (anchorPoint.arrowModelStart?.isNotEmpty ?? false) {
           anchorPoint.arrowModelStart?.forEach((element) {
-            pointsToExclude.addAll([
-              element.endPoint,
-              Offset(element.endPoint.dx - 15, element.endPoint.dy),
-              Offset(element.endPoint.dx + 15, element.endPoint.dy),
-              Offset(element.endPoint.dx, element.endPoint.dy + 15),
-              Offset(element.endPoint.dx, element.endPoint.dy - 15),
-            ]);
+            pointsToExclude.addAll(calcSurroundingPoints(element.endPoint));
           });
         }
       }
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
-        event.elementToManipulate,
-        endPointsToExclude: pointsToExclude,
+        UpdateBarrierModel(
+          abstractFlowElement: event.elementToManipulate,
+          endPointsToExclude: pointsToExclude,
+        ),
       );
-
       emit(newList);
     });
 

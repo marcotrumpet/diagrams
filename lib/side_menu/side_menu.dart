@@ -4,6 +4,7 @@ import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_elemen
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
+import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
 import 'package:diagrams/side_menu/shapes_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +40,8 @@ class _SideMenuState extends State<SideMenu> {
                       ),
                     );
               }
+              context.read<ResizeElementBloc>().add(
+                  ResizeElementEvent.clearMap(elementKey: data.elementKey!));
               context
                   .read<AddRemoveElementBloc>()
                   .add(RemoveElementEvent(elementToManipulate: data));

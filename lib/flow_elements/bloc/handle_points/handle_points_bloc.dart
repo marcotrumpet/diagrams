@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:diagrams/common/app_extensions.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
+import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,6 +17,7 @@ part 'handle_points_state.dart';
 class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
   final AddRemoveElementBloc addRemoveElementBloc;
   final DrawArrowsBloc drawArrowsBloc;
+  final UnselectElementsBloc unselectElementsBloc;
 
   var enablePanUpdate = true;
   ArrowModel? arrowEndPointFound;
@@ -23,37 +26,15 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
   HandlePointsBloc({
     required this.addRemoveElementBloc,
     required this.drawArrowsBloc,
+    required this.unselectElementsBloc,
   }) : super(const _Initial()) {
     void resetVariables() {
       arrowEndPointFound = null;
       currentArrow = null;
     }
 
-    double roundBaseFifteen(double n) {
-      var lowest = n - (n % 15);
-      var highest = (n + 15) - ((n + 15) % 15);
-
-      return (n - lowest).abs() <= (n - highest).abs() ? lowest : highest;
-    }
-
-    Offset normalizedStartPointToGrid(Offset point) {
-      var newPoint = Offset(
-        roundBaseFifteen(point.dx),
-        roundBaseFifteen(point.dy),
-      );
-
-      return newPoint;
-    }
-
-    Offset normalizedPointToGrid(Offset point) {
-      var newPoint =
-          Offset((point.dx - point.dx % 15), (point.dy - point.dy % 15));
-
-      return newPoint;
-    }
-
     void onPanDown(Offset offset) {
-      var newPoint = normalizedStartPointToGrid(offset);
+      var newPoint = offset.normalizedPointToClosestGrid();
       AnchorPointModel? startPoint;
 
       var elementAnchorPointFound =
@@ -76,9 +57,18 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
         return;
       }
 
+      if (unselectElementsBloc.selectedElementList.selectedElements
+              .firstWhereOrNull((element) =>
+                  element.elementKey == elementAnchorPointFound!.elementKey)
+              ?.selected ==
+          true) {
+        enablePanUpdate = false;
+        resetVariables();
+        return;
+      }
+
       var startPointKey = startPoint?.anchorPointKey;
 
-      // TODO check if this is correct
       if (arrowEndPointFound != null) {
         drawArrowsBloc.add(
           DrawArrowsEvent(
@@ -118,7 +108,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
 
     void onPanUpdate(Offset offset) {
       if (!enablePanUpdate) return;
-      var lastDrawnPoint = normalizedPointToGrid(offset);
+      var lastDrawnPoint = offset.normalizedPointToGrid();
 
       currentArrow ??= drawArrowsBloc.arrowModelList
           .firstWhereOrNull(
@@ -138,7 +128,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
 
     void onPanEnd(Offset offset) {
       if (!enablePanUpdate) return;
-      var normalizedOffset = normalizedPointToGrid(offset);
+      var normalizedOffset = offset.normalizedPointToGrid();
 
       var endElementAnchorPointFound =
           addRemoveElementBloc.elementsList.firstWhereOrNull((e) =>

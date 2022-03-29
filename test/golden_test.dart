@@ -2,6 +2,7 @@ import 'package:diagrams/diagram_app.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/handle_points/handle_points_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +21,13 @@ late AddRemoveElementBloc addRemoveElementBloc;
 late UnselectElementsBloc unselectElementsBloc;
 late DrawArrowsBloc drawArrowsBloc;
 late HandlePointsBloc handlePointsBloc;
+late ResizeElementBloc resizeElementBloc;
 
 Widget mainTestableApp({
   AddRemoveElementBloc? addRemoveElement,
   DrawArrowsBloc? drawArrows,
   HandlePointsBloc? handlePoints,
+  ResizeElementBloc? resizeElementBloc,
 }) {
   return MultiBlocProvider(
     providers: [
@@ -47,6 +50,16 @@ Widget mainTestableApp({
               addRemoveElementBloc:
                   BlocProvider.of<AddRemoveElementBloc>(context),
               drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+              unselectElementsBloc:
+                  BlocProvider.of<UnselectElementsBloc>(context),
+            ),
+      ),
+      BlocProvider(
+        create: (context) =>
+            resizeElementBloc ??
+            ResizeElementBloc(
+              addRemoveElementBloc:
+                  BlocProvider.of<AddRemoveElementBloc>(context),
             ),
       ),
     ],
