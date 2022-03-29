@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:diagrams/common/app_extensions.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -10,21 +10,27 @@ part 'resize_element_event.dart';
 part 'resize_element_state.dart';
 
 class ResizeElementBloc extends Bloc<ResizeElementEvent, ResizeElementState> {
-  final DrawArrowsBloc drawArrowsBloc;
   final AddRemoveElementBloc addRemoveElementBloc;
-  ResizeElementBloc({
-    required this.drawArrowsBloc,
-    required this.addRemoveElementBloc,
-  }) : super(const _Initial()) {
-    var mapScale = <Key, Offset>{};
-    var mapElementOffset = <Key, Offset>{};
+  var mapScale = <Key, Offset>{};
+  var mapElementOffset = <Key, Offset>{};
+  ResizeElementBloc({required this.addRemoveElementBloc})
+      : super(const _Initial()) {
+    void _clearMap(Key elementKey) {
+      mapScale.remove(elementKey);
+      mapElementOffset.remove(elementKey);
+    }
 
     on<ResizeElementEvent>((event, emit) {
       event.maybeWhen(
         orElse: () => null,
-        resize: (element, offset, alignment) {
+        resizing: (abstractElementKey, offset, alignment) {
           var _offset = offset;
           var _elementOffset = Offset.zero;
+
+          var abstractElement = addRemoveElementBloc.elementsList.firstWhere(
+              (element) => element.elementKey == abstractElementKey);
+
+          var _bounds = abstractElement.path.getBounds();
 
           if (alignment == Alignment.bottomCenter) {
             _offset = Offset(0, _offset.dy);
@@ -47,60 +53,78 @@ class ResizeElementBloc extends Bloc<ResizeElementEvent, ResizeElementState> {
             _elementOffset = Offset(-_offset.dx, 0);
           }
 
-          if (!mapScale.containsKey(element.elementKey)) {
+          if (!mapScale.containsKey(abstractElement.elementKey)) {
             mapScale.addAll({
-              element.elementKey!: _offset,
+              abstractElement.elementKey!: Offset(
+                  _offset.dx + _bounds.width, _offset.dy + _bounds.height),
             });
           } else {
-            mapScale[element.elementKey!] =
-                mapScale[element.elementKey!]! + _offset;
+            mapScale[abstractElement.elementKey!] =
+                mapScale[abstractElement.elementKey]! + _offset;
           }
 
-          if (!mapElementOffset.containsKey(element.elementKey)) {
+          if (!mapElementOffset.containsKey(abstractElement.elementKey)) {
             mapElementOffset.addAll({
-              element.elementKey!: _elementOffset,
+              abstractElement.elementKey!:
+                  _elementOffset + abstractElement.offset!,
             });
           } else {
-            mapElementOffset[element.elementKey!] =
-                mapElementOffset[element.elementKey!]! + _elementOffset;
+            mapElementOffset[abstractElement.elementKey!] =
+                mapElementOffset[abstractElement.elementKey]! + _elementOffset;
           }
 
-          var scale = mapScale[element.elementKey!]!;
-          var elementOffset = mapElementOffset[element.elementKey!]!;
+          var scale = (mapScale[abstractElement.elementKey]!)
+              .normalizedPointToClosestGrid();
+          var elementOffset = mapElementOffset[abstractElement.elementKey]!
+              .normalizedPointToClosestGrid();
 
-          var _bounds = element.path.getBounds();
-          var resizedPath = element.path.transform(
+          double scaleX = (scale.dx / _bounds.width);
+
+          double scaleY = (scale.dy / _bounds.height);
+
+          if (scaleX.isNaN ||
+              scaleY.isNaN ||
+              scaleX.isInfinite ||
+              scaleY.isInfinite ||
+              scaleX == 0 ||
+              scaleY == 0) return;
+
+          var resizedPath = abstractElement.path.transform(
             Matrix4.diagonal3Values(
-              1 + scale.dx / _bounds.width,
-              1 + scale.dy / _bounds.height,
+              scaleX,
+              scaleY,
               0,
             ).storage,
           );
-          var dimensionPointModelMap =
-              element.updateDimensionPoints(scale, resizedPath);
-          var anchorPointsModelMap =
-              element.updateAnchorPoints(element, scale, resizedPath);
 
-          var resizedElement = element.copyWith(
+          var anchorPointsModelMap = abstractElement.updateAnchorPoints(
+            abstractElement,
+            abstractElement.offset! + elementOffset,
+            resizedPath,
+          );
+          var dimensionPointModelMap = abstractElement.updateDimensionPoints(
+            abstractElement.offset! + elementOffset,
+            resizedPath,
+          );
+
+          var resizedElement = abstractElement.copyWith(
             anchorPointsModelMap: anchorPointsModelMap,
             dimensionPointModelMap: dimensionPointModelMap,
             path: resizedPath,
-            offset: (element.offset ?? Offset.zero) + elementOffset,
+            offset: elementOffset,
           );
 
-          // addRemoveElementBloc.add(
-          //   MoveElementEvent(elementToManipulate: resizedElement),
-          // );
-
-          // drawArrowsBloc.add(
-          //   MovedFlowElementUpdateArrowsEvent(element: resizedElement),
-          // );
-
-          emit(ResizeElementState.resized(element: resizedElement));
+          emit(ResizeElementState.resizing(element: resizedElement));
         },
-        clearMap: (elementKey) {
-          mapScale.remove(elementKey);
+        resizeEnd: (elementKey) {
+          var savedElement = addRemoveElementBloc.elementsList
+              .firstWhere((e) => e.elementKey == elementKey);
+
+          _clearMap(savedElement.elementKey!);
+
+          emit(ResizeElementState.resizeEnd(element: savedElement));
         },
+        clearMap: _clearMap,
       );
     });
   }

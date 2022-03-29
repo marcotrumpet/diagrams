@@ -6,6 +6,7 @@ import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_elemen
 import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
+import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,6 +17,7 @@ part 'handle_points_state.dart';
 class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
   final AddRemoveElementBloc addRemoveElementBloc;
   final DrawArrowsBloc drawArrowsBloc;
+  final UnselectElementsBloc unselectElementsBloc;
 
   var enablePanUpdate = true;
   ArrowModel? arrowEndPointFound;
@@ -24,6 +26,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
   HandlePointsBloc({
     required this.addRemoveElementBloc,
     required this.drawArrowsBloc,
+    required this.unselectElementsBloc,
   }) : super(const _Initial()) {
     void resetVariables() {
       arrowEndPointFound = null;
@@ -31,7 +34,7 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
     }
 
     void onPanDown(Offset offset) {
-      var newPoint = offset.normalizedStartPointToGrid();
+      var newPoint = offset.normalizedPointToClosestGrid();
       AnchorPointModel? startPoint;
 
       var elementAnchorPointFound =
@@ -45,12 +48,6 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
         return startPoint != null;
       });
 
-      if (!(elementAnchorPointFound?.anchorPointsVisible ?? true)) {
-        enablePanUpdate = false;
-        resetVariables();
-        return;
-      }
-
       arrowEndPointFound = drawArrowsBloc.arrowModelList
           .firstWhereOrNull((element) => (element.endPoint == newPoint));
 
@@ -60,9 +57,18 @@ class HandlePointsBloc extends Bloc<HandlePointsEvent, HandlePointsState> {
         return;
       }
 
+      if (unselectElementsBloc.selectedElementList.selectedElements
+              .firstWhereOrNull((element) =>
+                  element.elementKey == elementAnchorPointFound!.elementKey)
+              ?.selected ==
+          true) {
+        enablePanUpdate = false;
+        resetVariables();
+        return;
+      }
+
       var startPointKey = startPoint?.anchorPointKey;
 
-      // TODO check if this is correct
       if (arrowEndPointFound != null) {
         drawArrowsBloc.add(
           DrawArrowsEvent(

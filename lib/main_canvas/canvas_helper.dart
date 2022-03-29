@@ -43,62 +43,65 @@ bool isElementInList({
 /// [drawNewElement] set to 'false' mean that the flow element moved so no need
 /// to draw another one
 void handleFlowElements({
-  required DragTargetDetails<AbstractFlowElement> details,
+  required AbstractFlowElement element,
   required BuildContext context,
   required Offset offset,
   bool drawNewElement = true,
 }) {
   AbstractFlowElement elementToManipulate;
-  switch (details.data.flowType) {
+  switch (element.flowType) {
     case FlowElementTypes.rectangle:
-      elementToManipulate = (details.data as RectangleFlowElement).copyWith(
+      elementToManipulate = (element as RectangleFlowElement).copyWith(
         offset: offset,
-        elementKey: details.data.elementKey ?? UniqueKey(),
-        path: details.data.path != rectangleShape
-            ? details.data.path
-            : rectangleShapeBig,
-        anchorPointsModelMap: details.data.anchorPointsModelMap == null
-            ? details.data.setAnchorPoints(offset, rectangleShapeBig)
-            : details.data
-                .updateAnchorPoints(details.data, offset, details.data.path),
+        elementKey: element.elementKey ?? UniqueKey(),
+        path: element.path != rectangleShape ? element.path : rectangleShapeBig,
+        anchorPointsModelMap: element.anchorPointsModelMap == null
+            ? element.setAnchorPoints(offset, rectangleShapeBig)
+            : element.updateAnchorPoints(element, offset, element.path),
         dimensionPointModelMap: drawNewElement
             ? null
-            : details.data.updateDimensionPoints(offset, details.data.path,
-                updateElementPosition: true),
+            : element.updateDimensionPoints(offset, element.path),
       );
       break;
     case FlowElementTypes.roundedRectangle:
-      elementToManipulate =
-          (details.data as RoundedRectangleFlowElement).copyWith(
+      elementToManipulate = (element as RoundedRectangleFlowElement).copyWith(
         offset: offset,
-        elementKey: details.data.elementKey ?? UniqueKey(),
-        path: roundedRectangleShapeBig,
-        anchorPointsModelMap: details.data.anchorPointsModelMap == null
-            ? details.data.setAnchorPoints(offset, roundedRectangleShapeBig)
-            : details.data
-                .updateAnchorPoints(details.data, offset, details.data.path),
+        elementKey: element.elementKey ?? UniqueKey(),
+        path: element.path != roundedRectangleShape
+            ? element.path
+            : roundedRectangleShapeBig,
+        anchorPointsModelMap: element.anchorPointsModelMap == null
+            ? element.setAnchorPoints(offset, roundedRectangleShapeBig)
+            : element.updateAnchorPoints(element, offset, element.path),
+        dimensionPointModelMap: drawNewElement
+            ? null
+            : element.updateDimensionPoints(offset, element.path),
       );
       break;
     case FlowElementTypes.triangle:
-      elementToManipulate = (details.data as TriangleFlowElement).copyWith(
+      elementToManipulate = (element as TriangleFlowElement).copyWith(
         offset: offset,
-        elementKey: details.data.elementKey ?? UniqueKey(),
-        path: triangleShapeBig,
-        anchorPointsModelMap: details.data.anchorPointsModelMap == null
-            ? details.data.setAnchorPoints(offset, triangleShapeBig)
-            : details.data
-                .updateAnchorPoints(details.data, offset, details.data.path),
+        elementKey: element.elementKey ?? UniqueKey(),
+        path: element.path != triangleShape ? element.path : triangleShapeBig,
+        anchorPointsModelMap: element.anchorPointsModelMap == null
+            ? element.setAnchorPoints(offset, triangleShapeBig)
+            : element.updateAnchorPoints(element, offset, element.path),
+        dimensionPointModelMap: drawNewElement
+            ? null
+            : element.updateDimensionPoints(offset, element.path),
       );
       break;
     case FlowElementTypes.circle:
-      elementToManipulate = (details.data as CircleFlowElement).copyWith(
+      elementToManipulate = (element as CircleFlowElement).copyWith(
         offset: offset,
-        elementKey: details.data.elementKey ?? UniqueKey(),
-        path: circleShapeBig,
-        anchorPointsModelMap: details.data.anchorPointsModelMap == null
-            ? details.data.setAnchorPoints(offset, circleShapeBig)
-            : details.data
-                .updateAnchorPoints(details.data, offset, details.data.path),
+        elementKey: element.elementKey ?? UniqueKey(),
+        path: element.path != circleShape ? element.path : circleShapeBig,
+        anchorPointsModelMap: element.anchorPointsModelMap == null
+            ? element.setAnchorPoints(offset, circleShapeBig)
+            : element.updateAnchorPoints(element, offset, element.path),
+        dimensionPointModelMap: drawNewElement
+            ? null
+            : element.updateDimensionPoints(offset, element.path),
       );
       break;
   }

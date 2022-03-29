@@ -11,7 +11,7 @@ extension NormalizePointToGrid on Offset {
     return newPoint;
   }
 
-  Offset normalizedStartPointToGrid() {
+  Offset normalizedPointToClosestGrid() {
     var newPoint = Offset(
       dx.roundBaseFifteen(),
       dy.roundBaseFifteen(),
@@ -23,11 +23,8 @@ extension NormalizePointToGrid on Offset {
 
 extension RoundToGrid on double {
   double roundBaseFifteen() {
-    var lowest =
-        this - (this % GetIt.I<GridPropertyProvider>().secondarySquareSide);
-    var highest = (this + GetIt.I<GridPropertyProvider>().secondarySquareSide) -
-        ((this + GetIt.I<GridPropertyProvider>().secondarySquareSide) %
-            GetIt.I<GridPropertyProvider>().secondarySquareSide);
+    var lowest = this - (this % 15);
+    var highest = (this + 15) - ((this + 15) % 15);
 
     return (this - lowest).abs() <= (this - highest).abs() ? lowest : highest;
   }

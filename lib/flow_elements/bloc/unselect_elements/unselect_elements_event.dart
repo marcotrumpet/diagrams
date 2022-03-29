@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
 class UnselectElementsEvent {
-  final bool unselect;
+  final bool selected;
   final Key? elementKey;
 
-  UnselectElementsEvent({required this.unselect, this.elementKey});
+  UnselectElementsEvent({required this.selected, this.elementKey});
 }

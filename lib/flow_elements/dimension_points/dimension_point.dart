@@ -1,14 +1,13 @@
-import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DimensionPoint extends StatelessWidget {
-  final AbstractFlowElement element;
+  final Key abstractFlowElementKey;
   final Alignment alignment;
   const DimensionPoint({
     Key? key,
-    required this.element,
+    required this.abstractFlowElementKey,
     required this.alignment,
   }) : super(key: key);
 
@@ -16,26 +15,58 @@ class DimensionPoint extends StatelessWidget {
     var offset = details.delta;
 
     context.read<ResizeElementBloc>().add(
-          ResizeElementEvent.resize(
-            element: element,
+          ResizeElementEvent.resizing(
+            elementKey: abstractFlowElementKey,
             offset: offset,
             alignment: alignment,
           ),
         );
   }
 
+  MouseCursor handleCursor() {
+    if (alignment == Alignment.bottomCenter) {
+      return SystemMouseCursors.resizeDown;
+    } else if (alignment == Alignment.centerRight) {
+      return SystemMouseCursors.resizeRight;
+    } else if (alignment == Alignment.centerLeft) {
+      return SystemMouseCursors.resizeLeft;
+    } else if (alignment == Alignment.topCenter) {
+      return SystemMouseCursors.resizeUp;
+    } else if (alignment == Alignment.topLeft) {
+      return SystemMouseCursors.resizeUpLeft;
+    } else if (alignment == Alignment.topRight) {
+      return SystemMouseCursors.resizeUpRight;
+    } else if (alignment == Alignment.bottomLeft) {
+      return SystemMouseCursors.resizeDownLeft;
+    } else if (alignment == Alignment.bottomRight) {
+      return SystemMouseCursors.resizeDownRight;
+    }
+    return SystemMouseCursors.resizeColumn;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 10,
-      height: 10,
-      child: GestureDetector(
-        onPanUpdate: (d) => _handleUpdate(d, context),
-        behavior: HitTestBehavior.translucent,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).disabledColor,
-            borderRadius: BorderRadius.circular(8),
+    return MouseRegion(
+      cursor: handleCursor(),
+      opaque: true,
+      child: SizedBox(
+        width: 10,
+        height: 10,
+        child: GestureDetector(
+          onPanUpdate: (d) => _handleUpdate(d, context),
+          onPanEnd: (_) {
+            context.read<ResizeElementBloc>().add(
+                  ResizeElementEvent.resizeEnd(
+                    elementKey: abstractFlowElementKey,
+                  ),
+                );
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).disabledColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
         ),
       ),

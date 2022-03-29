@@ -47,6 +47,10 @@ class DrawArrowsBloc extends Bloc<AbstractDrawArrowsEvent, DrawArrowsState> {
 
     on<DrawArrowsAStarEvent>(
       (event, emit) {
+        _arrowModelList.removeWhere(
+          (element) => element.arrowKey == event.arrowModel!.arrowKey,
+        );
+        _arrowModelList.add(event.arrowModel!);
         emit(
           DrawArrowsState(
             arrowModel: event.arrowModel,

@@ -28,7 +28,10 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => UnselectElementsBloc(
-              const UnselectElementsState(unselect: false)),
+            const UnselectElementsState(
+              selectedElementList: SelectedElementList(),
+            ),
+          ),
         ),
         BlocProvider(
           create: (context) => DrawArrowsBloc(
@@ -40,13 +43,14 @@ void main() async {
             addRemoveElementBloc:
                 BlocProvider.of<AddRemoveElementBloc>(context),
             drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+            unselectElementsBloc:
+                BlocProvider.of<UnselectElementsBloc>(context),
           ),
         ),
         BlocProvider(
           create: (context) => ResizeElementBloc(
             addRemoveElementBloc:
                 BlocProvider.of<AddRemoveElementBloc>(context),
-            drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
           ),
         ),
       ],

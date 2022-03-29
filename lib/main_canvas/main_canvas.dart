@@ -50,9 +50,6 @@ class _MainCanvasState extends State<MainCanvas> {
                     .read<HandlePointsBloc>()
                     .add(HandlePointsEvent.panEnd(event.localPosition));
               },
-              // onPointerHover: (details) {
-              //   debugPrint(details.localPosition.toString());
-              // },
               child: Container(
                 color: Colors.transparent,
               ),
@@ -67,7 +64,7 @@ class _MainCanvasState extends State<MainCanvas> {
                   onAcceptWithDetails: (details) {
                     final newOffset = calcNewOffset(details, _gridKey);
                     handleFlowElements(
-                      details: details,
+                      element: details.data,
                       context: context,
                       offset: newOffset,
                       drawNewElement: !isElementInList(

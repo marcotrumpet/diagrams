@@ -9,8 +9,10 @@ import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point_model.dart';
+import 'package:diagrams/main_canvas/canvas_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 enum FlowElementTypes { rectangle, roundedRectangle, triangle, circle }
 
@@ -44,8 +46,6 @@ abstract class AbstractFlowElement {
 
   final _showAnchorPointsValueNotifier = ValueNotifier(0.0);
 
-  bool get anchorPointsVisible => _showAnchorPointsValueNotifier.value == 1.0;
-
   AnchorPointModelMap setAnchorPoints(Offset offset, Path path) {
     final boundRect = path.getBounds();
     var _anchorPointsMap = [
@@ -70,11 +70,19 @@ abstract class AbstractFlowElement {
     return AnchorPointModelMap(
       anchorPointList: _anchorPointsMap.map((e) {
         var key = UniqueKey();
-        return AnchorPointModel(
+        var model = AnchorPointModel(
           anchorPointKey: key,
           anchorPointPosition: e.values.first,
           anchorPointPositionRelativeToParent: e.values.first + offset,
           alignment: e.keys.first,
+          child: Container(),
+        );
+        return model.copyWith(
+          child: AnchorPoint(
+            key: key,
+            model: model,
+            showAnchorPointsVN: _showAnchorPointsValueNotifier,
+          ),
         );
       }).toList(),
     );
@@ -102,7 +110,7 @@ abstract class AbstractFlowElement {
     return AnchorPointModelMap(
         anchorPointList: data.anchorPointsModelMap?.anchorPointList.map(
               (e) {
-                return e.copyWith(
+                var model = e.copyWith(
                   anchorPointPosition: _anchorPointsMap
                       .firstWhere(
                           (element) => element.keys.first == e.alignment)
@@ -114,6 +122,13 @@ abstract class AbstractFlowElement {
                           .values
                           .first +
                       offset,
+                );
+                return model.copyWith(
+                  child: AnchorPoint(
+                    key: e.anchorPointKey,
+                    model: model,
+                    showAnchorPointsVN: _showAnchorPointsValueNotifier,
+                  ),
                 );
               },
             ).toList() ??
@@ -144,7 +159,7 @@ abstract class AbstractFlowElement {
           dimensionPointPositionRelativeToParent: e.values.first + offset,
           child: DimensionPoint(
             key: key,
-            element: this,
+            abstractFlowElementKey: elementKey!,
             alignment: e.keys.first,
           ),
         );
@@ -152,8 +167,7 @@ abstract class AbstractFlowElement {
     ).toList());
   }
 
-  DimensionPointModelMap updateDimensionPoints(Offset offset, Path path,
-      {bool updateElementPosition = false}) {
+  DimensionPointModelMap updateDimensionPoints(Offset offset, Path path) {
     final boundRect = path.getBounds();
     var _dimensionPointsList = [
       {Alignment.topLeft: boundRect.topLeft},
@@ -166,37 +180,40 @@ abstract class AbstractFlowElement {
       {Alignment.centerRight: Offset(boundRect.right, boundRect.height / 2)},
     ];
 
-    var el = updateElementPosition ? copyWith(offset: offset) : this;
-
     return DimensionPointModelMap(
-        dimensionPointList: dimensionPointModelMap?.dimensionPointList.map(
-              (e) {
-                var _newDimensionPointKey =
-                    updateElementPosition ? UniqueKey() : e.dimensionPointKey;
-                var _dimensionPointPosition = _dimensionPointsList
+      dimensionPointList: _refreshDimensionPointListInfo(
+        _dimensionPointsList,
+        offset,
+      ),
+    );
+  }
+
+  List<DimensionPointModel> _refreshDimensionPointListInfo(
+      List<Map<Alignment, Offset>> _dimensionPointsList, Offset offset) {
+    return dimensionPointModelMap?.dimensionPointList.map(
+          (e) {
+            var _dimensionPointPosition = _dimensionPointsList
+                .firstWhere((element) => element.keys.first == e.alignment)
+                .values
+                .first;
+            var _dimensionPointPositionRelativeToParent = _dimensionPointsList
                     .firstWhere((element) => element.keys.first == e.alignment)
                     .values
-                    .first;
-                var _dimensionPointPositionRelativeToParent =
-                    _dimensionPointsList
-                            .firstWhere(
-                                (element) => element.keys.first == e.alignment)
-                            .values
-                            .first +
-                        offset;
-                return e.copyWith(
-                  dimensionPointPosition: _dimensionPointPosition,
-                  dimensionPointPositionRelativeToParent:
-                      _dimensionPointPositionRelativeToParent,
-                  child: DimensionPoint(
-                    key: _newDimensionPointKey,
-                    element: el,
-                    alignment: e.alignment,
-                  ),
-                );
-              },
-            ).toList() ??
-            []);
+                    .first +
+                offset;
+            return e.copyWith(
+              dimensionPointPosition: _dimensionPointPosition,
+              dimensionPointPositionRelativeToParent:
+                  _dimensionPointPositionRelativeToParent,
+              child: DimensionPoint(
+                key: e.dimensionPointKey,
+                abstractFlowElementKey: elementKey!,
+                alignment: e.alignment,
+              ),
+            );
+          },
+        ).toList() ??
+        <DimensionPointModel>[];
   }
 
   Widget build(BuildContext context) {
@@ -204,22 +221,41 @@ abstract class AbstractFlowElement {
       transform: Matrix4.translationValues(
           (offset?.dx ?? 0) - 5, (offset?.dy ?? 0) - 5, 0),
       child: BlocBuilder<UnselectElementsBloc, UnselectElementsState>(
-        buildWhen: (previous, current) =>
-            elementKey == current.elementKey || current.elementKey == null,
+        buildWhen: (previous, current) {
+          return (current.selectedElementList.selectedElements
+                  .firstWhereOrNull((e) {
+                return e.elementKey == elementKey;
+              }) !=
+              null);
+        },
         builder: (context, unselectElementState) {
+          var selectedElement = unselectElementState
+              .selectedElementList.selectedElements
+              .firstWhereOrNull((e) {
+            return e.elementKey == elementKey;
+          });
           return BlocConsumer<ResizeElementBloc, ResizeElementState>(
             listenWhen: (previous, current) {
               return current.maybeWhen(
                 orElse: () => false,
-                resized: (element) => element.elementKey == elementKey,
+                resizing: (element) => element.elementKey == elementKey,
+                resizeEnd: (element) => element.elementKey == elementKey,
               );
             },
             listener: (context, resizeElementState) {
               resizeElementState.maybeWhen(
-                resized: (element) {
+                resizing: (element) {
                   context
                       .read<AddRemoveElementBloc>()
                       .add(ScaleElementEvent(elementToManipulate: element));
+                },
+                resizeEnd: (element) {
+                  handleFlowElements(
+                    context: context,
+                    element: this,
+                    drawNewElement: false,
+                    offset: offset!,
+                  );
                 },
                 orElse: () => null,
               );
@@ -231,7 +267,7 @@ abstract class AbstractFlowElement {
                 onTap: () {
                   context.read<UnselectElementsBloc>().add(
                       UnselectElementsEvent(
-                          unselect: !unselectElementState.unselect,
+                          selected: !(selectedElement?.selected ?? false),
                           elementKey: elementKey));
                 },
                 child: Stack(
@@ -245,17 +281,14 @@ abstract class AbstractFlowElement {
                     Positioned.fill(
                       child: Center(child: concreteBuild(context)),
                     ),
-                    if (anchorPointsModelMap!.anchorPointList.isNotEmpty)
+                    if (anchorPointsModelMap!.anchorPointList.isNotEmpty &&
+                        !(selectedElement?.selected ?? false))
                       for (var anchorPoint
                           in anchorPointsModelMap!.anchorPointList)
-                        AnchorPoint(
-                          model: anchorPoint,
-                          unselect: unselectElementState.unselect,
-                          showAnchorPointsVN: _showAnchorPointsValueNotifier,
-                        ),
+                        anchorPoint.child,
                     if (dimensionPointModelMap != null &&
                         dimensionPointModelMap!.dimensionPointList.isNotEmpty &&
-                        !unselectElementState.unselect)
+                        (selectedElement?.selected ?? false))
                       Container(
                         transform: Matrix4.translationValues(5, 5, 0),
                         child: RepaintBoundary(
@@ -269,7 +302,7 @@ abstract class AbstractFlowElement {
                       ),
                     if (dimensionPointModelMap != null &&
                         dimensionPointModelMap!.dimensionPointList.isNotEmpty &&
-                        !unselectElementState.unselect)
+                        (selectedElement?.selected ?? false))
                       for (var dimensionPoint
                           in dimensionPointModelMap!.dimensionPointList)
                         Container(
@@ -278,7 +311,7 @@ abstract class AbstractFlowElement {
                             dimensionPoint.dimensionPointPosition.dy,
                             0,
                           ),
-                          child: dimensionPoint.child,
+                          child: Container(child: dimensionPoint.child),
                         ),
                   ],
                 ),
@@ -302,4 +335,18 @@ abstract class AbstractFlowElement {
     AnchorPointModelMap? anchorPointsModelMap,
     DimensionPointModelMap? dimensionPointModelMap,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AbstractFlowElement &&
+          flowType == other.flowType &&
+          offset == other.offset &&
+          elementKey == other.elementKey &&
+          path == other.path &&
+          anchorPointsModelMap == other.anchorPointsModelMap &&
+          dimensionPointModelMap == other.dimensionPointModelMap);
+
+  @override
+  int get hashCode => elementKey.hashCode ^ flowType.hashCode;
 }

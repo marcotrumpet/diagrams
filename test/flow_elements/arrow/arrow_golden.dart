@@ -4,6 +4,8 @@ import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_elemen
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/flow_elements/bloc/handle_points/handle_points_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/triangle/triangle_flow_element.dart';
@@ -33,12 +35,17 @@ void resetBlocs() {
   _handlePointsBloc = HandlePointsBloc(
     addRemoveElementBloc: _addRemoveElementBloc,
     drawArrowsBloc: _drawArrowsBloc,
+    unselectElementsBloc: UnselectElementsBloc(
+      const UnselectElementsState(
+        selectedElementList: SelectedElementList(),
+      ),
+    ),
   );
 }
 
 void arrowGoldenTest() {
   resetBlocs();
-  group('arrowTest', () {
+  group('arrowTests', () {
     tearDown(() {
       resetBlocs();
     });

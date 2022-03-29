@@ -23,7 +23,7 @@ class _DiagramHomeState extends State<DiagramHome> {
         onTap: () {
           context
               .read<UnselectElementsBloc>()
-              .add(UnselectElementsEvent(unselect: true));
+              .add(UnselectElementsEvent(selected: false));
         },
         child: Row(
           mainAxisSize: MainAxisSize.max,

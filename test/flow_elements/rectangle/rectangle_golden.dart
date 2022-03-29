@@ -1,46 +1,126 @@
+import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
+import 'package:diagrams/flow_elements/bloc/handle_points/handle_points_bloc.dart';
+import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
-import 'package:diagrams/theme/app_theme.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 import '../../golden_test.dart';
 
+late AddRemoveElementBloc _addRemoveElementBloc;
+late DrawArrowsBloc _drawArrowsBloc;
+late HandlePointsBloc _handlePointsBloc;
+late ResizeElementBloc _resizeElementBloc;
+
+void resetBlocs() {
+  _addRemoveElementBloc = AddRemoveElementBloc([]);
+
+  _drawArrowsBloc = DrawArrowsBloc(
+    const DrawArrowsState(),
+  );
+
+  _handlePointsBloc = HandlePointsBloc(
+    addRemoveElementBloc: _addRemoveElementBloc,
+    drawArrowsBloc: _drawArrowsBloc,
+    unselectElementsBloc: UnselectElementsBloc(const UnselectElementsState(
+      selectedElementList: SelectedElementList(),
+    )),
+  );
+  _resizeElementBloc =
+      ResizeElementBloc(addRemoveElementBloc: _addRemoveElementBloc);
+}
+
 void rectangleGoldenTest() {
-  setUp(() {
-    appTheme = AppTheme();
-    addRemoveElementBloc = AddRemoveElementBloc([]);
-    unselectElementsBloc = UnselectElementsBloc(
-      const UnselectElementsState(unselect: false),
-    );
-    drawArrowsBloc = DrawArrowsBloc(
-      const DrawArrowsState(),
-    );
-  });
-  testGoldens('test rectangleFlowElement', (tester) async {
-    await tester.pumpWidgetBuilder(mainTestableApp());
-
-    await tester.drag(
-      find.byType(Draggable<RectangleFlowElement>),
-      const Offset(250, 250),
-    );
-
-    await screenMatchesGolden(tester, 'rectangle/golden_test');
-
-    await tester.tap(
-      find.descendant(
-        of: find.byType(Scaffold),
-        matching: find.byKey(
-          const Key('unselect_flow_elements'),
+  group('rectangleTests', () {
+    setUp(() {
+      resetBlocs();
+    });
+    tearDown(() {
+      resetBlocs();
+    });
+    testGoldens('test rectangleFlowElement', (tester) async {
+      await tester.pumpWidgetBuilder(
+        mainTestableApp(
+          addRemoveElement: _addRemoveElementBloc,
+          drawArrows: _drawArrowsBloc,
+          handlePoints: _handlePointsBloc,
+          resizeElementBloc: _resizeElementBloc,
         ),
-      ),
-    );
+      );
 
-    await screenMatchesGolden(tester, 'rectangle/unselected_golden_test');
+      await tester.drag(
+        find.byType(Draggable<RectangleFlowElement>),
+        const Offset(150, 100),
+      );
+
+      await screenMatchesGolden(tester, 'rectangle/golden_test');
+
+      await tester.tap(
+        find.descendant(
+          of: find.byType(Scaffold),
+          matching: find.byKey(
+            const Key('unselect_flow_elements'),
+          ),
+        ),
+      );
+
+      await screenMatchesGolden(tester, 'rectangle/unselected_golden_test');
+    });
+
+    testGoldens('resize rectangleFlowElement', (tester) async {
+      await tester.pumpWidgetBuilder(
+        mainTestableApp(
+          addRemoveElement: _addRemoveElementBloc,
+          drawArrows: _drawArrowsBloc,
+          handlePoints: _handlePointsBloc,
+          resizeElementBloc: _resizeElementBloc,
+        ),
+      );
+
+      await tester.runAsync(() async {
+        await tester.drag(
+          find.byType(Draggable<RectangleFlowElement>),
+          const Offset(150, 100),
+        );
+
+        await tester.pumpAndSettle();
+      });
+
+      var rectangle = _addRemoveElementBloc.elementsList.firstWhere(
+          (element) => element.flowType == FlowElementTypes.rectangle);
+
+      await tester.runAsync(() async {
+        await tester.tap(find.byKey(rectangle.elementKey!));
+
+        await tester.pumpAndSettle();
+      });
+
+      var dimensionPoint = rectangle.dimensionPointModelMap!.dimensionPointList
+          .firstWhere((element) => element.alignment == Alignment.bottomRight);
+
+      await tester.runAsync(() async {
+        var gesture = await tester.startGesture(
+            tester.getCenter(find.byKey(dimensionPoint.dimensionPointKey)));
+
+        await gesture.moveBy(const Offset(50, 50));
+        await gesture.moveBy(const Offset(50, 50));
+        await gesture.moveBy(const Offset(50, 50));
+
+        await tester.pumpAndSettle();
+
+        await gesture.up();
+
+        await tester.pumpAndSettle();
+      });
+
+      await screenMatchesGolden(tester, 'rectangle/resize_golden_test');
+    });
   });
 }
