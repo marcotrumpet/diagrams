@@ -7,7 +7,6 @@ import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.d
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
