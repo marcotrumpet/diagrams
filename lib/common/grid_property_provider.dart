@@ -21,6 +21,11 @@ class GridPropertyProvider {
     return barriers.map((e) => e.rect).toList();
   }
 
+  void setGridBarriers() {
+    createGrid();
+    addNeighbors();
+  }
+
   void updateGridBarriers(UpdateBarrierModel updateBarrierModel) {
     if (updateBarrierModel.endPointsToExclude?.isNotEmpty ?? false) {
       totalEndPointsToExclude.clear();
@@ -30,9 +35,16 @@ class GridPropertyProvider {
       totalEndPointsToExclude
           .addAll(updateBarrierModel.endPointsToExclude ?? []);
     }
-    barriers.removeWhere((element) =>
-        element.abstractElementKey ==
-        updateBarrierModel.abstractFlowElement.elementKey);
+    barriers.removeWhere((element) {
+      if (element.abstractElementKey ==
+          updateBarrierModel.abstractFlowElement.elementKey) {
+        // update tiles that shuldn't be barriers anymore
+        updateNeighbors(
+            updateBarrierModel.abstractFlowElement.path.getBounds());
+        return true;
+      }
+      return false;
+    });
 
     var newRect = updateBarrierModel.abstractFlowElement.path
         .getBounds()
@@ -48,7 +60,19 @@ class GridPropertyProvider {
     barriers.add(barrierModel);
 
     createGrid(endPointsToExclude: totalEndPointsToExclude);
-    addNeighbors();
+    updateNeighbors(newRect);
+  }
+
+  void updateNeighbors(Rect rect) {
+    grid.map(
+      (row) => row.map(
+        (el) {
+          if (rect.contains(el.position)) {
+            _updateNeighbors(el);
+          }
+        },
+      ),
+    );
   }
 
   void createGrid({List<Offset>? endPointsToExclude}) {
@@ -99,50 +123,52 @@ class GridPropertyProvider {
     return tile;
   }
 
+  void _updateNeighbors(TileModel element) {
+    var x = element.position.dx;
+    var y = element.position.dy;
+
+    /// adds in top
+    if (y > 0) {
+      final t = findTileInGrid(Offset(x, y - secondarySquareSide));
+      if (t == null) return;
+      if (!t.isBarrier) {
+        element.neighbors.add(t);
+      }
+    }
+
+    /// adds in bottom
+    if (y < ((grid.first.length * secondarySquareSide) - secondarySquareSide)) {
+      final t = findTileInGrid(Offset(x, y + secondarySquareSide));
+      if (t == null) return;
+      if (!t.isBarrier) {
+        element.neighbors.add(t);
+      }
+    }
+
+    /// adds in left
+    if (x > 0) {
+      final t = findTileInGrid(Offset(x - secondarySquareSide, y));
+      if (t == null) return;
+      if (!t.isBarrier) {
+        element.neighbors.add(t);
+      }
+    }
+
+    /// adds in right
+    if (x < ((grid.length * secondarySquareSide) - secondarySquareSide)) {
+      final t = findTileInGrid(Offset(x + secondarySquareSide, y));
+      if (t == null) return;
+      if (!t.isBarrier) {
+        element.neighbors.add(t);
+      }
+    }
+  }
+
   /// Adds neighbors to cells
   void addNeighbors({bool withDiagonal = false}) {
     for (var e in grid) {
       for (var element in e) {
-        var x = element.position.dx;
-        var y = element.position.dy;
-
-        /// adds in top
-        if (y > 0) {
-          final t = findTileInGrid(Offset(x, y - secondarySquareSide));
-          if (t == null) return;
-          if (!t.isBarrier) {
-            element.neighbors.add(t);
-          }
-        }
-
-        /// adds in bottom
-        if (y <
-            ((grid.first.length * secondarySquareSide) - secondarySquareSide)) {
-          final t = findTileInGrid(Offset(x, y + secondarySquareSide));
-          if (t == null) return;
-          if (!t.isBarrier) {
-            element.neighbors.add(t);
-          }
-        }
-
-        /// adds in left
-        if (x > 0) {
-          final t = findTileInGrid(Offset(x - secondarySquareSide, y));
-          if (t == null) return;
-          if (!t.isBarrier) {
-            element.neighbors.add(t);
-          }
-        }
-
-        /// adds in right
-        if (x < ((grid.length * secondarySquareSide) - secondarySquareSide)) {
-          final t = findTileInGrid(Offset(x + secondarySquareSide, y));
-          if (t == null) return;
-          if (!t.isBarrier) {
-            element.neighbors.add(t);
-          }
-        }
-
+        _updateNeighbors(element);
         // if (withDiagonal) {
         //   /// adds in top-left
         //   if (y > 0 && x > 0) {
