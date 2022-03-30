@@ -1,36 +1,36 @@
-# diagrams
+# Diagrams
 
 This is a test project to play around with CustomPainter and an excuse to test Flutter Web and Flutter Desktop.
 
 The main idea is to basically rewrite [draw.io](draw.io) as close as possible.
 In this way I can explore and learn new stuff.
 
-### goals
+### Goals
 
-[x] have a set of basic shapes <br />
-[x] draw arrows to link shapes <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(after many iteration I tryed to adapt [this](https://github.com/RafaelBarbosatec/a_star) A* algorithm to my needs) <br />
-[] change arrow path <br />
-[] change elements dimensions <br />
-[] textfields inside elements <br />
-[] change elements properties (color, border, background) <br />
-[] change text properties <br />
-[] many, many, more
+- [x] Have a set of basic shapes <br />
+- [x] Draw arrows to link shapes
+  (after many iteration I tryed to adapt [this](https://github.com/RafaelBarbosatec/a_star) A* algorithm to my needs) <br />
+- [ ] Change arrow path <br />
+- [ ] Change elements dimensions <br />
+- [ ] Textfields inside elements <br />
+- [ ] Change elements properties (color, border, background) <br />
+- [ ] Change text properties <br />
+- [ ] Many, many, more
 
 
-### examples
+### Examples
 
 This first image is the empty grid when app starts: <br />
 <img src="readme_images/1.png" alt="drawing" width="600"/>
 
-When you add elements you can link them with arrows, the A* alghorithm takes care of finding the shortest path: <br />
+When you add elements you can link them with arrows, the A* algorithm takes care of finding the shortest path: <br />
 <img src="readme_images/2.png" alt="drawing" width="600"/>
 
-When you add elements that cross arrows, the A* alghorithm takes care of finding the shortest path avoiding collision with element not linked to the arrow: <br />
+When you add elements that cross arrows, the A* algorithm takes care of finding the shortest path avoiding collision with element not linked to the arrow: <br />
 <img src="readme_images/3.png" alt="drawing" width="600"/>
 
 
-### tests
+### Tests
 
 To manually run test use:
 
