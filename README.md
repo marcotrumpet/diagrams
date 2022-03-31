@@ -43,3 +43,8 @@ Inside `.githooks` folder there are a pre-commit script that performs formatter 
 If you are on vscode, in order to get the test coverage, you need to install [flutter coverage](https://marketplace.visualstudio.com/items?itemName=Flutterando.flutter-coverage) and [coverage-gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters).
 
 There is also a `flutter_test.yml` intended to be used inside github actions that will perform tests on pull requests.
+
+
+<!-- ### Contributors
+
+![GitHub Contributors Image](https://contrib.rocks/image?repo=marcotrumpet/diagrams) -->

@@ -62,17 +62,13 @@ class AddRemoveElementBloc
             ?.copyWith(anchorPointList: anchorPointListUpdated!),
       );
 
-      // elementUpdated.updateDimensionPoints(
-      //   elementUpdated.offset!,
-      //   elementUpdated.path,
-      //   updateAbstractElementInfo: true,
-      // );
-
       // refresh elements list with updated element
       elementsList
           .removeWhere((el) => el.elementKey == elementUpdated.elementKey);
       elementsList.add(elementUpdated);
 
+      // Make sure this is not needed anymore
+      //
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
         UpdateBarrierModel(
           abstractFlowElement: event.elementToManipulate,
@@ -113,12 +109,6 @@ class AddRemoveElementBloc
         anchorPointsModelMap: event.elementToManipulate.anchorPointsModelMap
             ?.copyWith(anchorPointList: anchorPointListUpdated!),
       );
-
-      // elementUpdated.updateDimensionPoints(
-      //   elementUpdated.offset!,
-      //   elementUpdated.path,
-      //   updateAbstractElementInfo: true,
-      // );
 
       // refresh elements list with updated element
       elementsList
