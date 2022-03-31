@@ -11,7 +11,6 @@ class AStarAlgorithm {
   final _doneList = <TileModel>[];
   final _waitList = <TileModel>[];
 
-  late List<List<TileModel>> grid;
   late List<Rect> barriers;
   late double squareSide;
 
@@ -19,7 +18,6 @@ class AStarAlgorithm {
     required this.start,
     required this.end,
   }) {
-    grid = GetIt.I<GridPropertyProvider>().grid;
     barriers = [];
     barriers = GetIt.I<GridPropertyProvider>().barrierModelToList();
     squareSide = GetIt.I<GridPropertyProvider>().secondarySquareSide;

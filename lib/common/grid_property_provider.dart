@@ -14,6 +14,7 @@ class GridPropertyProvider {
   var secondaryStrokeWith = 0.5;
 
   var grid = <List<TileModel>>[];
+  List<TileModel> sorted = [];
   var barriers = <BarrierModel>[];
   var totalEndPointsToExclude = <Offset>[];
 
@@ -21,30 +22,15 @@ class GridPropertyProvider {
     return barriers.map((e) => e.rect).toList();
   }
 
-  void setGridBarriers() {
-    createGrid();
-    addNeighbors();
-  }
-
   void updateGridBarriers(UpdateBarrierModel updateBarrierModel) {
     if (updateBarrierModel.endPointsToExclude?.isNotEmpty ?? false) {
-      totalEndPointsToExclude.clear();
-      totalEndPointsToExclude
-          .addAll(updateBarrierModel.endPointsToExclude ?? []);
-    } else {
       totalEndPointsToExclude
           .addAll(updateBarrierModel.endPointsToExclude ?? []);
     }
-    barriers.removeWhere((element) {
-      if (element.abstractElementKey ==
-          updateBarrierModel.abstractFlowElement.elementKey) {
-        // update tiles that shuldn't be barriers anymore
-        updateNeighbors(
-            updateBarrierModel.abstractFlowElement.path.getBounds());
-        return true;
-      }
-      return false;
-    });
+
+    barriers.removeWhere((element) =>
+        element.abstractElementKey ==
+        updateBarrierModel.abstractFlowElement.elementKey);
 
     var newRect = updateBarrierModel.abstractFlowElement.path
         .getBounds()
@@ -54,29 +40,17 @@ class GridPropertyProvider {
 
     var barrierModel = BarrierModel(
       abstractElementKey: updateBarrierModel.abstractFlowElement.elementKey!,
-      positions: [], // delete it
       rect: newRect,
     );
     barriers.add(barrierModel);
 
     createGrid(endPointsToExclude: totalEndPointsToExclude);
-    updateNeighbors(newRect);
-  }
-
-  void updateNeighbors(Rect rect) {
-    grid.map(
-      (row) => row.map(
-        (el) {
-          if (rect.contains(el.position)) {
-            _updateNeighbors(el);
-          }
-        },
-      ),
-    );
+    addNeighbors();
   }
 
   void createGrid({List<Offset>? endPointsToExclude}) {
     grid = [];
+    sorted = [];
     var gridPainted = gridKey.currentContext?.findRenderObject() as RenderBox;
     List.generate((gridPainted.size.width ~/ secondarySquareSide), (x) {
       List<TileModel> rowList = [];
@@ -107,25 +81,59 @@ class GridPropertyProvider {
       });
       grid.add(rowList);
     });
+    sorted = grid.flattened.toList();
+    sorted.sort((a, b) {
+      if (a.position.dx.compareTo(b.position.dx) == 0) {
+        return a.position.dy.compareTo(b.position.dy);
+      }
+      return a.position.dx.compareTo(b.position.dx);
+    });
   }
 
   TileModel? findTileInGrid(Offset offset) {
     TileModel? tile;
 
-    for (var column in grid) {
-      for (var cel in column) {
-        if (cel.position == offset) {
-          tile = cel;
+    tile = binarySearch(sorted, offset, 0, sorted.length - 1);
+    return tile;
+  }
+
+  TileModel? binarySearch(
+      List<TileModel> arr, Offset userValue, int min, int max) {
+    if (max >= min) {
+      // If the element is present at the middle
+      int mid = ((max + min) / 2).floor();
+      if (userValue == arr[mid].position) {
+        return arr[mid];
+      }
+      // If dx match
+      else if (userValue.dx == arr[mid].position.dx) {
+        // Do same logic for dy
+        if (userValue.dy > arr[mid].position.dy) {
+          return binarySearch(arr, userValue, mid + 1, max);
+        } else {
+          return binarySearch(arr, userValue, min, mid - 1);
         }
       }
+      // If element.dx is bigger than mid.dx, then
+      // it can only be present in right subarray
+      else if (userValue.dx > arr[mid].position.dx) {
+        return binarySearch(arr, userValue, mid + 1, max);
+      }
+      // Else the element can only be present
+      // in left subarray
+      else {
+        return binarySearch(arr, userValue, min, mid - 1);
+      }
+    } else {
+      return null;
     }
-
-    return tile;
   }
 
   void _updateNeighbors(TileModel element) {
     var x = element.position.dx;
     var y = element.position.dy;
+
+    element.neighbors.clear();
 
     /// adds in top
     if (y > 0) {
@@ -162,70 +170,17 @@ class GridPropertyProvider {
         element.neighbors.add(t);
       }
     }
+
+    return;
   }
 
   /// Adds neighbors to cells
-  void addNeighbors({bool withDiagonal = false}) {
+  Future<void> addNeighbors({bool withDiagonal = false}) async {
     for (var e in grid) {
       for (var element in e) {
         _updateNeighbors(element);
-        // if (withDiagonal) {
-        //   /// adds in top-left
-        //   if (y > 0 && x > 0) {
-        //     final top = findTileInGrid(Offset(x, y - secondarySquareSide));
-        //     final left = findTileInGrid(Offset(x - secondarySquareSide, y));
-        //     final t = findTileInGrid(
-        //         Offset(x - secondarySquareSide, y - secondarySquareSide));
-        //     if (t == null || top == null || left == null) return;
-        //     if (!t.isBarrier && !left.isBarrier && !top.isBarrier) {
-        //       element.neighbors.add(t);
-        //     }
-        //   }
-
-        //   /// adds in top-right
-        //   if (y > 0 &&
-        //       x < ((grid.length * secondarySquareSide) - secondarySquareSide)) {
-        //     final top = findTileInGrid(Offset(x, y - secondarySquareSide));
-        //     final right = findTileInGrid(Offset(x + secondarySquareSide, y));
-        //     final t = findTileInGrid(
-        //         Offset(x + secondarySquareSide, y - secondarySquareSide));
-        //     if (t == null || top == null || right == null) return;
-        //     if (!t.isBarrier && !top.isBarrier && !right.isBarrier) {
-        //       element.neighbors.add(t);
-        //     }
-        //   }
-
-        //   /// adds in bottom-left
-        //   if (x > 0 &&
-        //       y <
-        //           ((grid.first.length * secondarySquareSide) -
-        //               secondarySquareSide)) {
-        //     final bottom = findTileInGrid(Offset(x, y + secondarySquareSide));
-        //     final left = findTileInGrid(Offset(x - secondarySquareSide, y));
-        //     final t = findTileInGrid(
-        //         Offset(x - secondarySquareSide, y + secondarySquareSide));
-        //     if (t == null || bottom == null || left == null) return;
-        //     if (!t.isBarrier && !bottom.isBarrier && !left.isBarrier) {
-        //       element.neighbors.add(t);
-        //     }
-        //   }
-
-        //   /// adds in bottom-right
-        //   if (x < ((grid.length * secondarySquareSide) - secondarySquareSide) &&
-        //       y <
-        //           ((grid.first.length * secondarySquareSide) -
-        //               secondarySquareSide)) {
-        //     final bottom = findTileInGrid(Offset(x, y + secondarySquareSide));
-        //     final right = findTileInGrid(Offset(x + secondarySquareSide, y));
-        //     final t = findTileInGrid(
-        //         Offset(x + secondarySquareSide, y + secondarySquareSide));
-        //     if (t == null || bottom == null || right == null) return;
-        //     if (!t.isBarrier && !bottom.isBarrier && !right.isBarrier) {
-        //       element.neighbors.add(t);
-        //     }
-        //   }
-        // }
       }
     }
+    return;
   }
 }

@@ -25,15 +25,6 @@ class _MainCanvasState extends State<MainCanvas> {
   final _arrowModelList = <ArrowModel>[];
 
   @override
-  void initState() {
-    // TODO this is slow, user need to wait for it
-    if (_gridKey.currentWidget != null) {
-      GetIt.I<GridPropertyProvider>().setGridBarriers();
-    }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InteractiveViewer(

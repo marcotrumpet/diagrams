@@ -11,6 +11,10 @@ class TileModel {
 
   int get f => g + h;
 
-  TileModel(this.position, this.neighbors,
-      {this.parent, this.isBarrier = false});
+  TileModel(
+    this.position,
+    this.neighbors, {
+    this.parent,
+    this.isBarrier = false,
+  });
 }
