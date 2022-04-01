@@ -71,6 +71,17 @@ class _MainCanvasState extends State<MainCanvas> {
                           context: context, element: details.data),
                     );
                   },
+                  // onMove: (details) {
+                  //   if (!isElementInList(
+                  //       context: context, element: details.data)) return;
+                  //   final newOffset = calcNewOffset(details, _gridKey);
+                  //   handleFlowElements(
+                  //     element: details.data,
+                  //     context: context,
+                  //     offset: newOffset,
+                  //     drawNewElement: false,
+                  //   );
+                  // },
                   builder: (context, candidateData, rejectedData) {
                     return const SizedBox.shrink();
                   },

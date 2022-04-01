@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:get_it/get_it.dart';
 
-extension NormalizePointToGrid on Offset {
+extension OffsetCustomExtensions on Offset {
   Offset normalizedPointToGrid() {
     var newPoint = Offset(
         (dx - dx % GetIt.I<GridPropertyProvider>().secondarySquareSide),
@@ -18,6 +18,16 @@ extension NormalizePointToGrid on Offset {
     );
 
     return newPoint;
+  }
+
+  List<Offset> calcSurroundingPoints() {
+    return [
+      this,
+      Offset(dx - 15, dy),
+      Offset(dx + 15, dy),
+      Offset(dx, dy + 15),
+      Offset(dx, dy - 15),
+    ];
   }
 }
 
