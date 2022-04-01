@@ -1,3 +1,4 @@
+import 'package:diagrams/common/app_extensions.dart';
 import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:diagrams/common/update_barrier_model.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
@@ -13,24 +14,6 @@ class AddRemoveElementBloc
   List<AbstractFlowElement> elementsList = [];
   AddRemoveElementBloc(List<AbstractFlowElement> initialState)
       : super(initialState) {
-    // bool _elementHasArrows(AbstractFlowElement element) {
-    //   var anchorPoint = element.anchorPointsModelMap?.anchorPointList
-    //       .firstWhereOrNull((element) =>
-    //           (element.arrowModelEnd?.isNotEmpty ?? false) ||
-    //           (element.arrowModelStart?.isNotEmpty ?? false));
-    //   return anchorPoint != null;
-    // }
-
-    List<Offset> calcSurroundingPoints(Offset point) {
-      return [
-        point,
-        Offset(point.dx - 15, point.dy),
-        Offset(point.dx + 15, point.dy),
-        Offset(point.dx, point.dy + 15),
-        Offset(point.dx, point.dy - 15),
-      ];
-    }
-
     on<AddStartingPointToAnchorElementEvent>((event, emit) {
       //find arrow model list for the specific anchor point
       var arrowModelStart = event
@@ -72,8 +55,8 @@ class AddRemoveElementBloc
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
         UpdateBarrierModel(
           abstractFlowElement: event.elementToManipulate,
-          endPointsToExclude:
-              calcSurroundingPoints(event.arrowModelLinkedToElement.startPoint),
+          endPointsToExclude: event.arrowModelLinkedToElement.startPoint
+              .calcSurroundingPoints(),
         ),
       );
 
@@ -119,7 +102,7 @@ class AddRemoveElementBloc
       GetIt.I<GridPropertyProvider>().updateGridBarriers(
         UpdateBarrierModel(
           abstractFlowElement: event.elementToManipulate,
-          endPointsToExclude: calcSurroundingPoints(end),
+          endPointsToExclude: end.calcSurroundingPoints(),
         ),
       );
 
@@ -174,12 +157,12 @@ class AddRemoveElementBloc
           in event.elementToManipulate.anchorPointsModelMap?.anchorPointList ??
               []) {
         if (anchorPoint.arrowModelEnd?.isNotEmpty ?? false) {
-          pointsToExclude.addAll(calcSurroundingPoints(
-              anchorPoint.anchorPointPositionRelativeToParent));
+          pointsToExclude.addAll(anchorPoint.anchorPointPositionRelativeToParent
+              .calcSurroundingPoints());
         }
         if (anchorPoint.arrowModelStart?.isNotEmpty ?? false) {
           anchorPoint.arrowModelStart?.forEach((element) {
-            pointsToExclude.addAll(calcSurroundingPoints(element.endPoint));
+            pointsToExclude.addAll(element.endPoint.calcSurroundingPoints());
           });
         }
       }

@@ -93,13 +93,13 @@ class GridPropertyProvider {
   TileModel? findTileInGrid(Offset offset) {
     TileModel? tile;
 
-    tile = binarySearch(sorted, offset, 0, sorted.length - 1);
+    tile = binarySearch(sorted, offset);
     return tile;
   }
 
-  TileModel? binarySearch(
-      List<TileModel> arr, Offset userValue, int min, int max) {
-    if (max >= min) {
+  TileModel? binarySearch(List<TileModel> arr, Offset userValue) {
+    var min = 0, max = sorted.length - 1;
+    while (max >= min) {
       // If the element is present at the middle
       int mid = ((max + min) / 2).floor();
       if (userValue == arr[mid].position) {
@@ -109,24 +109,23 @@ class GridPropertyProvider {
       else if (userValue.dx == arr[mid].position.dx) {
         // Do same logic for dy
         if (userValue.dy > arr[mid].position.dy) {
-          return binarySearch(arr, userValue, mid + 1, max);
+          min = mid + 1;
         } else {
-          return binarySearch(arr, userValue, min, mid - 1);
+          max = mid - 1;
         }
       }
       // If element.dx is bigger than mid.dx, then
       // it can only be present in right subarray
       else if (userValue.dx > arr[mid].position.dx) {
-        return binarySearch(arr, userValue, mid + 1, max);
+        min = mid + 1;
       }
       // Else the element can only be present
       // in left subarray
       else {
-        return binarySearch(arr, userValue, min, mid - 1);
+        max = mid - 1;
       }
-    } else {
-      return null;
     }
+    return null;
   }
 
   void _updateNeighbors(TileModel element) {
@@ -175,12 +174,11 @@ class GridPropertyProvider {
   }
 
   /// Adds neighbors to cells
-  Future<void> addNeighbors({bool withDiagonal = false}) async {
+  void addNeighbors({bool withDiagonal = false}) {
     for (var e in grid) {
       for (var element in e) {
         _updateNeighbors(element);
       }
     }
-    return;
   }
 }
