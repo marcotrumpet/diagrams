@@ -1,12 +1,13 @@
+import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
+import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
+import 'package:diagrams/bloc/arrows/draw_arrows_state.dart';
+import 'package:diagrams/bloc/handle_points/handle_points_bloc.dart';
+import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:diagrams/diagram_app.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_state.dart';
-import 'package:diagrams/flow_elements/bloc/handle_points/handle_points_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
+import 'package:diagrams/menubar/menubar.dart';
 import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,9 +62,7 @@ void main() async {
 
 Future<void> getItInitialization() async {
   GetIt getIt = GetIt.instance;
-  // if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-  // getIt.registerSingleton<AppSystemTray>(AppSystemTray());
-  // }
+  getIt.registerSingleton<AppMenuBar>(AppMenuBar()..initialize());
   getIt.registerSingleton<GridPropertyProvider>(GridPropertyProvider());
   await getIt.allReady();
 }

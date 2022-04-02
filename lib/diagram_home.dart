@@ -1,5 +1,5 @@
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_event.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_event.dart';
 import 'package:diagrams/main_canvas/main_canvas.dart';
 import 'package:diagrams/side_menu/side_menu.dart';
 import 'package:flutter/material.dart';

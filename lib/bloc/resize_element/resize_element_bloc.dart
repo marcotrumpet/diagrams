@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/common/app_extensions.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

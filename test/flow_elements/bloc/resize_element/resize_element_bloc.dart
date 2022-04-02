@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
+import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
+import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void resizeElementBlocTest() {

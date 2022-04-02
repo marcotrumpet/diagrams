@@ -1,5 +1,5 @@
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_event.dart';
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_event.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

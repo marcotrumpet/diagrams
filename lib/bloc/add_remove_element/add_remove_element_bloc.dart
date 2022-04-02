@@ -1,9 +1,9 @@
+import 'package:diagrams/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/common/app_extensions.dart';
 import 'package:diagrams/common/grid_property_provider.dart';
 import 'package:diagrams/common/update_barrier_model.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

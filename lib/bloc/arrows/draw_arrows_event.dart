@@ -1,5 +1,5 @@
+import 'package:diagrams/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/bloc/arrows/arrow_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

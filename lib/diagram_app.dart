@@ -12,20 +12,6 @@ class DiagramsApp extends StatefulWidget {
 
 class _DiagramsAppState extends State<DiagramsApp> {
   @override
-  void initState() {
-    // if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-    // GetIt.I.registerSingleton<AppSystemMenuBar>(
-    //   AppSystemMenuBar(context.read<AppTheme>()),
-    // );
-    // GetIt.I.allReadySync();
-
-    // GetIt.I<AppSystemMenuBar>().updateMenubar();
-    // GetIt.I<AppSystemTray>().initSystemTray();5
-    // }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppTheme, ThemeData>(
       builder: (_, theme) {

@@ -1,9 +1,9 @@
+import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
+import 'package:diagrams/bloc/add_remove_element/add_remove_element_event.dart';
+import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
+import 'package:diagrams/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/basic_shapes.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
-import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/flow_elements/circle/circle_flow_element.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';
