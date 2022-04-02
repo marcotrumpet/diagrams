@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:menubar/menubar.dart';
 
 class DesktopMenuBar {
-  static void buildDesktopMenu() {
+  void buildDesktopMenu({
+    required VoidCallback save,
+  }) {
     setApplicationMenu([
       Submenu(label: 'File', children: [
         MenuItem(
@@ -17,6 +19,7 @@ class DesktopMenuBar {
           enabled: true,
           shortcut:
               LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyS),
+          onClicked: save,
         ),
       ]),
     ]);

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:ui';
+
 import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
@@ -10,18 +13,66 @@ import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point_model.dart';
 import 'package:diagrams/main_canvas/canvas_helper.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-enum FlowElementTypes { rectangle, roundedRectangle, triangle, circle }
+part 'abstract_flow_element.g.dart';
 
-abstract class AbstractFlowElement {
+enum FlowElementTypes {
+  @JsonValue('rectangle_flow_element')
+  rectangle,
+  @JsonValue('rounded_rectangle_flow_element')
+  roundedRectangle,
+  @JsonValue('triangle_flow_element')
+  triangle,
+  @JsonValue('circle_flow_element')
+  circle,
+}
+
+String offsetToJson(Offset? offset) => json.encode({
+      'offset': {'dx': "$offset.dx", 'dy': "$offset.dy"},
+    });
+Offset? offsetFromJson(String j) {
+  Map<String, dynamic> _js = json.decode(j);
+  Map<String, dynamic> _offset = _js['offset'];
+  return Offset(_offset['dx'] as double, _offset['dy'] as double);
+}
+
+String pathToJson(Path path) {
+  var pointsInPath = <Offset?>[];
+  for (PathMetric pathMetric in path.computeMetrics()) {
+    pointsInPath.add(pathMetric.getTangentForOffset(0.0)?.position);
+  }
+  var pointsInJson = pointsInPath.map((e) => offsetToJson(e)).toList();
+  return json.encode({
+    'pointsInPath': pointsInJson,
+  });
+}
+
+Path pathFromJson(String p) {
+  // Map<String, dynamic> _jsonPath = json.decode(p);
+  // List<Map<String, dynamic>> _pointsInPath = _jsonPath['pointsInPath'];
+  // TODO check what's in this
+  return Path();
+}
+
+String keyToJson(Key? k) => k.toString();
+Key? keyFromJson(String k) => Key(k);
+
+@JsonSerializable(createFactory: false)
+abstract class AbstractFlowElement with EquatableMixin {
   final FlowElementTypes flowType;
+  @JsonKey(toJson: offsetToJson, fromJson: offsetFromJson)
   final Offset? offset;
+  @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
   final Key? elementKey;
+  @JsonKey(toJson: pathToJson, fromJson: pathFromJson)
   final Path path;
+  @JsonKey(ignore: true)
   AnchorPointModelMap? anchorPointsModelMap;
+  @JsonKey(ignore: true)
   DimensionPointModelMap? dimensionPointModelMap;
   final bool isSideMenu;
 
@@ -337,16 +388,22 @@ abstract class AbstractFlowElement {
   });
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is AbstractFlowElement &&
-          flowType == other.flowType &&
-          offset == other.offset &&
-          elementKey == other.elementKey &&
-          path == other.path &&
-          anchorPointsModelMap == other.anchorPointsModelMap &&
-          dimensionPointModelMap == other.dimensionPointModelMap);
+  @JsonKey(ignore: true)
+  List<Object?> get props => [
+        flowType,
+        offset,
+        elementKey,
+        path,
+        anchorPointsModelMap,
+        dimensionPointModelMap,
+        isSideMenu,
+      ];
 
   @override
-  int get hashCode => elementKey.hashCode ^ flowType.hashCode;
+  @JsonKey(ignore: true)
+  bool get stringify => false;
+
+  Map<String, dynamic> toJson() => _$AbstractFlowElementToJson(this);
+
+  AbstractFlowElement fromJson(Map<String, dynamic> json);
 }
