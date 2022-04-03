@@ -187,6 +187,10 @@ class _$SaveStateTearOff {
   _Saved saved() {
     return const _Saved();
   }
+
+  _ErrorSaving errorSaving() {
+    return const _ErrorSaving();
+  }
 }
 
 /// @nodoc
@@ -199,6 +203,7 @@ mixin _$SaveState {
     required TResult Function() initial,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function() errorSaving,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -206,6 +211,7 @@ mixin _$SaveState {
     TResult Function()? initial,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function()? errorSaving,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -213,6 +219,7 @@ mixin _$SaveState {
     TResult Function()? initial,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function()? errorSaving,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -221,6 +228,7 @@ mixin _$SaveState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_ErrorSaving value) errorSaving,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -228,6 +236,7 @@ mixin _$SaveState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -235,6 +244,7 @@ mixin _$SaveState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -296,6 +306,7 @@ class _$_Initial implements _Initial {
     required TResult Function() initial,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function() errorSaving,
   }) {
     return initial();
   }
@@ -306,6 +317,7 @@ class _$_Initial implements _Initial {
     TResult Function()? initial,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function()? errorSaving,
   }) {
     return initial?.call();
   }
@@ -316,6 +328,7 @@ class _$_Initial implements _Initial {
     TResult Function()? initial,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function()? errorSaving,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -330,6 +343,7 @@ class _$_Initial implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_ErrorSaving value) errorSaving,
   }) {
     return initial(this);
   }
@@ -340,6 +354,7 @@ class _$_Initial implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
   }) {
     return initial?.call(this);
   }
@@ -350,6 +365,7 @@ class _$_Initial implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -404,6 +420,7 @@ class _$_Saving implements _Saving {
     required TResult Function() initial,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function() errorSaving,
   }) {
     return saving();
   }
@@ -414,6 +431,7 @@ class _$_Saving implements _Saving {
     TResult Function()? initial,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function()? errorSaving,
   }) {
     return saving?.call();
   }
@@ -424,6 +442,7 @@ class _$_Saving implements _Saving {
     TResult Function()? initial,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function()? errorSaving,
     required TResult orElse(),
   }) {
     if (saving != null) {
@@ -438,6 +457,7 @@ class _$_Saving implements _Saving {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_ErrorSaving value) errorSaving,
   }) {
     return saving(this);
   }
@@ -448,6 +468,7 @@ class _$_Saving implements _Saving {
     TResult Function(_Initial value)? initial,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
   }) {
     return saving?.call(this);
   }
@@ -458,6 +479,7 @@ class _$_Saving implements _Saving {
     TResult Function(_Initial value)? initial,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
     required TResult orElse(),
   }) {
     if (saving != null) {
@@ -512,6 +534,7 @@ class _$_Saved implements _Saved {
     required TResult Function() initial,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function() errorSaving,
   }) {
     return saved();
   }
@@ -522,6 +545,7 @@ class _$_Saved implements _Saved {
     TResult Function()? initial,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function()? errorSaving,
   }) {
     return saved?.call();
   }
@@ -532,6 +556,7 @@ class _$_Saved implements _Saved {
     TResult Function()? initial,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function()? errorSaving,
     required TResult orElse(),
   }) {
     if (saved != null) {
@@ -546,6 +571,7 @@ class _$_Saved implements _Saved {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_ErrorSaving value) errorSaving,
   }) {
     return saved(this);
   }
@@ -556,6 +582,7 @@ class _$_Saved implements _Saved {
     TResult Function(_Initial value)? initial,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
   }) {
     return saved?.call(this);
   }
@@ -566,6 +593,7 @@ class _$_Saved implements _Saved {
     TResult Function(_Initial value)? initial,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
     required TResult orElse(),
   }) {
     if (saved != null) {
@@ -577,4 +605,120 @@ class _$_Saved implements _Saved {
 
 abstract class _Saved implements SaveState {
   const factory _Saved() = _$_Saved;
+}
+
+/// @nodoc
+abstract class _$ErrorSavingCopyWith<$Res> {
+  factory _$ErrorSavingCopyWith(
+          _ErrorSaving value, $Res Function(_ErrorSaving) then) =
+      __$ErrorSavingCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$ErrorSavingCopyWithImpl<$Res> extends _$SaveStateCopyWithImpl<$Res>
+    implements _$ErrorSavingCopyWith<$Res> {
+  __$ErrorSavingCopyWithImpl(
+      _ErrorSaving _value, $Res Function(_ErrorSaving) _then)
+      : super(_value, (v) => _then(v as _ErrorSaving));
+
+  @override
+  _ErrorSaving get _value => super._value as _ErrorSaving;
+}
+
+/// @nodoc
+
+class _$_ErrorSaving implements _ErrorSaving {
+  const _$_ErrorSaving();
+
+  @override
+  String toString() {
+    return 'SaveState.errorSaving()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _ErrorSaving);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() saving,
+    required TResult Function() saved,
+    required TResult Function() errorSaving,
+  }) {
+    return errorSaving();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? saving,
+    TResult Function()? saved,
+    TResult Function()? errorSaving,
+  }) {
+    return errorSaving?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? saving,
+    TResult Function()? saved,
+    TResult Function()? errorSaving,
+    required TResult orElse(),
+  }) {
+    if (errorSaving != null) {
+      return errorSaving();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Saving value) saving,
+    required TResult Function(_Saved value) saved,
+    required TResult Function(_ErrorSaving value) errorSaving,
+  }) {
+    return errorSaving(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Saving value)? saving,
+    TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
+  }) {
+    return errorSaving?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Saving value)? saving,
+    TResult Function(_Saved value)? saved,
+    TResult Function(_ErrorSaving value)? errorSaving,
+    required TResult orElse(),
+  }) {
+    if (errorSaving != null) {
+      return errorSaving(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ErrorSaving implements SaveState {
+  const factory _ErrorSaving() = _$_ErrorSaving;
 }

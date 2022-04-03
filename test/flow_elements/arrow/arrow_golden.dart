@@ -4,7 +4,7 @@ import 'package:diagrams/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/bloc/handle_points/handle_points_bloc.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_state.dart';
-import 'package:diagrams/common/grid_property_provider.dart';
+import 'package:diagrams/common/grid/grid_property_provider.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_flow_element.dart';

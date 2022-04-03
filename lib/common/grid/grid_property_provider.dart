@@ -1,4 +1,4 @@
-import 'package:diagrams/common/update_barrier_model.dart';
+import 'package:diagrams/common/grid/update_barrier_model.dart';
 import 'package:diagrams/helpers/a_star/barrier_model.dart';
 import 'package:diagrams/helpers/a_star/tile_model.dart';
 import 'package:flutter/material.dart';

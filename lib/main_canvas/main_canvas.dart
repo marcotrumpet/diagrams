@@ -3,7 +3,7 @@ import 'package:diagrams/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/bloc/handle_points/handle_points_bloc.dart';
-import 'package:diagrams/common/grid_property_provider.dart';
+import 'package:diagrams/common/grid/grid_property_provider.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/arrow/arrow_custom_painter.dart';
 import 'package:diagrams/main_canvas/canvas_helper.dart';

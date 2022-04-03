@@ -1,3 +1,4 @@
+import 'package:diagrams/common/json_converter_methods.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point_model.dart';

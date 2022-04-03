@@ -13,20 +13,32 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+ArrowModel _$ArrowModelFromJson(Map<String, dynamic> json) {
+  return _ArrowModel.fromJson(json);
+}
+
 /// @nodoc
 class _$ArrowModelTearOff {
   const _$ArrowModelTearOff();
 
   _ArrowModel call(
-      {required Offset startPoint,
-      required Key startPointKey,
-      required Offset endPoint,
-      Key? endPointKey,
-      required Key arrowKey,
-      AbstractFlowElement? startElement,
-      AbstractFlowElement? endElement,
+      {@JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required Offset startPoint,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required Key startPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required Offset endPoint,
+      @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
+          Key? endPointKey,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required Key arrowKey,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          AbstractFlowElement? startElement,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          AbstractFlowElement? endElement,
       bool? updateAStarPath = false,
-      List<Offset>? currentArrowPath}) {
+      @JsonKey(toJson: offsetListToJson, fromJson: offsetListFromJson)
+          List<Offset>? currentArrowPath}) {
     return _ArrowModel(
       startPoint: startPoint,
       startPointKey: startPointKey,
@@ -39,6 +51,10 @@ class _$ArrowModelTearOff {
       currentArrowPath: currentArrowPath,
     );
   }
+
+  ArrowModel fromJson(Map<String, Object?> json) {
+    return ArrowModel.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -46,16 +62,27 @@ const $ArrowModel = _$ArrowModelTearOff();
 
 /// @nodoc
 mixin _$ArrowModel {
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   Offset get startPoint => throw _privateConstructorUsedError;
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   Key get startPointKey => throw _privateConstructorUsedError;
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   Offset get endPoint => throw _privateConstructorUsedError;
+  @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
   Key? get endPointKey => throw _privateConstructorUsedError;
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   Key get arrowKey => throw _privateConstructorUsedError;
+  @JsonKey(
+      toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
   AbstractFlowElement? get startElement => throw _privateConstructorUsedError;
+  @JsonKey(
+      toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
   AbstractFlowElement? get endElement => throw _privateConstructorUsedError;
   bool? get updateAStarPath => throw _privateConstructorUsedError;
+  @JsonKey(toJson: offsetListToJson, fromJson: offsetListFromJson)
   List<Offset>? get currentArrowPath => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ArrowModelCopyWith<ArrowModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -67,15 +94,23 @@ abstract class $ArrowModelCopyWith<$Res> {
           ArrowModel value, $Res Function(ArrowModel) then) =
       _$ArrowModelCopyWithImpl<$Res>;
   $Res call(
-      {Offset startPoint,
-      Key startPointKey,
-      Offset endPoint,
-      Key? endPointKey,
-      Key arrowKey,
-      AbstractFlowElement? startElement,
-      AbstractFlowElement? endElement,
+      {@JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          Offset startPoint,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          Key startPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          Offset endPoint,
+      @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
+          Key? endPointKey,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          Key arrowKey,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          AbstractFlowElement? startElement,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          AbstractFlowElement? endElement,
       bool? updateAStarPath,
-      List<Offset>? currentArrowPath});
+      @JsonKey(toJson: offsetListToJson, fromJson: offsetListFromJson)
+          List<Offset>? currentArrowPath});
 }
 
 /// @nodoc
@@ -146,15 +181,23 @@ abstract class _$ArrowModelCopyWith<$Res> implements $ArrowModelCopyWith<$Res> {
       __$ArrowModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Offset startPoint,
-      Key startPointKey,
-      Offset endPoint,
-      Key? endPointKey,
-      Key arrowKey,
-      AbstractFlowElement? startElement,
-      AbstractFlowElement? endElement,
+      {@JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          Offset startPoint,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          Key startPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          Offset endPoint,
+      @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
+          Key? endPointKey,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          Key arrowKey,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          AbstractFlowElement? startElement,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          AbstractFlowElement? endElement,
       bool? updateAStarPath,
-      List<Offset>? currentArrowPath});
+      @JsonKey(toJson: offsetListToJson, fromJson: offsetListFromJson)
+          List<Offset>? currentArrowPath});
 }
 
 /// @nodoc
@@ -221,37 +264,58 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
   const _$_ArrowModel(
-      {required this.startPoint,
-      required this.startPointKey,
-      required this.endPoint,
-      this.endPointKey,
-      required this.arrowKey,
-      this.startElement,
-      this.endElement,
+      {@JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required this.startPoint,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required this.startPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required this.endPoint,
+      @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
+          this.endPointKey,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required this.arrowKey,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          this.startElement,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          this.endElement,
       this.updateAStarPath = false,
-      this.currentArrowPath});
+      @JsonKey(toJson: offsetListToJson, fromJson: offsetListFromJson)
+          this.currentArrowPath});
+
+  factory _$_ArrowModel.fromJson(Map<String, dynamic> json) =>
+      _$$_ArrowModelFromJson(json);
 
   @override
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   final Offset startPoint;
   @override
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   final Key startPointKey;
   @override
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   final Offset endPoint;
   @override
+  @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
   final Key? endPointKey;
   @override
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   final Key arrowKey;
   @override
+  @JsonKey(
+      toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
   final AbstractFlowElement? startElement;
   @override
+  @JsonKey(
+      toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
   final AbstractFlowElement? endElement;
   @JsonKey()
   @override
   final bool? updateAStarPath;
   @override
+  @JsonKey(toJson: offsetListToJson, fromJson: offsetListFromJson)
   final List<Offset>? currentArrowPath;
 
   @override
@@ -315,37 +379,63 @@ class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
   @override
   _$ArrowModelCopyWith<_ArrowModel> get copyWith =>
       __$ArrowModelCopyWithImpl<_ArrowModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ArrowModelToJson(this);
+  }
 }
 
 abstract class _ArrowModel implements ArrowModel {
   const factory _ArrowModel(
-      {required Offset startPoint,
-      required Key startPointKey,
-      required Offset endPoint,
-      Key? endPointKey,
-      required Key arrowKey,
-      AbstractFlowElement? startElement,
-      AbstractFlowElement? endElement,
+      {@JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required Offset startPoint,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required Key startPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required Offset endPoint,
+      @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
+          Key? endPointKey,
+      @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required Key arrowKey,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          AbstractFlowElement? startElement,
+      @JsonKey(toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
+          AbstractFlowElement? endElement,
       bool? updateAStarPath,
-      List<Offset>? currentArrowPath}) = _$_ArrowModel;
+      @JsonKey(toJson: offsetListToJson, fromJson: offsetListFromJson)
+          List<Offset>? currentArrowPath}) = _$_ArrowModel;
+
+  factory _ArrowModel.fromJson(Map<String, dynamic> json) =
+      _$_ArrowModel.fromJson;
 
   @override
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   Offset get startPoint;
   @override
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   Key get startPointKey;
   @override
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   Offset get endPoint;
   @override
+  @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
   Key? get endPointKey;
   @override
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   Key get arrowKey;
   @override
+  @JsonKey(
+      toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
   AbstractFlowElement? get startElement;
   @override
+  @JsonKey(
+      toJson: abstractFlowElementToJson, fromJson: abstractFlowElementFromJson)
   AbstractFlowElement? get endElement;
   @override
   bool? get updateAStarPath;
   @override
+  @JsonKey(toJson: offsetListToJson, fromJson: offsetListFromJson)
   List<Offset>? get currentArrowPath;
   @override
   @JsonKey(ignore: true)
