@@ -19,15 +19,24 @@ _$_ArrowModel _$$_ArrowModelFromJson(Map<String, dynamic> json) =>
       currentArrowPath: offsetListFromJson(json['currentArrowPath'] as String),
     );
 
-Map<String, dynamic> _$$_ArrowModelToJson(_$_ArrowModel instance) =>
-    <String, dynamic>{
-      'startPoint': offsetRequiredToJson(instance.startPoint),
-      'startPointKey': keyRequiredToJson(instance.startPointKey),
-      'endPoint': offsetRequiredToJson(instance.endPoint),
-      'endPointKey': keyToJson(instance.endPointKey),
-      'arrowKey': keyRequiredToJson(instance.arrowKey),
-      'startElement': abstractFlowElementToJson(instance.startElement),
-      'endElement': abstractFlowElementToJson(instance.endElement),
-      'updateAStarPath': instance.updateAStarPath,
-      'currentArrowPath': offsetListToJson(instance.currentArrowPath),
-    };
+Map<String, dynamic> _$$_ArrowModelToJson(_$_ArrowModel instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('startPoint', offsetRequiredToJson(instance.startPoint));
+  writeNotNull('startPointKey', keyRequiredToJson(instance.startPointKey));
+  writeNotNull('endPoint', offsetRequiredToJson(instance.endPoint));
+  writeNotNull('endPointKey', keyToJson(instance.endPointKey));
+  writeNotNull('arrowKey', keyRequiredToJson(instance.arrowKey));
+  writeNotNull(
+      'startElement', abstractFlowElementToJson(instance.startElement));
+  writeNotNull('endElement', abstractFlowElementToJson(instance.endElement));
+  writeNotNull('updateAStarPath', instance.updateAStarPath);
+  writeNotNull('currentArrowPath', offsetListToJson(instance.currentArrowPath));
+  return val;
+}

@@ -1,25 +1,28 @@
 import 'package:diagrams/bloc/arrows/arrow_model.dart';
+import 'package:diagrams/common/json_converter_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anchor_point_model.freezed.dart';
-
-@freezed
-class AnchorPointModelMap with _$AnchorPointModelMap {
-  const factory AnchorPointModelMap({
-    required List<AnchorPointModel> anchorPointList,
-  }) = _AnchorPointModelMap;
-}
+part 'anchor_point_model.g.dart';
 
 @freezed
 class AnchorPointModel with _$AnchorPointModel {
-  const factory AnchorPointModel({
-    required Key anchorPointKey,
-    required Offset anchorPointPosition,
-    required Offset anchorPointPositionRelativeToParent,
-    required Alignment alignment,
-    @Default([]) List<ArrowModel>? arrowModelStart,
-    @Default([]) List<ArrowModel>? arrowModelEnd,
-    required Widget child,
+  @JsonSerializable(includeIfNull: false)
+  factory AnchorPointModel({
+    @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+        required Key anchorPointKey,
+    @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+        required Offset anchorPointPosition,
+    @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+        required Offset anchorPointPositionRelativeToParent,
+    @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
+        required Alignment alignment,
+    List<ArrowModel>? arrowModelStart,
+    List<ArrowModel>? arrowModelEnd,
+    @JsonKey(ignore: true) // TODO probably re-add child when opening file
+        Widget? child,
   }) = _AnchorPointModel;
+  factory AnchorPointModel.fromJson(Map<String, dynamic> json) =>
+      _$AnchorPointModelFromJson(json);
 }

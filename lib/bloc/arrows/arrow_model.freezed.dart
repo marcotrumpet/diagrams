@@ -264,7 +264,8 @@ class __$ArrowModelCopyWithImpl<$Res> extends _$ArrowModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(includeIfNull: false)
 class _$_ArrowModel with DiagnosticableTreeMixin implements _ArrowModel {
   const _$_ArrowModel(
       {@JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)

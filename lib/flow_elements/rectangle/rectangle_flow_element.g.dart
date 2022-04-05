@@ -9,26 +9,32 @@ part of 'rectangle_flow_element.dart';
 RectangleFlowElement _$RectangleFlowElementFromJson(
         Map<String, dynamic> json) =>
     RectangleFlowElement(
-      flowType: $enumDecode(_$FlowElementTypesEnumMap, json['flowType']),
+      flowType: flowElementTypesFromJson(json['flowType'] as String),
       path: pathFromJson(json['path'] as String),
       offset: offsetFromJson(json['offset'] as String),
       elementKey: keyFromJson(json['elementKey'] as String),
+      anchorPointsModelMap: json['anchorPointsModelMap'] == null
+          ? null
+          : AnchorPointModelMap.fromJson(
+              json['anchorPointsModelMap'] as Map<String, dynamic>),
       isSideMenu: json['isSideMenu'] ?? false,
     );
 
 Map<String, dynamic> _$RectangleFlowElementToJson(
-        RectangleFlowElement instance) =>
-    <String, dynamic>{
-      'flowType': _$FlowElementTypesEnumMap[instance.flowType],
-      'offset': offsetToJson(instance.offset),
-      'elementKey': keyToJson(instance.elementKey),
-      'path': pathToJson(instance.path),
-      'isSideMenu': instance.isSideMenu,
-    };
+    RectangleFlowElement instance) {
+  final val = <String, dynamic>{};
 
-const _$FlowElementTypesEnumMap = {
-  FlowElementTypes.rectangle: 'rectangle_flow_element',
-  FlowElementTypes.roundedRectangle: 'rounded_rectangle_flow_element',
-  FlowElementTypes.triangle: 'triangle_flow_element',
-  FlowElementTypes.circle: 'circle_flow_element',
-};
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('flowType', flowElementTypesToJson(instance.flowType));
+  writeNotNull('offset', offsetToJson(instance.offset));
+  writeNotNull('elementKey', keyToJson(instance.elementKey));
+  writeNotNull('path', pathToJson(instance.path));
+  writeNotNull('anchorPointsModelMap', instance.anchorPointsModelMap);
+  val['isSideMenu'] = instance.isSideMenu;
+  return val;
+}

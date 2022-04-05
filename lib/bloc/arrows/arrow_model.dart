@@ -9,6 +9,7 @@ part 'arrow_model.g.dart';
 
 @freezed
 class ArrowModel with _$ArrowModel {
+  @JsonSerializable(includeIfNull: false)
   const factory ArrowModel({
     @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
         required Offset startPoint,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
@@ -25,46 +26,47 @@ class SaveBloc extends Bloc<SaveEvent, SaveState> {
       await event.maybeWhen(
         save: () async {
           emit(const SaveState.saving());
-          var abstractElementsLists = json.encode(addRemoveElementBloc
-              .elementsList
-              .map((e) => e.toJson())
-              .toList());
-          var arrowModelList = json.encode(
-              drawArrowsBloc.arrowModelList.map((e) => e.toJson()).toList());
+
           var deviceInfo = GetIt.I<DeviceInfo>();
 
           var fileModel = FileModel(
-            abstractFlowElementsList: abstractElementsLists,
+            abstractFlowElementsList: addRemoveElementBloc.elementsList,
             packageName: deviceInfo.packageInfo.packageName,
             version: deviceInfo.packageInfo.version,
             buildNumber: deviceInfo.packageInfo.buildNumber,
-            arrowModelList: arrowModelList,
+            arrowModelList: drawArrowsBloc.arrowModelList,
           );
 
           var _json = json.encode(fileModel.toJson());
           final bytes = utf8.encode(_json);
-          var _base64 = base64Encode(bytes);
 
-          final savingPath = await getSavePath(acceptedTypeGroups: [
-            XTypeGroup(
-              extensions: ['dms'],
-              label: 'diagrams_dms',
-              macUTIs: ['dms'],
-              mimeTypes: ['text/plain'],
-            ),
-          ], suggestedName: 'diagram');
+          final savingPath = await getSavePath(
+            acceptedTypeGroups: [
+              XTypeGroup(
+                extensions: ['dms'],
+                label: 'diagrams_dms',
+                macUTIs: ['dms'],
+                mimeTypes: ['text/plain'],
+              ),
+            ],
+            suggestedName: 'diagram',
+          );
+
           if (savingPath == null || savingPath.isEmpty) {
             emit(const SaveState.errorSaving());
+            return;
           }
 
-          final data = Uint8List.fromList(_base64.codeUnits);
+          final data = Uint8List.fromList(
+            zlib.encode(bytes),
+          );
           const mimeType = 'text/plain';
           final file = XFile.fromData(
             data,
             mimeType: mimeType,
             lastModified: DateTime.now(),
           );
-          await file.saveTo(savingPath!);
+          await file.saveTo(savingPath);
           emit(const SaveState.saved());
         },
         orElse: () => null,

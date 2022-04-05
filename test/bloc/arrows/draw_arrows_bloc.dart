@@ -7,6 +7,7 @@ import 'package:diagrams/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point_model_map.dart';
 import 'package:diagrams/flow_elements/rectangle/rectangle_flow_element.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';

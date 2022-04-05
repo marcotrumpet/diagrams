@@ -8,6 +8,7 @@ import 'package:diagrams/common/json_converter_methods.dart';
 import 'package:diagrams/flow_elements/abstract_custom_painter.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point_model_map.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point_model.dart';
 import 'package:diagrams/main_canvas/canvas_helper.dart';
@@ -19,18 +20,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'abstract_flow_element.g.dart';
 
 enum FlowElementTypes {
-  @JsonValue('rectangle_flow_element')
   rectangle,
-  @JsonValue('rounded_rectangle_flow_element')
   roundedRectangle,
-  @JsonValue('triangle_flow_element')
   triangle,
-  @JsonValue('circle_flow_element')
   circle,
 }
 
-@JsonSerializable(createFactory: false)
+@JsonSerializable(createFactory: false, includeIfNull: false)
 abstract class AbstractFlowElement with EquatableMixin {
+  @JsonKey(toJson: flowElementTypesToJson, fromJson: flowElementTypesFromJson)
   final FlowElementTypes flowType;
   @JsonKey(toJson: offsetToJson, fromJson: offsetFromJson)
   final Offset? offset;
@@ -38,7 +36,6 @@ abstract class AbstractFlowElement with EquatableMixin {
   final Key? elementKey;
   @JsonKey(toJson: pathToJson, fromJson: pathFromJson)
   final Path path;
-  @JsonKey(ignore: true)
   AnchorPointModelMap? anchorPointsModelMap;
   @JsonKey(ignore: true)
   DimensionPointModelMap? dimensionPointModelMap;
@@ -63,7 +60,7 @@ abstract class AbstractFlowElement with EquatableMixin {
     }
   }
 
-  final _showAnchorPointsValueNotifier = ValueNotifier(0.0);
+  final showAnchorPointsValueNotifier = ValueNotifier(0.0);
 
   AnchorPointModelMap setAnchorPoints(Offset offset, Path path) {
     final boundRect = path.getBounds();
@@ -100,7 +97,7 @@ abstract class AbstractFlowElement with EquatableMixin {
           child: AnchorPoint(
             key: key,
             model: model,
-            showAnchorPointsVN: _showAnchorPointsValueNotifier,
+            showAnchorPointsVN: showAnchorPointsValueNotifier,
           ),
         );
       }).toList(),
@@ -146,7 +143,7 @@ abstract class AbstractFlowElement with EquatableMixin {
                   child: AnchorPoint(
                     key: e.anchorPointKey,
                     model: model,
-                    showAnchorPointsVN: _showAnchorPointsValueNotifier,
+                    showAnchorPointsVN: showAnchorPointsValueNotifier,
                   ),
                 );
               },
@@ -304,7 +301,7 @@ abstract class AbstractFlowElement with EquatableMixin {
                         !(selectedElement?.selected ?? false))
                       for (var anchorPoint
                           in anchorPointsModelMap!.anchorPointList)
-                        anchorPoint.child,
+                        anchorPoint.child!,
                     if (dimensionPointModelMap != null &&
                         dimensionPointModelMap!.dimensionPointList.isNotEmpty &&
                         (selectedElement?.selected ?? false))
@@ -372,6 +369,4 @@ abstract class AbstractFlowElement with EquatableMixin {
   bool get stringify => false;
 
   Map<String, dynamic> toJson() => _$AbstractFlowElementToJson(this);
-
-  AbstractFlowElement fromJson(Map<String, dynamic> json);
 }

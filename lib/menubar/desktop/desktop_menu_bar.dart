@@ -5,6 +5,7 @@ import 'package:menubar/menubar.dart';
 class DesktopMenuBar {
   void buildDesktopMenu({
     required VoidCallback save,
+    required VoidCallback open,
   }) {
     setApplicationMenu([
       Submenu(label: 'File', children: [
@@ -13,6 +14,7 @@ class DesktopMenuBar {
           enabled: true,
           shortcut:
               LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyO),
+          onClicked: open,
         ),
         MenuItem(
           label: 'Save',
