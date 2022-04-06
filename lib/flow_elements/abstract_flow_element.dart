@@ -60,6 +60,7 @@ abstract class AbstractFlowElement with EquatableMixin {
     }
   }
 
+  @JsonKey(ignore: true)
   final showAnchorPointsValueNotifier = ValueNotifier(0.0);
 
   AnchorPointModelMap setAnchorPoints(Offset offset, Path path) {
