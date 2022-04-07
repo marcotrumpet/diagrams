@@ -180,6 +180,10 @@ class _$OpenStateTearOff {
     return const _Initial();
   }
 
+  _SaveCurrent saveCurrent() {
+    return const _SaveCurrent();
+  }
+
   _Opening opening() {
     return const _Opening();
   }
@@ -188,8 +192,10 @@ class _$OpenStateTearOff {
     return const _Opened();
   }
 
-  _ErrorOpening errorOpening() {
-    return const _ErrorOpening();
+  _ErrorOpening errorOpening(String error) {
+    return _ErrorOpening(
+      error,
+    );
   }
 }
 
@@ -201,31 +207,35 @@ mixin _$OpenState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() saveCurrent,
     required TResult Function() opening,
     required TResult Function() opened,
-    required TResult Function() errorOpening,
+    required TResult Function(String error) errorOpening,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_SaveCurrent value) saveCurrent,
     required TResult Function(_Opening value) opening,
     required TResult Function(_Opened value) opened,
     required TResult Function(_ErrorOpening value) errorOpening,
@@ -234,6 +244,7 @@ mixin _$OpenState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -242,6 +253,7 @@ mixin _$OpenState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -304,9 +316,10 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() saveCurrent,
     required TResult Function() opening,
     required TResult Function() opened,
-    required TResult Function() errorOpening,
+    required TResult Function(String error) errorOpening,
   }) {
     return initial();
   }
@@ -315,9 +328,10 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
   }) {
     return initial?.call();
   }
@@ -326,9 +340,10 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -341,6 +356,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_SaveCurrent value) saveCurrent,
     required TResult Function(_Opening value) opening,
     required TResult Function(_Opened value) opened,
     required TResult Function(_ErrorOpening value) errorOpening,
@@ -352,6 +368,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -363,6 +380,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -377,6 +395,128 @@ class _$_Initial implements _Initial {
 
 abstract class _Initial implements OpenState {
   const factory _Initial() = _$_Initial;
+}
+
+/// @nodoc
+abstract class _$SaveCurrentCopyWith<$Res> {
+  factory _$SaveCurrentCopyWith(
+          _SaveCurrent value, $Res Function(_SaveCurrent) then) =
+      __$SaveCurrentCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$SaveCurrentCopyWithImpl<$Res> extends _$OpenStateCopyWithImpl<$Res>
+    implements _$SaveCurrentCopyWith<$Res> {
+  __$SaveCurrentCopyWithImpl(
+      _SaveCurrent _value, $Res Function(_SaveCurrent) _then)
+      : super(_value, (v) => _then(v as _SaveCurrent));
+
+  @override
+  _SaveCurrent get _value => super._value as _SaveCurrent;
+}
+
+/// @nodoc
+
+class _$_SaveCurrent implements _SaveCurrent {
+  const _$_SaveCurrent();
+
+  @override
+  String toString() {
+    return 'OpenState.saveCurrent()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _SaveCurrent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() saveCurrent,
+    required TResult Function() opening,
+    required TResult Function() opened,
+    required TResult Function(String error) errorOpening,
+  }) {
+    return saveCurrent();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? saveCurrent,
+    TResult Function()? opening,
+    TResult Function()? opened,
+    TResult Function(String error)? errorOpening,
+  }) {
+    return saveCurrent?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? saveCurrent,
+    TResult Function()? opening,
+    TResult Function()? opened,
+    TResult Function(String error)? errorOpening,
+    required TResult orElse(),
+  }) {
+    if (saveCurrent != null) {
+      return saveCurrent();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_SaveCurrent value) saveCurrent,
+    required TResult Function(_Opening value) opening,
+    required TResult Function(_Opened value) opened,
+    required TResult Function(_ErrorOpening value) errorOpening,
+  }) {
+    return saveCurrent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
+    TResult Function(_Opening value)? opening,
+    TResult Function(_Opened value)? opened,
+    TResult Function(_ErrorOpening value)? errorOpening,
+  }) {
+    return saveCurrent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
+    TResult Function(_Opening value)? opening,
+    TResult Function(_Opened value)? opened,
+    TResult Function(_ErrorOpening value)? errorOpening,
+    required TResult orElse(),
+  }) {
+    if (saveCurrent != null) {
+      return saveCurrent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SaveCurrent implements OpenState {
+  const factory _SaveCurrent() = _$_SaveCurrent;
 }
 
 /// @nodoc
@@ -418,9 +558,10 @@ class _$_Opening implements _Opening {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() saveCurrent,
     required TResult Function() opening,
     required TResult Function() opened,
-    required TResult Function() errorOpening,
+    required TResult Function(String error) errorOpening,
   }) {
     return opening();
   }
@@ -429,9 +570,10 @@ class _$_Opening implements _Opening {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
   }) {
     return opening?.call();
   }
@@ -440,9 +582,10 @@ class _$_Opening implements _Opening {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
     required TResult orElse(),
   }) {
     if (opening != null) {
@@ -455,6 +598,7 @@ class _$_Opening implements _Opening {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_SaveCurrent value) saveCurrent,
     required TResult Function(_Opening value) opening,
     required TResult Function(_Opened value) opened,
     required TResult Function(_ErrorOpening value) errorOpening,
@@ -466,6 +610,7 @@ class _$_Opening implements _Opening {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -477,6 +622,7 @@ class _$_Opening implements _Opening {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -532,9 +678,10 @@ class _$_Opened implements _Opened {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() saveCurrent,
     required TResult Function() opening,
     required TResult Function() opened,
-    required TResult Function() errorOpening,
+    required TResult Function(String error) errorOpening,
   }) {
     return opened();
   }
@@ -543,9 +690,10 @@ class _$_Opened implements _Opened {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
   }) {
     return opened?.call();
   }
@@ -554,9 +702,10 @@ class _$_Opened implements _Opened {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
     required TResult orElse(),
   }) {
     if (opened != null) {
@@ -569,6 +718,7 @@ class _$_Opened implements _Opened {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_SaveCurrent value) saveCurrent,
     required TResult Function(_Opening value) opening,
     required TResult Function(_Opened value) opened,
     required TResult Function(_ErrorOpening value) errorOpening,
@@ -580,6 +730,7 @@ class _$_Opened implements _Opened {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -591,6 +742,7 @@ class _$_Opened implements _Opened {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -612,6 +764,7 @@ abstract class _$ErrorOpeningCopyWith<$Res> {
   factory _$ErrorOpeningCopyWith(
           _ErrorOpening value, $Res Function(_ErrorOpening) then) =
       __$ErrorOpeningCopyWithImpl<$Res>;
+  $Res call({String error});
 }
 
 /// @nodoc
@@ -623,60 +776,86 @@ class __$ErrorOpeningCopyWithImpl<$Res> extends _$OpenStateCopyWithImpl<$Res>
 
   @override
   _ErrorOpening get _value => super._value as _ErrorOpening;
+
+  @override
+  $Res call({
+    Object? error = freezed,
+  }) {
+    return _then(_ErrorOpening(
+      error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_ErrorOpening implements _ErrorOpening {
-  const _$_ErrorOpening();
+  const _$_ErrorOpening(this.error);
+
+  @override
+  final String error;
 
   @override
   String toString() {
-    return 'OpenState.errorOpening()';
+    return 'OpenState.errorOpening(error: $error)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _ErrorOpening);
+        (other.runtimeType == runtimeType &&
+            other is _ErrorOpening &&
+            const DeepCollectionEquality().equals(other.error, error));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(error));
+
+  @JsonKey(ignore: true)
+  @override
+  _$ErrorOpeningCopyWith<_ErrorOpening> get copyWith =>
+      __$ErrorOpeningCopyWithImpl<_ErrorOpening>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() saveCurrent,
     required TResult Function() opening,
     required TResult Function() opened,
-    required TResult Function() errorOpening,
+    required TResult Function(String error) errorOpening,
   }) {
-    return errorOpening();
+    return errorOpening(error);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
   }) {
-    return errorOpening?.call();
+    return errorOpening?.call(error);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? saveCurrent,
     TResult Function()? opening,
     TResult Function()? opened,
-    TResult Function()? errorOpening,
+    TResult Function(String error)? errorOpening,
     required TResult orElse(),
   }) {
     if (errorOpening != null) {
-      return errorOpening();
+      return errorOpening(error);
     }
     return orElse();
   }
@@ -685,6 +864,7 @@ class _$_ErrorOpening implements _ErrorOpening {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_SaveCurrent value) saveCurrent,
     required TResult Function(_Opening value) opening,
     required TResult Function(_Opened value) opened,
     required TResult Function(_ErrorOpening value) errorOpening,
@@ -696,6 +876,7 @@ class _$_ErrorOpening implements _ErrorOpening {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -707,6 +888,7 @@ class _$_ErrorOpening implements _ErrorOpening {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_SaveCurrent value)? saveCurrent,
     TResult Function(_Opening value)? opening,
     TResult Function(_Opened value)? opened,
     TResult Function(_ErrorOpening value)? errorOpening,
@@ -720,5 +902,10 @@ class _$_ErrorOpening implements _ErrorOpening {
 }
 
 abstract class _ErrorOpening implements OpenState {
-  const factory _ErrorOpening() = _$_ErrorOpening;
+  const factory _ErrorOpening(String error) = _$_ErrorOpening;
+
+  String get error;
+  @JsonKey(ignore: true)
+  _$ErrorOpeningCopyWith<_ErrorOpening> get copyWith =>
+      throw _privateConstructorUsedError;
 }

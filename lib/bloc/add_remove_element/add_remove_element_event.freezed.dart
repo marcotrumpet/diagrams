@@ -390,6 +390,89 @@ abstract class _RemoveElementEvent implements RemoveElementEvent {
 }
 
 /// @nodoc
+class _$ClearAllElementEventTearOff {
+  const _$ClearAllElementEventTearOff();
+
+  _ClearAllElementEvent call() {
+    return const _ClearAllElementEvent();
+  }
+}
+
+/// @nodoc
+const $ClearAllElementEvent = _$ClearAllElementEventTearOff();
+
+/// @nodoc
+mixin _$ClearAllElementEvent {}
+
+/// @nodoc
+abstract class $ClearAllElementEventCopyWith<$Res> {
+  factory $ClearAllElementEventCopyWith(ClearAllElementEvent value,
+          $Res Function(ClearAllElementEvent) then) =
+      _$ClearAllElementEventCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$ClearAllElementEventCopyWithImpl<$Res>
+    implements $ClearAllElementEventCopyWith<$Res> {
+  _$ClearAllElementEventCopyWithImpl(this._value, this._then);
+
+  final ClearAllElementEvent _value;
+  // ignore: unused_field
+  final $Res Function(ClearAllElementEvent) _then;
+}
+
+/// @nodoc
+abstract class _$ClearAllElementEventCopyWith<$Res> {
+  factory _$ClearAllElementEventCopyWith(_ClearAllElementEvent value,
+          $Res Function(_ClearAllElementEvent) then) =
+      __$ClearAllElementEventCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$ClearAllElementEventCopyWithImpl<$Res>
+    extends _$ClearAllElementEventCopyWithImpl<$Res>
+    implements _$ClearAllElementEventCopyWith<$Res> {
+  __$ClearAllElementEventCopyWithImpl(
+      _ClearAllElementEvent _value, $Res Function(_ClearAllElementEvent) _then)
+      : super(_value, (v) => _then(v as _ClearAllElementEvent));
+
+  @override
+  _ClearAllElementEvent get _value => super._value as _ClearAllElementEvent;
+}
+
+/// @nodoc
+
+class _$_ClearAllElementEvent
+    with DiagnosticableTreeMixin
+    implements _ClearAllElementEvent {
+  const _$_ClearAllElementEvent();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ClearAllElementEvent()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'ClearAllElementEvent'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _ClearAllElementEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+}
+
+abstract class _ClearAllElementEvent implements ClearAllElementEvent {
+  const factory _ClearAllElementEvent() = _$_ClearAllElementEvent;
+}
+
+/// @nodoc
 class _$MoveElementEventTearOff {
   const _$MoveElementEventTearOff();
 

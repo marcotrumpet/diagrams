@@ -32,6 +32,14 @@ class RemoveElementEvent
 }
 
 @freezed
+class ClearAllElementEvent
+    with _$ClearAllElementEvent
+    implements AbstractAddRemoveElementEvent {
+  /// Remove new flow element to canvas
+  const factory ClearAllElementEvent() = _ClearAllElementEvent;
+}
+
+@freezed
 class MoveElementEvent
     with _$MoveElementEvent
     implements AbstractAddRemoveElementEvent {

@@ -7,8 +7,7 @@ import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/save/file_model.dart';
 import 'package:diagrams/common/device_info.dart';
-import 'package:diagrams/common/file_selector/file_selector.dart';
-import 'package:file_selector/file_selector.dart';
+import 'package:diagrams/services/file_operation/file_operation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
 
@@ -30,22 +29,21 @@ class SaveBloc extends Bloc<SaveEvent, SaveState> {
 
           var data = collectDataToSave();
 
-          final savingPath = await GetIt.I<FileSelector>().getPath();
+          final savingPath = await GetIt.I<FileOperationService>().getPath();
 
           if (savingPath == null || savingPath.isEmpty) {
             emit(const SaveState.errorSaving());
             return;
           }
 
-          final file = XFile.fromData(
-            data,
-            mimeType: 'text/plain',
-            lastModified: DateTime.now(),
-          );
+          var result = await GetIt.I<FileOperationService>()
+              .saveOnDisk(data: data, path: savingPath);
 
-          await file.saveTo(savingPath);
-
-          emit(const SaveState.saved());
+          if (result) {
+            emit(const SaveState.saved());
+          } else {
+            emit(const SaveState.errorSaving());
+          }
         },
         orElse: () => null,
       );

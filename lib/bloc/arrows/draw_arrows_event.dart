@@ -20,6 +20,13 @@ class StartNewArrowEvent
 }
 
 @freezed
+class ClearAllArrowEvent
+    with _$ClearAllArrowEvent
+    implements AbstractDrawArrowsEvent {
+  const factory ClearAllArrowEvent() = _ClearAllArrowEvent;
+}
+
+@freezed
 class DrawArrowsEvent
     with _$DrawArrowsEvent
     implements AbstractDrawArrowsEvent {

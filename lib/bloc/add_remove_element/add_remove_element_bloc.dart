@@ -217,5 +217,13 @@ class AddRemoveElementBloc
 
       emit(newList);
     });
+
+    on<ClearAllElementEvent>(
+      (event, emit) {
+        elementsList.clear();
+        final List<AbstractFlowElement> newList = [...elementsList];
+        emit(newList);
+      },
+    );
   }
 }

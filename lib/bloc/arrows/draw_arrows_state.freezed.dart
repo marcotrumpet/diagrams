@@ -28,6 +28,10 @@ class _$DrawArrowsStateTearOff {
       arrowKey: arrowKey,
     );
   }
+
+  _RemoveAllArrowState removeAll() {
+    return const _RemoveAllArrowState();
+  }
 }
 
 /// @nodoc
@@ -39,18 +43,21 @@ mixin _$DrawArrowsState {
   TResult when<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel) $default, {
     required TResult Function(Key arrowKey) remove,
+    required TResult Function() removeAll,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel)? $default, {
     TResult Function(Key arrowKey)? remove,
+    TResult Function()? removeAll,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel)? $default, {
     TResult Function(Key arrowKey)? remove,
+    TResult Function()? removeAll,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -58,18 +65,21 @@ mixin _$DrawArrowsState {
   TResult map<TResult extends Object?>(
     TResult Function(_DrawArrowState value) $default, {
     required TResult Function(_RemoveArrowState value) remove,
+    required TResult Function(_RemoveAllArrowState value) removeAll,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_DrawArrowState value)? $default, {
     TResult Function(_RemoveArrowState value)? remove,
+    TResult Function(_RemoveAllArrowState value)? removeAll,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_DrawArrowState value)? $default, {
     TResult Function(_RemoveArrowState value)? remove,
+    TResult Function(_RemoveAllArrowState value)? removeAll,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -173,6 +183,7 @@ class _$_DrawArrowState implements _DrawArrowState {
   TResult when<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel) $default, {
     required TResult Function(Key arrowKey) remove,
+    required TResult Function() removeAll,
   }) {
     return $default(arrowModel);
   }
@@ -182,6 +193,7 @@ class _$_DrawArrowState implements _DrawArrowState {
   TResult? whenOrNull<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel)? $default, {
     TResult Function(Key arrowKey)? remove,
+    TResult Function()? removeAll,
   }) {
     return $default?.call(arrowModel);
   }
@@ -191,6 +203,7 @@ class _$_DrawArrowState implements _DrawArrowState {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel)? $default, {
     TResult Function(Key arrowKey)? remove,
+    TResult Function()? removeAll,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -204,6 +217,7 @@ class _$_DrawArrowState implements _DrawArrowState {
   TResult map<TResult extends Object?>(
     TResult Function(_DrawArrowState value) $default, {
     required TResult Function(_RemoveArrowState value) remove,
+    required TResult Function(_RemoveAllArrowState value) removeAll,
   }) {
     return $default(this);
   }
@@ -213,6 +227,7 @@ class _$_DrawArrowState implements _DrawArrowState {
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_DrawArrowState value)? $default, {
     TResult Function(_RemoveArrowState value)? remove,
+    TResult Function(_RemoveAllArrowState value)? removeAll,
   }) {
     return $default?.call(this);
   }
@@ -222,6 +237,7 @@ class _$_DrawArrowState implements _DrawArrowState {
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_DrawArrowState value)? $default, {
     TResult Function(_RemoveArrowState value)? remove,
+    TResult Function(_RemoveAllArrowState value)? removeAll,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -307,6 +323,7 @@ class _$_RemoveArrowState implements _RemoveArrowState {
   TResult when<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel) $default, {
     required TResult Function(Key arrowKey) remove,
+    required TResult Function() removeAll,
   }) {
     return remove(arrowKey);
   }
@@ -316,6 +333,7 @@ class _$_RemoveArrowState implements _RemoveArrowState {
   TResult? whenOrNull<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel)? $default, {
     TResult Function(Key arrowKey)? remove,
+    TResult Function()? removeAll,
   }) {
     return remove?.call(arrowKey);
   }
@@ -325,6 +343,7 @@ class _$_RemoveArrowState implements _RemoveArrowState {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(ArrowModel? arrowModel)? $default, {
     TResult Function(Key arrowKey)? remove,
+    TResult Function()? removeAll,
     required TResult orElse(),
   }) {
     if (remove != null) {
@@ -338,6 +357,7 @@ class _$_RemoveArrowState implements _RemoveArrowState {
   TResult map<TResult extends Object?>(
     TResult Function(_DrawArrowState value) $default, {
     required TResult Function(_RemoveArrowState value) remove,
+    required TResult Function(_RemoveAllArrowState value) removeAll,
   }) {
     return remove(this);
   }
@@ -347,6 +367,7 @@ class _$_RemoveArrowState implements _RemoveArrowState {
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_DrawArrowState value)? $default, {
     TResult Function(_RemoveArrowState value)? remove,
+    TResult Function(_RemoveAllArrowState value)? removeAll,
   }) {
     return remove?.call(this);
   }
@@ -356,6 +377,7 @@ class _$_RemoveArrowState implements _RemoveArrowState {
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_DrawArrowState value)? $default, {
     TResult Function(_RemoveArrowState value)? remove,
+    TResult Function(_RemoveAllArrowState value)? removeAll,
     required TResult orElse(),
   }) {
     if (remove != null) {
@@ -373,4 +395,115 @@ abstract class _RemoveArrowState implements DrawArrowsState {
   @JsonKey(ignore: true)
   _$RemoveArrowStateCopyWith<_RemoveArrowState> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$RemoveAllArrowStateCopyWith<$Res> {
+  factory _$RemoveAllArrowStateCopyWith(_RemoveAllArrowState value,
+          $Res Function(_RemoveAllArrowState) then) =
+      __$RemoveAllArrowStateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$RemoveAllArrowStateCopyWithImpl<$Res>
+    extends _$DrawArrowsStateCopyWithImpl<$Res>
+    implements _$RemoveAllArrowStateCopyWith<$Res> {
+  __$RemoveAllArrowStateCopyWithImpl(
+      _RemoveAllArrowState _value, $Res Function(_RemoveAllArrowState) _then)
+      : super(_value, (v) => _then(v as _RemoveAllArrowState));
+
+  @override
+  _RemoveAllArrowState get _value => super._value as _RemoveAllArrowState;
+}
+
+/// @nodoc
+
+class _$_RemoveAllArrowState implements _RemoveAllArrowState {
+  const _$_RemoveAllArrowState();
+
+  @override
+  String toString() {
+    return 'DrawArrowsState.removeAll()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _RemoveAllArrowState);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(ArrowModel? arrowModel) $default, {
+    required TResult Function(Key arrowKey) remove,
+    required TResult Function() removeAll,
+  }) {
+    return removeAll();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult Function(ArrowModel? arrowModel)? $default, {
+    TResult Function(Key arrowKey)? remove,
+    TResult Function()? removeAll,
+  }) {
+    return removeAll?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(ArrowModel? arrowModel)? $default, {
+    TResult Function(Key arrowKey)? remove,
+    TResult Function()? removeAll,
+    required TResult orElse(),
+  }) {
+    if (removeAll != null) {
+      return removeAll();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_DrawArrowState value) $default, {
+    required TResult Function(_RemoveArrowState value) remove,
+    required TResult Function(_RemoveAllArrowState value) removeAll,
+  }) {
+    return removeAll(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult Function(_DrawArrowState value)? $default, {
+    TResult Function(_RemoveArrowState value)? remove,
+    TResult Function(_RemoveAllArrowState value)? removeAll,
+  }) {
+    return removeAll?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_DrawArrowState value)? $default, {
+    TResult Function(_RemoveArrowState value)? remove,
+    TResult Function(_RemoveAllArrowState value)? removeAll,
+    required TResult orElse(),
+  }) {
+    if (removeAll != null) {
+      return removeAll(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RemoveAllArrowState implements DrawArrowsState {
+  const factory _RemoveAllArrowState() = _$_RemoveAllArrowState;
 }

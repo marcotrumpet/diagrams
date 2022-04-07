@@ -251,6 +251,89 @@ abstract class _StartNewArrowEvent implements StartNewArrowEvent {
 }
 
 /// @nodoc
+class _$ClearAllArrowEventTearOff {
+  const _$ClearAllArrowEventTearOff();
+
+  _ClearAllArrowEvent call() {
+    return const _ClearAllArrowEvent();
+  }
+}
+
+/// @nodoc
+const $ClearAllArrowEvent = _$ClearAllArrowEventTearOff();
+
+/// @nodoc
+mixin _$ClearAllArrowEvent {}
+
+/// @nodoc
+abstract class $ClearAllArrowEventCopyWith<$Res> {
+  factory $ClearAllArrowEventCopyWith(
+          ClearAllArrowEvent value, $Res Function(ClearAllArrowEvent) then) =
+      _$ClearAllArrowEventCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$ClearAllArrowEventCopyWithImpl<$Res>
+    implements $ClearAllArrowEventCopyWith<$Res> {
+  _$ClearAllArrowEventCopyWithImpl(this._value, this._then);
+
+  final ClearAllArrowEvent _value;
+  // ignore: unused_field
+  final $Res Function(ClearAllArrowEvent) _then;
+}
+
+/// @nodoc
+abstract class _$ClearAllArrowEventCopyWith<$Res> {
+  factory _$ClearAllArrowEventCopyWith(
+          _ClearAllArrowEvent value, $Res Function(_ClearAllArrowEvent) then) =
+      __$ClearAllArrowEventCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$ClearAllArrowEventCopyWithImpl<$Res>
+    extends _$ClearAllArrowEventCopyWithImpl<$Res>
+    implements _$ClearAllArrowEventCopyWith<$Res> {
+  __$ClearAllArrowEventCopyWithImpl(
+      _ClearAllArrowEvent _value, $Res Function(_ClearAllArrowEvent) _then)
+      : super(_value, (v) => _then(v as _ClearAllArrowEvent));
+
+  @override
+  _ClearAllArrowEvent get _value => super._value as _ClearAllArrowEvent;
+}
+
+/// @nodoc
+
+class _$_ClearAllArrowEvent
+    with DiagnosticableTreeMixin
+    implements _ClearAllArrowEvent {
+  const _$_ClearAllArrowEvent();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ClearAllArrowEvent()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'ClearAllArrowEvent'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _ClearAllArrowEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+}
+
+abstract class _ClearAllArrowEvent implements ClearAllArrowEvent {
+  const factory _ClearAllArrowEvent() = _$_ClearAllArrowEvent;
+}
+
+/// @nodoc
 class _$DrawArrowsEventTearOff {
   const _$DrawArrowsEventTearOff();
 

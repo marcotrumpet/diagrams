@@ -7,8 +7,10 @@ import 'package:diagrams/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/bloc/save/file_model.dart';
+import 'package:diagrams/services/file_operation/file_operation.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get_it/get_it.dart';
 
 part 'open_bloc.freezed.dart';
 part 'open_event.dart';
@@ -25,31 +27,24 @@ class OpenBloc extends Bloc<OpenEvent, OpenState> {
       await event.maybeWhen(
         orElse: () => null,
         open: () async {
-          // TODO check if canvas is not empty and ask to save first
-          emit(const OpenState.opening());
-
-          final openingFile = await openFile(
-            acceptedTypeGroups: [
-              XTypeGroup(
-                extensions: ['dms'],
-                label: 'diagrams_dms',
-                macUTIs: ['dms'],
-                mimeTypes: ['text/plain'],
-              ),
-            ],
-          );
-
-          if (openingFile == null) {
-            emit(const OpenState.errorOpening());
+          if (addRemoveElementBloc.elementsList.isNotEmpty ||
+              drawArrowsBloc.arrowModelList.isNotEmpty) {
+            emit(const OpenState.saveCurrent());
             return;
           }
 
-          var bytes = await openingFile.readAsBytes();
-          var zlibDecoded = zlib.decode(bytes);
-          var decoded = utf8.decode(zlibDecoded);
-          var _json = json.decode(decoded);
+          emit(const OpenState.opening());
 
-          var fileModel = FileModel.fromJson(_json);
+          final openingFile =
+              await GetIt.I<FileOperationService>().openFromDisk();
+
+          if (openingFile == null) {
+            emit(const OpenState.errorOpening('error'));
+            return;
+          }
+
+          var fileModel = await modelFromOpenedFile(openingFile);
+
           // TODO check package name in case of equal file extension
           // TODO check version
 
@@ -70,5 +65,16 @@ class OpenBloc extends Bloc<OpenEvent, OpenState> {
         },
       );
     });
+  }
+
+  Future<FileModel> modelFromOpenedFile(XFile openingFile) async {
+    var bytes = await openingFile.readAsBytes();
+    var zlibDecoded = zlib.decode(bytes);
+    var decoded = utf8.decode(zlibDecoded);
+    var _json = json.decode(decoded);
+
+    var fileModel = FileModel.fromJson(_json);
+
+    return fileModel;
   }
 }

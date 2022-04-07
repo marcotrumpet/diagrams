@@ -9,4 +9,5 @@ class DrawArrowsState with _$DrawArrowsState {
   const factory DrawArrowsState({ArrowModel? arrowModel}) = _DrawArrowState;
   const factory DrawArrowsState.remove({required Key arrowKey}) =
       _RemoveArrowState;
+  const factory DrawArrowsState.removeAll() = _RemoveAllArrowState;
 }

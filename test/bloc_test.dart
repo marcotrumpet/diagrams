@@ -1,6 +1,6 @@
 import 'package:diagrams/common/device_info.dart';
-import 'package:diagrams/common/file_selector/file_selector.dart';
-import 'package:diagrams/common/file_selector/file_selector.mocks.dart';
+import 'package:diagrams/services/file_operation/file_operation.dart';
+import 'package:diagrams/services/file_operation/file_operation.mocks.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -31,7 +31,7 @@ Future<void> getItInit() async {
   });
 
   // Using Mockito to fake saving location
-  GetIt.I.registerSingleton<FileSelector>(MockFileSelector());
+  GetIt.I.registerSingleton<FileOperationService>(MockFileOperationService());
 
   GetIt.I.allReady();
 }
