@@ -1,6 +1,6 @@
 // heavily inspired by https://github.com/RafaelBarbosatec/a_star
 
-import 'package:diagrams/common/grid_property_provider.dart';
+import 'package:diagrams/common/grid/grid_property_provider.dart';
 import 'package:diagrams/helpers/a_star/tile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';

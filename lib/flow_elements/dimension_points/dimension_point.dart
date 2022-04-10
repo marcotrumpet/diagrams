@@ -1,4 +1,4 @@
-import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
+import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

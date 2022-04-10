@@ -17,11 +17,17 @@ dependencies:
   bloc_test: 9.0.2
   get_it: 7.2.0
   golden_toolkit: 0.13.0
+  file_selector: 0.8.4+1
+  equatable: 2.0.3
+  json_annotation: 4.4.0
+  json_serializable: 6.1.5
+  package_info_plus: 1.4.0
+  menubar:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/menubar
+  mockito: ^5.1.0
   # system_tray: ^0.0.9
-  # menubar:
-  #   git:
-  #     url: https://github.com/google/flutter-desktop-embedding.git
-  #     path: plugins/menubar
   # window_size:
   #   git:
   #     url: https://github.com/google/flutter-desktop-embedding.git

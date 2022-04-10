@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:diagrams/common/grid_property_provider.dart';
+import 'package:diagrams/common/grid/grid_property_provider.dart';
 import 'package:get_it/get_it.dart';
 
 extension OffsetCustomExtensions on Offset {

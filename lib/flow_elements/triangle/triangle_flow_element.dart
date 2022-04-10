@@ -1,9 +1,14 @@
+import 'package:diagrams/common/json_converter_methods.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point_model_map.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point_model.dart';
 import 'package:diagrams/flow_elements/triangle/triangle_custom_painter.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'triangle_flow_element.g.dart';
+
+@JsonSerializable(includeIfNull: false)
 class TriangleFlowElement extends AbstractFlowElement {
   TriangleFlowElement({
     required FlowElementTypes flowType,
@@ -71,4 +76,7 @@ class TriangleFlowElement extends AbstractFlowElement {
           dimensionPointModelMap ?? this.dimensionPointModelMap,
     );
   }
+
+  factory TriangleFlowElement.fromJson(Map<String, dynamic> json) =>
+      _$TriangleFlowElementFromJson(json);
 }

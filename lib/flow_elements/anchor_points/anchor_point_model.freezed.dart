@@ -13,138 +13,8 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-/// @nodoc
-class _$AnchorPointModelMapTearOff {
-  const _$AnchorPointModelMapTearOff();
-
-  _AnchorPointModelMap call({required List<AnchorPointModel> anchorPointList}) {
-    return _AnchorPointModelMap(
-      anchorPointList: anchorPointList,
-    );
-  }
-}
-
-/// @nodoc
-const $AnchorPointModelMap = _$AnchorPointModelMapTearOff();
-
-/// @nodoc
-mixin _$AnchorPointModelMap {
-  List<AnchorPointModel> get anchorPointList =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $AnchorPointModelMapCopyWith<AnchorPointModelMap> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AnchorPointModelMapCopyWith<$Res> {
-  factory $AnchorPointModelMapCopyWith(
-          AnchorPointModelMap value, $Res Function(AnchorPointModelMap) then) =
-      _$AnchorPointModelMapCopyWithImpl<$Res>;
-  $Res call({List<AnchorPointModel> anchorPointList});
-}
-
-/// @nodoc
-class _$AnchorPointModelMapCopyWithImpl<$Res>
-    implements $AnchorPointModelMapCopyWith<$Res> {
-  _$AnchorPointModelMapCopyWithImpl(this._value, this._then);
-
-  final AnchorPointModelMap _value;
-  // ignore: unused_field
-  final $Res Function(AnchorPointModelMap) _then;
-
-  @override
-  $Res call({
-    Object? anchorPointList = freezed,
-  }) {
-    return _then(_value.copyWith(
-      anchorPointList: anchorPointList == freezed
-          ? _value.anchorPointList
-          : anchorPointList // ignore: cast_nullable_to_non_nullable
-              as List<AnchorPointModel>,
-    ));
-  }
-}
-
-/// @nodoc
-abstract class _$AnchorPointModelMapCopyWith<$Res>
-    implements $AnchorPointModelMapCopyWith<$Res> {
-  factory _$AnchorPointModelMapCopyWith(_AnchorPointModelMap value,
-          $Res Function(_AnchorPointModelMap) then) =
-      __$AnchorPointModelMapCopyWithImpl<$Res>;
-  @override
-  $Res call({List<AnchorPointModel> anchorPointList});
-}
-
-/// @nodoc
-class __$AnchorPointModelMapCopyWithImpl<$Res>
-    extends _$AnchorPointModelMapCopyWithImpl<$Res>
-    implements _$AnchorPointModelMapCopyWith<$Res> {
-  __$AnchorPointModelMapCopyWithImpl(
-      _AnchorPointModelMap _value, $Res Function(_AnchorPointModelMap) _then)
-      : super(_value, (v) => _then(v as _AnchorPointModelMap));
-
-  @override
-  _AnchorPointModelMap get _value => super._value as _AnchorPointModelMap;
-
-  @override
-  $Res call({
-    Object? anchorPointList = freezed,
-  }) {
-    return _then(_AnchorPointModelMap(
-      anchorPointList: anchorPointList == freezed
-          ? _value.anchorPointList
-          : anchorPointList // ignore: cast_nullable_to_non_nullable
-              as List<AnchorPointModel>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_AnchorPointModelMap implements _AnchorPointModelMap {
-  const _$_AnchorPointModelMap({required this.anchorPointList});
-
-  @override
-  final List<AnchorPointModel> anchorPointList;
-
-  @override
-  String toString() {
-    return 'AnchorPointModelMap(anchorPointList: $anchorPointList)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _AnchorPointModelMap &&
-            const DeepCollectionEquality()
-                .equals(other.anchorPointList, anchorPointList));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(anchorPointList));
-
-  @JsonKey(ignore: true)
-  @override
-  _$AnchorPointModelMapCopyWith<_AnchorPointModelMap> get copyWith =>
-      __$AnchorPointModelMapCopyWithImpl<_AnchorPointModelMap>(
-          this, _$identity);
-}
-
-abstract class _AnchorPointModelMap implements AnchorPointModelMap {
-  const factory _AnchorPointModelMap(
-          {required List<AnchorPointModel> anchorPointList}) =
-      _$_AnchorPointModelMap;
-
-  @override
-  List<AnchorPointModel> get anchorPointList;
-  @override
-  @JsonKey(ignore: true)
-  _$AnchorPointModelMapCopyWith<_AnchorPointModelMap> get copyWith =>
-      throw _privateConstructorUsedError;
+AnchorPointModel _$AnchorPointModelFromJson(Map<String, dynamic> json) {
+  return _AnchorPointModel.fromJson(json);
 }
 
 /// @nodoc
@@ -152,13 +22,18 @@ class _$AnchorPointModelTearOff {
   const _$AnchorPointModelTearOff();
 
   _AnchorPointModel call(
-      {required Key anchorPointKey,
-      required Offset anchorPointPosition,
-      required Offset anchorPointPositionRelativeToParent,
-      required Alignment alignment,
-      List<ArrowModel>? arrowModelStart = const [],
-      List<ArrowModel>? arrowModelEnd = const [],
-      required Widget child}) {
+      {@JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required Key anchorPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required Offset anchorPointPosition,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required Offset anchorPointPositionRelativeToParent,
+      @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
+          required Alignment alignment,
+      List<ArrowModel>? arrowModelStart,
+      List<ArrowModel>? arrowModelEnd,
+      @JsonKey(ignore: true)
+          Widget? child}) {
     return _AnchorPointModel(
       anchorPointKey: anchorPointKey,
       anchorPointPosition: anchorPointPosition,
@@ -169,6 +44,10 @@ class _$AnchorPointModelTearOff {
       child: child,
     );
   }
+
+  AnchorPointModel fromJson(Map<String, Object?> json) {
+    return AnchorPointModel.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -176,15 +55,21 @@ const $AnchorPointModel = _$AnchorPointModelTearOff();
 
 /// @nodoc
 mixin _$AnchorPointModel {
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   Key get anchorPointKey => throw _privateConstructorUsedError;
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   Offset get anchorPointPosition => throw _privateConstructorUsedError;
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   Offset get anchorPointPositionRelativeToParent =>
       throw _privateConstructorUsedError;
+  @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
   Alignment get alignment => throw _privateConstructorUsedError;
   List<ArrowModel>? get arrowModelStart => throw _privateConstructorUsedError;
   List<ArrowModel>? get arrowModelEnd => throw _privateConstructorUsedError;
-  Widget get child => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  Widget? get child => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AnchorPointModelCopyWith<AnchorPointModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -196,13 +81,18 @@ abstract class $AnchorPointModelCopyWith<$Res> {
           AnchorPointModel value, $Res Function(AnchorPointModel) then) =
       _$AnchorPointModelCopyWithImpl<$Res>;
   $Res call(
-      {Key anchorPointKey,
-      Offset anchorPointPosition,
-      Offset anchorPointPositionRelativeToParent,
-      Alignment alignment,
+      {@JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          Key anchorPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          Offset anchorPointPosition,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          Offset anchorPointPositionRelativeToParent,
+      @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
+          Alignment alignment,
       List<ArrowModel>? arrowModelStart,
       List<ArrowModel>? arrowModelEnd,
-      Widget child});
+      @JsonKey(ignore: true)
+          Widget? child});
 }
 
 /// @nodoc
@@ -253,7 +143,7 @@ class _$AnchorPointModelCopyWithImpl<$Res>
       child: child == freezed
           ? _value.child
           : child // ignore: cast_nullable_to_non_nullable
-              as Widget,
+              as Widget?,
     ));
   }
 }
@@ -266,13 +156,18 @@ abstract class _$AnchorPointModelCopyWith<$Res>
       __$AnchorPointModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Key anchorPointKey,
-      Offset anchorPointPosition,
-      Offset anchorPointPositionRelativeToParent,
-      Alignment alignment,
+      {@JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          Key anchorPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          Offset anchorPointPosition,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          Offset anchorPointPositionRelativeToParent,
+      @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
+          Alignment alignment,
       List<ArrowModel>? arrowModelStart,
       List<ArrowModel>? arrowModelEnd,
-      Widget child});
+      @JsonKey(ignore: true)
+          Widget? child});
 }
 
 /// @nodoc
@@ -325,39 +220,51 @@ class __$AnchorPointModelCopyWithImpl<$Res>
       child: child == freezed
           ? _value.child
           : child // ignore: cast_nullable_to_non_nullable
-              as Widget,
+              as Widget?,
     ));
   }
 }
 
 /// @nodoc
 
+@JsonSerializable(includeIfNull: false)
 class _$_AnchorPointModel implements _AnchorPointModel {
-  const _$_AnchorPointModel(
-      {required this.anchorPointKey,
-      required this.anchorPointPosition,
-      required this.anchorPointPositionRelativeToParent,
-      required this.alignment,
-      this.arrowModelStart = const [],
-      this.arrowModelEnd = const [],
-      required this.child});
+  _$_AnchorPointModel(
+      {@JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required this.anchorPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required this.anchorPointPosition,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required this.anchorPointPositionRelativeToParent,
+      @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
+          required this.alignment,
+      this.arrowModelStart,
+      this.arrowModelEnd,
+      @JsonKey(ignore: true)
+          this.child});
+
+  factory _$_AnchorPointModel.fromJson(Map<String, dynamic> json) =>
+      _$$_AnchorPointModelFromJson(json);
 
   @override
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   final Key anchorPointKey;
   @override
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   final Offset anchorPointPosition;
   @override
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   final Offset anchorPointPositionRelativeToParent;
   @override
+  @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
   final Alignment alignment;
-  @JsonKey()
   @override
   final List<ArrowModel>? arrowModelStart;
-  @JsonKey()
   @override
   final List<ArrowModel>? arrowModelEnd;
   @override
-  final Widget child;
+  @JsonKey(ignore: true)
+  final Widget? child;
 
   @override
   String toString() {
@@ -399,32 +306,50 @@ class _$_AnchorPointModel implements _AnchorPointModel {
   @override
   _$AnchorPointModelCopyWith<_AnchorPointModel> get copyWith =>
       __$AnchorPointModelCopyWithImpl<_AnchorPointModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_AnchorPointModelToJson(this);
+  }
 }
 
 abstract class _AnchorPointModel implements AnchorPointModel {
-  const factory _AnchorPointModel(
-      {required Key anchorPointKey,
-      required Offset anchorPointPosition,
-      required Offset anchorPointPositionRelativeToParent,
-      required Alignment alignment,
+  factory _AnchorPointModel(
+      {@JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
+          required Key anchorPointKey,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required Offset anchorPointPosition,
+      @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
+          required Offset anchorPointPositionRelativeToParent,
+      @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
+          required Alignment alignment,
       List<ArrowModel>? arrowModelStart,
       List<ArrowModel>? arrowModelEnd,
-      required Widget child}) = _$_AnchorPointModel;
+      @JsonKey(ignore: true)
+          Widget? child}) = _$_AnchorPointModel;
+
+  factory _AnchorPointModel.fromJson(Map<String, dynamic> json) =
+      _$_AnchorPointModel.fromJson;
 
   @override
+  @JsonKey(toJson: keyRequiredToJson, fromJson: keyRequiredFromJson)
   Key get anchorPointKey;
   @override
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   Offset get anchorPointPosition;
   @override
+  @JsonKey(toJson: offsetRequiredToJson, fromJson: offsetRequiredFromJson)
   Offset get anchorPointPositionRelativeToParent;
   @override
+  @JsonKey(toJson: alignmentToJson, fromJson: alignmentFromJson)
   Alignment get alignment;
   @override
   List<ArrowModel>? get arrowModelStart;
   @override
   List<ArrowModel>? get arrowModelEnd;
   @override
-  Widget get child;
+  @JsonKey(ignore: true)
+  Widget? get child;
   @override
   @JsonKey(ignore: true)
   _$AnchorPointModelCopyWith<_AnchorPointModel> get copyWith =>

@@ -1,9 +1,14 @@
+import 'package:diagrams/common/json_converter_methods.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
-import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point_model_map.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point_model.dart';
 import 'package:diagrams/flow_elements/rounded_rectangle/rounded_rectangle_custom_painter.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'rounded_rectangle_flow_element.g.dart';
+
+@JsonSerializable(includeIfNull: false)
 class RoundedRectangleFlowElement extends AbstractFlowElement {
   RoundedRectangleFlowElement({
     required FlowElementTypes flowType,
@@ -70,4 +75,7 @@ class RoundedRectangleFlowElement extends AbstractFlowElement {
           dimensionPointModelMap ?? this.dimensionPointModelMap,
     );
   }
+
+  factory RoundedRectangleFlowElement.fromJson(Map<String, dynamic> json) =>
+      _$RoundedRectangleFlowElementFromJson(json);
 }

@@ -1,27 +1,43 @@
+import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
+import 'package:diagrams/bloc/add_remove_element/add_remove_element_event.dart';
+import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_event.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_state.dart';
+import 'package:diagrams/common/json_converter_methods.dart';
 import 'package:diagrams/flow_elements/abstract_custom_painter.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/add_remove_element/add_remove_element_event.dart';
-import 'package:diagrams/flow_elements/bloc/resize_element/resize_element_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_bloc.dart';
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_event.dart';
-import 'package:diagrams/flow_elements/bloc/unselect_elements/unselect_elements_state.dart';
+import 'package:diagrams/flow_elements/anchor_points/anchor_point_model_map.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point.dart';
 import 'package:diagrams/flow_elements/dimension_points/dimension_point_model.dart';
 import 'package:diagrams/main_canvas/canvas_helper.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-enum FlowElementTypes { rectangle, roundedRectangle, triangle, circle }
+part 'abstract_flow_element.g.dart';
 
-abstract class AbstractFlowElement {
+enum FlowElementTypes {
+  rectangle,
+  roundedRectangle,
+  triangle,
+  circle,
+}
+
+@JsonSerializable(createFactory: false, includeIfNull: false)
+abstract class AbstractFlowElement with EquatableMixin {
+  @JsonKey(toJson: flowElementTypesToJson, fromJson: flowElementTypesFromJson)
   final FlowElementTypes flowType;
+  @JsonKey(toJson: offsetToJson, fromJson: offsetFromJson)
   final Offset? offset;
+  @JsonKey(toJson: keyToJson, fromJson: keyFromJson)
   final Key? elementKey;
+  @JsonKey(toJson: pathToJson, fromJson: pathFromJson)
   final Path path;
   AnchorPointModelMap? anchorPointsModelMap;
+  @JsonKey(ignore: true)
   DimensionPointModelMap? dimensionPointModelMap;
   final bool isSideMenu;
 
@@ -44,7 +60,8 @@ abstract class AbstractFlowElement {
     }
   }
 
-  final _showAnchorPointsValueNotifier = ValueNotifier(0.0);
+  @JsonKey(ignore: true)
+  final showAnchorPointsValueNotifier = ValueNotifier(0.0);
 
   AnchorPointModelMap setAnchorPoints(Offset offset, Path path) {
     final boundRect = path.getBounds();
@@ -81,7 +98,7 @@ abstract class AbstractFlowElement {
           child: AnchorPoint(
             key: key,
             model: model,
-            showAnchorPointsVN: _showAnchorPointsValueNotifier,
+            showAnchorPointsVN: showAnchorPointsValueNotifier,
           ),
         );
       }).toList(),
@@ -127,7 +144,7 @@ abstract class AbstractFlowElement {
                   child: AnchorPoint(
                     key: e.anchorPointKey,
                     model: model,
-                    showAnchorPointsVN: _showAnchorPointsValueNotifier,
+                    showAnchorPointsVN: showAnchorPointsValueNotifier,
                   ),
                 );
               },
@@ -285,7 +302,7 @@ abstract class AbstractFlowElement {
                         !(selectedElement?.selected ?? false))
                       for (var anchorPoint
                           in anchorPointsModelMap!.anchorPointList)
-                        anchorPoint.child,
+                        anchorPoint.child!,
                     if (dimensionPointModelMap != null &&
                         dimensionPointModelMap!.dimensionPointList.isNotEmpty &&
                         (selectedElement?.selected ?? false))
@@ -337,16 +354,20 @@ abstract class AbstractFlowElement {
   });
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is AbstractFlowElement &&
-          flowType == other.flowType &&
-          offset == other.offset &&
-          elementKey == other.elementKey &&
-          path == other.path &&
-          anchorPointsModelMap == other.anchorPointsModelMap &&
-          dimensionPointModelMap == other.dimensionPointModelMap);
+  @JsonKey(ignore: true)
+  List<Object?> get props => [
+        flowType,
+        offset,
+        elementKey,
+        path,
+        anchorPointsModelMap,
+        dimensionPointModelMap,
+        isSideMenu,
+      ];
 
   @override
-  int get hashCode => elementKey.hashCode ^ flowType.hashCode;
+  @JsonKey(ignore: true)
+  bool get stringify => false;
+
+  Map<String, dynamic> toJson() => _$AbstractFlowElementToJson(this);
 }
