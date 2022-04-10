@@ -1,14 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_event.dart';
-import 'package:diagrams/bloc/save/file_model.dart';
 import 'package:diagrams/services/file_operation/file_operation.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
 
@@ -43,7 +38,8 @@ class OpenBloc extends Bloc<OpenEvent, OpenState> {
             return;
           }
 
-          var fileModel = await modelFromOpenedFile(openingFile);
+          var fileModel = await GetIt.I<FileOperationService>()
+              .modelFromOpenedFile(openingFile);
 
           // TODO check package name in case of equal file extension
           // TODO check version
@@ -58,23 +54,16 @@ class OpenBloc extends Bloc<OpenEvent, OpenState> {
                 .add(AddElementEvent(elementToManipulate: element!));
           }
 
+          // TODO check why you need to move elemnet to properly redraw A* arrow
+
           for (var arrow in fileModel.arrowModelList) {
             arrow = arrow.copyWith(updateAStarPath: true);
             drawArrowsBloc.add(DrawArrowsAStarEvent(arrowModel: arrow));
           }
+
+          emit(const OpenState.opened());
         },
       );
     });
-  }
-
-  Future<FileModel> modelFromOpenedFile(XFile openingFile) async {
-    var bytes = await openingFile.readAsBytes();
-    var zlibDecoded = zlib.decode(bytes);
-    var decoded = utf8.decode(zlibDecoded);
-    var _json = json.decode(decoded);
-
-    var fileModel = FileModel.fromJson(_json);
-
-    return fileModel;
   }
 }

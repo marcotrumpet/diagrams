@@ -34,20 +34,26 @@ Future<void> getItInitialization() async {
 }
 
 void moreGetItInitializazion(BuildContext context) async {
-  GetIt.I.registerSingletonAsync<DeviceInfo>(() async {
-    final packageInfo = await PackageInfo.fromPlatform();
+  if (!GetIt.I.isRegistered<DeviceInfo>()) {
+    GetIt.I.registerSingletonAsync<DeviceInfo>(() async {
+      final packageInfo = await PackageInfo.fromPlatform();
 
-    return DeviceInfo(
-      packageInfo: packageInfo,
+      return DeviceInfo(
+        packageInfo: packageInfo,
+      );
+    });
+  }
+  if (!GetIt.I.isRegistered<AppMenuBar>()) {
+    GetIt.I.registerSingleton<AppMenuBar>(
+      AppMenuBar(
+        saveBloc: BlocProvider.of<SaveBloc>(context),
+        openBloc: BlocProvider.of<OpenBloc>(context),
+      )..initialize(),
     );
-  });
-  GetIt.I.registerSingleton<AppMenuBar>(
-    AppMenuBar(
-      saveBloc: BlocProvider.of<SaveBloc>(context),
-      openBloc: BlocProvider.of<OpenBloc>(context),
-    )..initialize(),
-  );
-  GetIt.I.registerSingleton<FileOperationService>(FileOperationService());
+  }
+  if (!GetIt.I.isRegistered<FileOperationService>()) {
+    GetIt.I.registerSingleton<FileOperationService>(FileOperationService());
+  }
   GetIt.I.allReady();
 }
 

@@ -134,15 +134,23 @@ void saveBlocTest() {
     );
 
     test('saveBloc collectDataToSave', () {
-      var data = bloc.collectDataToSave();
+      when(GetIt.I<FileOperationService>().collectDataToSave(
+              bloc.addRemoveElementBloc, bloc.drawArrowsBloc))
+          .thenReturn(testData);
 
-      expect(data, testData);
+      expect(
+          GetIt.I<FileOperationService>().collectDataToSave(
+              bloc.addRemoveElementBloc, bloc.drawArrowsBloc),
+          testData);
     });
 
     blocTest<SaveBloc, SaveState>(
       'saveBloc saving null path',
       build: () => bloc,
       setUp: () {
+        when(GetIt.I<FileOperationService>().collectDataToSave(
+                bloc.addRemoveElementBloc, bloc.drawArrowsBloc))
+            .thenReturn(testData);
         when(GetIt.I<FileOperationService>().getPath())
             .thenAnswer((realInvocation) async => null);
       },
@@ -156,6 +164,9 @@ void saveBlocTest() {
       'saveBloc saving empty path',
       build: () => bloc,
       setUp: () {
+        when(GetIt.I<FileOperationService>().collectDataToSave(
+                bloc.addRemoveElementBloc, bloc.drawArrowsBloc))
+            .thenReturn(testData);
         when(GetIt.I<FileOperationService>().getPath())
             .thenAnswer((realInvocation) async => '');
       },
@@ -169,6 +180,9 @@ void saveBlocTest() {
       'saveBloc saving in path',
       build: () => bloc,
       setUp: () {
+        when(GetIt.I<FileOperationService>().collectDataToSave(
+                bloc.addRemoveElementBloc, bloc.drawArrowsBloc))
+            .thenReturn(testData);
         when(GetIt.I<FileOperationService>().getPath())
             .thenAnswer((realInvocation) async => 'fakePath');
 
@@ -186,6 +200,9 @@ void saveBlocTest() {
       'saveBloc saving in path with error',
       build: () => bloc,
       setUp: () {
+        when(GetIt.I<FileOperationService>().collectDataToSave(
+                bloc.addRemoveElementBloc, bloc.drawArrowsBloc))
+            .thenReturn(testData);
         when(GetIt.I<FileOperationService>().getPath())
             .thenAnswer((realInvocation) async => 'fakePath');
         when(GetIt.I<FileOperationService>()

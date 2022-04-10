@@ -1,12 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:bloc/bloc.dart';
 import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
-import 'package:diagrams/bloc/save/file_model.dart';
-import 'package:diagrams/common/device_info.dart';
 import 'package:diagrams/services/file_operation/file_operation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
@@ -27,7 +21,8 @@ class SaveBloc extends Bloc<SaveEvent, SaveState> {
         save: () async {
           emit(const SaveState.saving());
 
-          var data = collectDataToSave();
+          var data = GetIt.I<FileOperationService>()
+              .collectDataToSave(addRemoveElementBloc, drawArrowsBloc);
 
           final savingPath = await GetIt.I<FileOperationService>().getPath();
 
@@ -48,26 +43,5 @@ class SaveBloc extends Bloc<SaveEvent, SaveState> {
         orElse: () => null,
       );
     });
-  }
-
-  Uint8List collectDataToSave() {
-    var deviceInfo = GetIt.I<DeviceInfo>();
-
-    var fileModel = FileModel(
-      abstractFlowElementsList: addRemoveElementBloc.elementsList,
-      packageName: deviceInfo.packageInfo.packageName,
-      version: deviceInfo.packageInfo.version,
-      buildNumber: deviceInfo.packageInfo.buildNumber,
-      arrowModelList: drawArrowsBloc.arrowModelList,
-    );
-
-    var _json = json.encode(fileModel.toJson());
-    final bytes = utf8.encode(_json);
-
-    final data = Uint8List.fromList(
-      zlib.encode(bytes),
-    );
-
-    return data;
   }
 }

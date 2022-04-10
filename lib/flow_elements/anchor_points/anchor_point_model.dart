@@ -20,8 +20,7 @@ class AnchorPointModel with _$AnchorPointModel {
         required Alignment alignment,
     List<ArrowModel>? arrowModelStart,
     List<ArrowModel>? arrowModelEnd,
-    @JsonKey(ignore: true) // TODO probably re-add child when opening file
-        Widget? child,
+    Widget? child,
   }) = _AnchorPointModel;
   factory AnchorPointModel.fromJson(Map<String, dynamic> json) =>
       _$AnchorPointModelFromJson(json);
