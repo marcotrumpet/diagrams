@@ -293,7 +293,6 @@ abstract class AbstractFlowElement with EquatableMixin {
                     SizedBox(
                       width: pathBounds.width + 10,
                       height: pathBounds.height + 10,
-                      // color: Colors.red,
                     ),
                     Positioned.fill(
                       child: Center(child: concreteBuild(context)),

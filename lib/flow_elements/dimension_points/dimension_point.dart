@@ -1,4 +1,5 @@
 import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
+import 'package:diagrams/theme/color_scheme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -64,7 +65,7 @@ class DimensionPoint extends StatelessWidget {
           behavior: HitTestBehavior.translucent,
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).disabledColor,
+              color: Theme.of(context).colorScheme.appAccent,
               borderRadius: BorderRadius.circular(8),
             ),
           ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_state.dart';
@@ -17,9 +19,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:window_size/window_size.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowTitle('Diagrams');
+    setWindowMinSize(const Size(800, 400));
+    setWindowMaxSize(Size.infinite);
+  }
 
   await getItInitialization();
 
@@ -48,6 +57,7 @@ void moreGetItInitializazion(BuildContext context) async {
       AppMenuBar(
         saveBloc: BlocProvider.of<SaveBloc>(context),
         openBloc: BlocProvider.of<OpenBloc>(context),
+        appTheme: BlocProvider.of<AppTheme>(context),
       )..initialize(),
     );
   }

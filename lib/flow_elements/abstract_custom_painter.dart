@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:diagrams/theme/color_scheme_extension.dart';
 import 'package:flutter/material.dart';
 
 abstract class AbstractCustomPainter extends CustomPainter {
@@ -11,11 +12,12 @@ abstract class AbstractCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var borderPaint = Paint()
-      ..color = Theme.of(context).unselectedWidgetColor.withOpacity(1.0)
+      ..color = Theme.of(context).colorScheme.appBorder
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
-    var backgroundPaint = Paint()..color = Theme.of(context).canvasColor;
+    var backgroundPaint = Paint()
+      ..color = Theme.of(context).colorScheme.appBackground;
 
     canvas.drawPath(path, backgroundPaint);
     canvas.drawPath(path, borderPaint);
@@ -35,7 +37,7 @@ class DotLineCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint _paint = Paint()
-      ..color = Theme.of(context).disabledColor
+      ..color = Theme.of(context).colorScheme.appBorder
       ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke
       ..strokeJoin = StrokeJoin.round;

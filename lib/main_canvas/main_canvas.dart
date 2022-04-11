@@ -8,6 +8,7 @@ import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/arrow/arrow_custom_painter.dart';
 import 'package:diagrams/main_canvas/canvas_helper.dart';
 import 'package:diagrams/main_canvas/grid_custom_painter.dart';
+import 'package:diagrams/theme/color_scheme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -26,10 +27,11 @@ class _MainCanvasState extends State<MainCanvas> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: InteractiveViewer(
-        maxScale: 10,
-        minScale: 0.1,
+    return InteractiveViewer(
+      maxScale: 10,
+      minScale: 0.1,
+      child: Container(
+        color: Theme.of(context).colorScheme.appCanvasBackground,
         child: Stack(
           clipBehavior: Clip.hardEdge,
           fit: StackFit.expand,
@@ -71,17 +73,6 @@ class _MainCanvasState extends State<MainCanvas> {
                           context: context, element: details.data),
                     );
                   },
-                  // onMove: (details) {
-                  //   if (!isElementInList(
-                  //       context: context, element: details.data)) return;
-                  //   final newOffset = calcNewOffset(details, _gridKey);
-                  //   handleFlowElements(
-                  //     element: details.data,
-                  //     context: context,
-                  //     offset: newOffset,
-                  //     drawNewElement: false,
-                  //   );
-                  // },
                   builder: (context, candidateData, rejectedData) {
                     return const SizedBox.shrink();
                   },
