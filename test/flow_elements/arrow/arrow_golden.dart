@@ -61,7 +61,7 @@ void arrowGoldenTest() {
 
         await tester.drag(
           find.byType(Draggable<RectangleFlowElement>),
-          const Offset(150, 50),
+          const Offset(250, 50),
         );
 
         await tester.drag(
@@ -138,7 +138,7 @@ void arrowGoldenTest() {
 
         await tester.drag(
           find.byType(Draggable<RectangleFlowElement>),
-          const Offset(150, 50),
+          const Offset(250, 50),
         );
 
         await tester.tap(find.byKey(const Key('unselect_flow_elements')));

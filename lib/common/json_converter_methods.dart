@@ -18,23 +18,32 @@ Offset offsetRequiredFromJson(String j) {
       double.tryParse(_offset['dy']) ?? 0.0);
 }
 
-String offsetToJson(Offset? offset) => json.encode({
-      'offset': {'dx': "${offset?.dx}", 'dy': "${offset?.dy}"},
-    });
-Offset? offsetFromJson(String j) {
+String? offsetToJson(Offset? offset) {
+  if (offset == null) return null;
+  return json.encode({
+    'offset': {'dx': "${offset.dx}", 'dy': "${offset.dy}"}
+  });
+}
+
+Offset? offsetFromJson(String? j) {
+  if (j == null || j.isEmpty) return null;
   Map<String, dynamic> _js = json.decode(j);
   Map<String, dynamic> _offset = _js['offset'];
   return Offset(double.tryParse(_offset['dx']) ?? 0.0,
       double.tryParse(_offset['dy']) ?? 0.0);
 }
 
-String offsetListToJson(List<Offset>? offsets) => json.encode(
-      offsets
-          ?.map(
-            (e) => offsetToJson(e),
-          )
-          .toList(),
-    );
+String offsetListToJson(List<Offset>? offsets) {
+  if (offsets == null) return '';
+  return json.encode(
+    offsets
+        .map(
+          (e) => offsetToJson(e),
+        )
+        .toList(),
+  );
+}
+
 List<Offset>? offsetListFromJson(String j) {
   List<dynamic> _js = json.decode(j) ?? [];
   return _js.map((e) => offsetRequiredFromJson(e)).toList();
@@ -76,10 +85,6 @@ Key? keyFromJson(String k) {
 String keyRequiredToJson(Key k) => k.toString();
 Key keyRequiredFromJson(String k) => Key(k);
 
-String abstractFlowElementToJson(AbstractFlowElement? a) {
-  return json.encode(a?.toJson());
-}
-
 String flowElementTypesToJson(FlowElementTypes t) {
   switch (t) {
     case FlowElementTypes.rectangle:
@@ -106,6 +111,10 @@ FlowElementTypes flowElementTypesFromJson(String f) {
     default:
       return FlowElementTypes.rectangle;
   }
+}
+
+String abstractFlowElementToJson(AbstractFlowElement? a) {
+  return json.encode(a?.toJson());
 }
 
 AbstractFlowElement? abstractFlowElementFromJson(String s) {

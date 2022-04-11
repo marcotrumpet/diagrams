@@ -3,6 +3,7 @@ import 'package:diagrams/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/bloc/handle_points/handle_points_bloc.dart';
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/common/grid/grid_property_provider.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:diagrams/flow_elements/arrow/arrow_custom_painter.dart';
@@ -26,10 +27,11 @@ class _MainCanvasState extends State<MainCanvas> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: InteractiveViewer(
-        maxScale: 10,
-        minScale: 0.1,
+    return InteractiveViewer(
+      maxScale: 10,
+      minScale: 0.1,
+      child: Container(
+        color: Theme.of(context).colorScheme.appCanvasBackground,
         child: Stack(
           clipBehavior: Clip.hardEdge,
           fit: StackFit.expand,
@@ -71,17 +73,6 @@ class _MainCanvasState extends State<MainCanvas> {
                           context: context, element: details.data),
                     );
                   },
-                  // onMove: (details) {
-                  //   if (!isElementInList(
-                  //       context: context, element: details.data)) return;
-                  //   final newOffset = calcNewOffset(details, _gridKey);
-                  //   handleFlowElements(
-                  //     element: details.data,
-                  //     context: context,
-                  //     offset: newOffset,
-                  //     drawNewElement: false,
-                  //   );
-                  // },
                   builder: (context, candidateData, rejectedData) {
                     return const SizedBox.shrink();
                   },

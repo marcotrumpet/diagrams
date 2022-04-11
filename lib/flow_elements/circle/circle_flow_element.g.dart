@@ -10,7 +10,7 @@ CircleFlowElement _$CircleFlowElementFromJson(Map<String, dynamic> json) =>
     CircleFlowElement(
       flowType: flowElementTypesFromJson(json['flowType'] as String),
       path: pathFromJson(json['path'] as String),
-      offset: offsetFromJson(json['offset'] as String),
+      offset: offsetFromJson(json['offset'] as String?),
       elementKey: keyFromJson(json['elementKey'] as String),
       anchorPointsModelMap: json['anchorPointsModelMap'] == null
           ? null

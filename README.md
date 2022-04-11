@@ -21,13 +21,13 @@ In this way I can explore and learn new stuff.
 ### Examples
 
 This first image is the empty grid when app starts: <br />
-<img src="readme_images/1.png" alt="drawing" width="600"/>
+<img src="test/goldens/main_golden_test.png" alt="drawing" width="600"/>
 
 When you add elements you can link them with arrows, the A* algorithm takes care of finding the shortest path: <br />
-<img src="readme_images/2.png" alt="drawing" width="600"/>
+<img src="test/goldens/arrow/rect_to_rrect_arrow_golden_test.png" alt="drawing" width="600"/>
 
 When you add elements that cross arrows, the A* algorithm takes care of finding the shortest path avoiding collision with element not linked to the arrow: <br />
-<img src="readme_images/3.png" alt="drawing" width="600"/>
+<img src="test/goldens/arrow/add_third_element_golden_test.png" alt="drawing" width="600"/>
 
 
 ### Tests
@@ -35,6 +35,7 @@ When you add elements that cross arrows, the A* algorithm takes care of finding 
 To manually run test use:
 
 To run bloc tests `flutter test test/bloc_test.dart` <br />
+To run unit tests `flutter test test/unit_test.dart` <br />
 To run golden tests `flutter test test/golden_test.dart --tags=golden` <br />
 To update golden tests `flutter test test/golden_test.dart --update-goldens --tags=golden`
 

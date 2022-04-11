@@ -12,10 +12,10 @@ final roundedRectangleShapeBig = Path()
       const Rect.fromLTWH(0, 0, 180, 90), const Radius.circular(8)));
 
 final triangleShape = Path()
-  ..addPolygon(const [Offset(0, 40), Offset(20, 0), Offset(40, 40)], true);
+  ..addPolygon(const [Offset(0, 35), Offset(17.5, 0), Offset(35, 35)], true);
 
 final triangleShapeBig = Path()
   ..addPolygon(const [Offset(0, 90), Offset(45, 0), Offset(90, 90)], true);
 
-final circleShape = Path()..addOval(const Rect.fromLTWH(0, 0, 40, 40));
+final circleShape = Path()..addOval(const Rect.fromLTWH(0, 0, 35, 35));
 final circleShapeBig = Path()..addOval(const Rect.fromLTWH(0, 0, 90, 90));

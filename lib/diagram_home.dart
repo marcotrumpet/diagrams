@@ -4,6 +4,7 @@ import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/bloc/open/open_bloc.dart';
 import 'package:diagrams/bloc/save/save_bloc.dart';
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_event.dart';
 import 'package:diagrams/main_canvas/main_canvas.dart';
@@ -27,7 +28,7 @@ class _DiagramHomeState extends State<DiagramHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.appBackground,
       body: BlocListener<OpenBloc, OpenState>(
         listener: (context, state) {
           state.maybeWhen(
@@ -75,9 +76,19 @@ class _DiagramHomeState extends State<DiagramHome> {
           },
           child: Row(
             mainAxisSize: MainAxisSize.max,
-            children: const [
-              SideMenu(),
-              MainCanvas(),
+            children: [
+              const SideMenu(),
+              Expanded(
+                child: RepaintBoundary(
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 8, bottom: 8, right: 8),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: const MainCanvas(),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

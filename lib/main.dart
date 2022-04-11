@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_state.dart';
@@ -5,6 +7,7 @@ import 'package:diagrams/bloc/handle_points/handle_points_bloc.dart';
 import 'package:diagrams/bloc/open/open_bloc.dart';
 import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
 import 'package:diagrams/bloc/save/save_bloc.dart';
+import 'package:diagrams/bloc/theme/app_theme_cubit.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/common/device_info.dart';
@@ -12,14 +15,20 @@ import 'package:diagrams/common/grid/grid_property_provider.dart';
 import 'package:diagrams/diagram_app.dart';
 import 'package:diagrams/menubar/app_menu_bar.dart';
 import 'package:diagrams/services/file_operation/file_operation.dart';
-import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:window_size/window_size.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowTitle('Diagrams');
+    setWindowMinSize(const Size(800, 400));
+    setWindowMaxSize(Size.infinite);
+  }
 
   await getItInitialization();
 
@@ -48,6 +57,7 @@ void moreGetItInitializazion(BuildContext context) async {
       AppMenuBar(
         saveBloc: BlocProvider.of<SaveBloc>(context),
         openBloc: BlocProvider.of<OpenBloc>(context),
+        appTheme: BlocProvider.of<AppThemeCubit>(context),
       )..initialize(),
     );
   }
@@ -65,7 +75,7 @@ class DiagramsConfig extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => AppTheme(),
+          create: (_) => AppThemeCubit(),
         ),
         BlocProvider(
           create: (_) => AddRemoveElementBloc([]),

@@ -25,6 +25,8 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
     - name: Run bloc tests
-      run: flutter test test/bloc_test.dart
+      run: flutter test test/bloc_test.dart    
+    - name: Run unit tests
+      run: flutter test test/unit_test.dart
     - name: Run golden tests
       run: flutter test test/golden_test.dart --tags=golden

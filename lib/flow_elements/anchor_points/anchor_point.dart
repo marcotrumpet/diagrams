@@ -1,6 +1,7 @@
 import 'package:diagrams/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_event.dart';
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/flow_elements/anchor_points/anchor_point_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +73,7 @@ class _AnchorPointState extends State<AnchorPoint> {
                 height: 10,
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.lightBlue[100],
+                  color: Theme.of(context).colorScheme.appAccent,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/common/grid/grid_property_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -11,7 +12,7 @@ class GridCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var lineColor = Theme.of(context).dividerColor;
+    var lineColor = Theme.of(context).colorScheme.appCanvasGrid;
 
     var mainSquareSide = GetIt.I<GridPropertyProvider>().mainSquareSide;
     var secondarySquareSide =
@@ -24,7 +25,7 @@ class GridCustomPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     var paintSecondaryGrid = Paint()
-      ..color = lineColor.withOpacity(0.1)
+      ..color = lineColor.withOpacity(0.5)
       ..strokeWidth = GetIt.I<GridPropertyProvider>().secondaryStrokeWith
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
