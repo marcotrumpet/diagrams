@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:diagrams/common/json_converter_methods.dart';
 import 'package:diagrams/flow_elements/abstract_flow_element.dart';
 import 'package:flutter/material.dart';
