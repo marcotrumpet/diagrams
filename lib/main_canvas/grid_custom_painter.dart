@@ -1,5 +1,5 @@
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/common/grid/grid_property_provider.dart';
-import 'package:diagrams/theme/color_scheme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 

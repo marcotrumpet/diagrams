@@ -1,5 +1,5 @@
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/side_menu/shapes_tiles/expansion_tile_widget.dart';
-import 'package:diagrams/theme/color_scheme_extension.dart';
 import 'package:flutter/material.dart';
 
 class ExpansionTileList extends StatelessWidget {

@@ -1,13 +1,13 @@
 import 'package:diagrams/bloc/open/open_bloc.dart';
 import 'package:diagrams/bloc/save/save_bloc.dart';
+import 'package:diagrams/bloc/theme/app_theme_cubit.dart';
 import 'package:diagrams/menubar/desktop/desktop_menu_bar.dart';
-import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/foundation.dart';
 
 class AppMenuBar {
   final SaveBloc saveBloc;
   final OpenBloc openBloc;
-  final AppTheme appTheme;
+  final AppThemeCubit appTheme;
   AppMenuBar({
     required this.saveBloc,
     required this.openBloc,

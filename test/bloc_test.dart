@@ -11,6 +11,7 @@ import 'bloc/handle_points/handle_points_bloc.dart';
 import 'bloc/open/open_bloc.dart';
 import 'bloc/resize_element/resize_element_bloc.dart';
 import 'bloc/save/save_bloc.dart';
+import 'bloc/theme/app_theme_cubit.dart';
 import 'bloc/unselect_elements/unselect_elements_bloc.dart';
 
 Future<void> getItInit() async {
@@ -45,5 +46,6 @@ void main() {
     resizeElementBlocTest();
     saveBlocTest();
     openBlocTest();
+    themeCubitTest();
   });
 }

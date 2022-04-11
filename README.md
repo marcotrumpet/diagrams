@@ -35,6 +35,7 @@ When you add elements that cross arrows, the A* algorithm takes care of finding 
 To manually run test use:
 
 To run bloc tests `flutter test test/bloc_test.dart` <br />
+To run unit tests `flutter test test/unit_test.dart` <br />
 To run golden tests `flutter test test/golden_test.dart --tags=golden` <br />
 To update golden tests `flutter test test/golden_test.dart --update-goldens --tags=golden`
 

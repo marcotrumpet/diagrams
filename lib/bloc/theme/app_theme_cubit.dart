@@ -2,30 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AppTheme extends Cubit<ThemeData> {
-  AppTheme()
+class AppThemeCubit extends Cubit<ThemeData> {
+  AppThemeCubit()
       : super(SchedulerBinding.instance?.window.platformBrightness ==
                 Brightness.light
-            ? _lightTheme
-            : _darkTheme);
+            ? lightTheme
+            : darkTheme);
 
-  static final _lightTheme = ThemeData(
+  static final lightTheme = ThemeData(
     brightness: Brightness.light,
   );
 
-  static final _darkTheme = ThemeData(
+  static final darkTheme = ThemeData(
     brightness: Brightness.dark,
   );
 
   void toggleTheme() {
-    emit(state.brightness == Brightness.dark ? _lightTheme : _darkTheme);
+    emit(state.brightness == Brightness.dark ? lightTheme : darkTheme);
   }
 
   void setLightTheme() {
-    emit(_lightTheme);
+    emit(lightTheme);
   }
 
   void setDarkTheme() {
-    emit(_darkTheme);
+    emit(darkTheme);
   }
 }

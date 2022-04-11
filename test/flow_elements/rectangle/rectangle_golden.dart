@@ -56,7 +56,7 @@ void rectangleGoldenTest() {
 
       await tester.drag(
         find.byType(Draggable<RectangleFlowElement>),
-        const Offset(150, 100),
+        const Offset(250, 100),
       );
 
       await screenMatchesGolden(tester, 'rectangle/golden_test');
@@ -70,7 +70,7 @@ void rectangleGoldenTest() {
         ),
       );
 
-      await screenMatchesGolden(tester, 'rectangle/unselected_golden_test');
+      await screenMatchesGolden(tester, 'rectangle/select_golden_test');
     });
 
     testGoldens('resize rectangleFlowElement', (tester) async {
@@ -86,7 +86,7 @@ void rectangleGoldenTest() {
       await tester.runAsync(() async {
         await tester.drag(
           find.byType(Draggable<RectangleFlowElement>),
-          const Offset(150, 100),
+          const Offset(250, 100),
         );
 
         await tester.pumpAndSettle();

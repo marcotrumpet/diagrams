@@ -5,8 +5,8 @@ import 'package:diagrams/bloc/add_remove_element/add_remove_element_event.dart';
 import 'package:diagrams/bloc/arrows/arrow_model.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_event.dart';
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/helpers/a_star/a_star_algorithm.dart';
-import 'package:diagrams/theme/color_scheme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

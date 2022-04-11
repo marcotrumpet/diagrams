@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:diagrams/theme/color_scheme_extension.dart';
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:flutter/material.dart';
 
 abstract class AbstractCustomPainter extends CustomPainter {

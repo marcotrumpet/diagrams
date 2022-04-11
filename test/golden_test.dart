@@ -4,13 +4,14 @@ import 'package:diagrams/bloc/handle_points/handle_points_bloc.dart';
 import 'package:diagrams/bloc/open/open_bloc.dart';
 import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
 import 'package:diagrams/bloc/save/save_bloc.dart';
+import 'package:diagrams/bloc/theme/app_theme_cubit.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/diagram_app.dart';
-import 'package:diagrams/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'bloc_test.dart';
 import 'flow_elements/arrow/arrow_golden.dart';
 import 'flow_elements/circle/circle_golden.dart';
 import 'flow_elements/rectangle/rectangle_golden.dart';
@@ -18,7 +19,7 @@ import 'flow_elements/rounded_rectangle/rounded_rectangle_golden.dart';
 import 'flow_elements/triangle/triangle_golden.dart';
 import 'main/main_golden.dart';
 
-late AppTheme appTheme;
+late AppThemeCubit appTheme;
 late AddRemoveElementBloc addRemoveElementBloc;
 late UnselectElementsBloc unselectElementsBloc;
 late DrawArrowsBloc drawArrowsBloc;
@@ -30,11 +31,12 @@ Widget mainTestableApp({
   DrawArrowsBloc? drawArrows,
   HandlePointsBloc? handlePoints,
   ResizeElementBloc? resizeElementBloc,
+  AppThemeCubit? appThemeBloc,
 }) {
   return MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => appTheme,
+        create: (context) => appThemeBloc ?? appTheme,
       ),
       BlocProvider(
         create: (context) => addRemoveElement ?? addRemoveElementBloc,
@@ -82,6 +84,7 @@ Widget mainTestableApp({
 }
 
 void main() {
+  setUpAll(() async => await getItInit());
   group('goldenTest', () {
     mainGoldenTest();
     rectangleGoldenTest();

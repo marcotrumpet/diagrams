@@ -4,11 +4,11 @@ import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_event.dart';
 import 'package:diagrams/bloc/open/open_bloc.dart';
 import 'package:diagrams/bloc/save/save_bloc.dart';
+import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_event.dart';
 import 'package:diagrams/main_canvas/main_canvas.dart';
 import 'package:diagrams/side_menu/side_menu.dart';
-import 'package:diagrams/theme/color_scheme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
