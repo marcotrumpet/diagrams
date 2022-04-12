@@ -46,6 +46,9 @@ If you are on vscode, in order to get the test coverage, you need to install [fl
 There is also a `flutter_test.yml` intended to be used inside github actions that will perform tests on pull requests.
 
 
+### Localization
+
+Run `flutter pub run fast_i18n` to re-generate keys corresponding to json labels in `lib/i18n`.
 <!-- ### Contributors
 
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=marcotrumpet/diagrams) -->

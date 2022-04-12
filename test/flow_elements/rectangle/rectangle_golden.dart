@@ -17,14 +17,13 @@ late AddRemoveElementBloc _addRemoveElementBloc;
 late DrawArrowsBloc _drawArrowsBloc;
 late HandlePointsBloc _handlePointsBloc;
 late ResizeElementBloc _resizeElementBloc;
+late UnselectElementsBloc _unselectElements;
 
 void resetBlocs() {
   _addRemoveElementBloc = AddRemoveElementBloc([]);
-
   _drawArrowsBloc = DrawArrowsBloc(
     const DrawArrowsState(),
   );
-
   _handlePointsBloc = HandlePointsBloc(
     addRemoveElementBloc: _addRemoveElementBloc,
     drawArrowsBloc: _drawArrowsBloc,
@@ -34,25 +33,33 @@ void resetBlocs() {
   );
   _resizeElementBloc =
       ResizeElementBloc(addRemoveElementBloc: _addRemoveElementBloc);
+  _unselectElements = UnselectElementsBloc(
+    const UnselectElementsState(
+      selectedElementList: SelectedElementList(),
+    ),
+  );
 }
 
 void rectangleGoldenTest() {
   group('rectangleTests', () {
-    setUp(() {
+    setUp(() async {
       resetBlocs();
     });
     tearDown(() {
       resetBlocs();
     });
     testGoldens('test rectangleFlowElement', (tester) async {
-      await tester.pumpWidgetBuilder(
+      await tester.pumpWidget(
         mainTestableApp(
           addRemoveElement: _addRemoveElementBloc,
           drawArrows: _drawArrowsBloc,
           handlePoints: _handlePointsBloc,
           resizeElementBloc: _resizeElementBloc,
+          unselectElements: _unselectElements,
         ),
       );
+
+      await tester.pumpAndSettle();
 
       await tester.drag(
         find.byType(Draggable<RectangleFlowElement>),
@@ -74,14 +81,17 @@ void rectangleGoldenTest() {
     });
 
     testGoldens('resize rectangleFlowElement', (tester) async {
-      await tester.pumpWidgetBuilder(
+      await tester.pumpWidget(
         mainTestableApp(
           addRemoveElement: _addRemoveElementBloc,
           drawArrows: _drawArrowsBloc,
           handlePoints: _handlePointsBloc,
           resizeElementBloc: _resizeElementBloc,
+          unselectElements: _unselectElements,
         ),
       );
+
+      await tester.pumpAndSettle();
 
       await tester.runAsync(() async {
         await tester.drag(

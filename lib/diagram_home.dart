@@ -7,6 +7,7 @@ import 'package:diagrams/bloc/save/save_bloc.dart';
 import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_event.dart';
+import 'package:diagrams/i18n/strings.g.dart';
 import 'package:diagrams/main_canvas/main_canvas.dart';
 import 'package:diagrams/side_menu/side_menu.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +38,8 @@ class _DiagramHomeState extends State<DiagramHome> {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text('Ciao'),
-                    content: const Text('Salvare prima di aprire nuovo doc?'),
+                    title: Text(t.popup.saveBeforeOpenNew.title),
+                    content: Text(t.popup.saveBeforeOpenNew.content),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -46,7 +47,7 @@ class _DiagramHomeState extends State<DiagramHome> {
                           clearElementsAndArrows();
                           context.read<OpenBloc>().add(const OpenEvent.open());
                         },
-                        child: const Text('No'),
+                        child: Text(t.generic.no),
                       ),
                       TextButton(
                         onPressed: () {
@@ -54,7 +55,7 @@ class _DiagramHomeState extends State<DiagramHome> {
                           context.read<SaveBloc>().add(const SaveEvent.save());
                           clearElementsAndArrows();
                         },
-                        child: const Text('SI'),
+                        child: Text(t.generic.yes),
                       ),
                     ],
                   );
