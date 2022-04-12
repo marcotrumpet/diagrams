@@ -1,0 +1,17 @@
+{
+    "diagrams": "Diagrams",
+    "sideMenu": {
+        "elements": "Elementi",
+        "basic": "@:sideMenu.elements base"
+    },
+    "generic": {
+        "yes": "Si",
+        "no": "No"
+    },
+    "popup": {
+        "saveBeforeOpenNew": {
+            "title": "Attenzione",
+            "content": "Hai un documento aperto che non è stato salvato.\nVuoi salvare questo documento prima di aprirne uno nuovo?"
+        }
+    }
+}

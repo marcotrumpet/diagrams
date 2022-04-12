@@ -1,4 +1,5 @@
 import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
+import 'package:diagrams/i18n/strings.g.dart';
 import 'package:diagrams/side_menu/shapes_tiles/expansion_tile_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,8 @@ class ExpansionTileList extends StatelessWidget {
           ),
         ),
         child: ExpansionTile(
-          title: Text('Elements', style: Theme.of(context).textTheme.bodyText1),
+          title: Text(t.sideMenu.basic,
+              style: Theme.of(context).textTheme.bodyText1),
           iconColor: Theme.of(context).colorScheme.appBorder,
           initiallyExpanded: true,
           controlAffinity: ListTileControlAffinity.platform,

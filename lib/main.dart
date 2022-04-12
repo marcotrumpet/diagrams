@@ -13,6 +13,7 @@ import 'package:diagrams/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/common/device_info.dart';
 import 'package:diagrams/common/grid/grid_property_provider.dart';
 import 'package:diagrams/diagram_app.dart';
+import 'package:diagrams/i18n/strings.g.dart';
 import 'package:diagrams/menubar/app_menu_bar.dart';
 import 'package:diagrams/services/file_operation/file_operation.dart';
 import 'package:flutter/material.dart';
@@ -23,16 +24,21 @@ import 'package:window_size/window_size.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocaleSettings.useDeviceLocale();
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle('Diagrams');
+    setWindowTitle(t.diagrams);
     setWindowMinSize(const Size(800, 400));
     setWindowMaxSize(Size.infinite);
   }
 
   await getItInitialization();
 
-  runApp(const DiagramsConfig());
+  runApp(
+    TranslationProvider(
+      child: const DiagramsConfig(),
+    ),
+  );
 }
 
 Future<void> getItInitialization() async {

@@ -1,12 +1,15 @@
 import 'package:diagrams/bloc/add_remove_element/add_remove_element_bloc.dart';
 import 'package:diagrams/bloc/arrows/draw_arrows_bloc.dart';
+import 'package:diagrams/bloc/arrows/draw_arrows_state.dart';
 import 'package:diagrams/bloc/handle_points/handle_points_bloc.dart';
 import 'package:diagrams/bloc/open/open_bloc.dart';
 import 'package:diagrams/bloc/resize_element/resize_element_bloc.dart';
 import 'package:diagrams/bloc/save/save_bloc.dart';
 import 'package:diagrams/bloc/theme/app_theme_cubit.dart';
 import 'package:diagrams/bloc/unselect_elements/unselect_elements_bloc.dart';
+import 'package:diagrams/bloc/unselect_elements/unselect_elements_state.dart';
 import 'package:diagrams/diagram_app.dart';
+import 'package:diagrams/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,59 +35,78 @@ Widget mainTestableApp({
   HandlePointsBloc? handlePoints,
   ResizeElementBloc? resizeElementBloc,
   AppThemeCubit? appThemeBloc,
+  UnselectElementsBloc? unselectElements,
 }) {
-  return MultiBlocProvider(
-    providers: [
-      BlocProvider(
-        create: (context) => appThemeBloc ?? appTheme,
-      ),
-      BlocProvider(
-        create: (context) => addRemoveElement ?? addRemoveElementBloc,
-      ),
-      BlocProvider(
-        create: (context) => unselectElementsBloc,
-      ),
-      BlocProvider(
-        create: (context) => drawArrows ?? drawArrowsBloc,
-      ),
-      BlocProvider(
-        create: (context) =>
-            handlePoints ??
-            HandlePointsBloc(
-              addRemoveElementBloc:
-                  BlocProvider.of<AddRemoveElementBloc>(context),
-              drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
-              unselectElementsBloc:
-                  BlocProvider.of<UnselectElementsBloc>(context),
-            ),
-      ),
-      BlocProvider(
-        create: (context) =>
-            resizeElementBloc ??
-            ResizeElementBloc(
-              addRemoveElementBloc:
-                  BlocProvider.of<AddRemoveElementBloc>(context),
-            ),
-      ),
-      BlocProvider(
-        create: (context) => SaveBloc(
-          addRemoveElementBloc: BlocProvider.of<AddRemoveElementBloc>(context),
-          drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+  return TranslationProvider(
+    child: MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => appThemeBloc ?? appTheme,
         ),
-      ),
-      BlocProvider(
-        create: (context) => OpenBloc(
-          addRemoveElementBloc: BlocProvider.of<AddRemoveElementBloc>(context),
-          drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+        BlocProvider(
+          create: (context) => addRemoveElement ?? addRemoveElementBloc,
         ),
-      ),
-    ],
-    child: const DiagramsApp(),
+        BlocProvider(
+          create: (context) => unselectElements ?? unselectElementsBloc,
+        ),
+        BlocProvider(
+          create: (context) => drawArrows ?? drawArrowsBloc,
+        ),
+        BlocProvider(
+          create: (context) =>
+              handlePoints ??
+              HandlePointsBloc(
+                addRemoveElementBloc:
+                    BlocProvider.of<AddRemoveElementBloc>(context),
+                drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+                unselectElementsBloc:
+                    BlocProvider.of<UnselectElementsBloc>(context),
+              ),
+        ),
+        BlocProvider(
+          create: (context) =>
+              resizeElementBloc ??
+              ResizeElementBloc(
+                addRemoveElementBloc:
+                    BlocProvider.of<AddRemoveElementBloc>(context),
+              ),
+        ),
+        BlocProvider(
+          create: (context) => SaveBloc(
+            addRemoveElementBloc:
+                BlocProvider.of<AddRemoveElementBloc>(context),
+            drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => OpenBloc(
+            addRemoveElementBloc:
+                BlocProvider.of<AddRemoveElementBloc>(context),
+            drawArrowsBloc: BlocProvider.of<DrawArrowsBloc>(context),
+          ),
+        ),
+      ],
+      child: Builder(builder: (context) {
+        return const DiagramsApp();
+      }),
+    ),
   );
 }
 
 void main() {
-  setUpAll(() async => await getItInit());
+  setUpAll(() async {
+    await getItInit();
+    appTheme = AppThemeCubit()..setDarkTheme();
+    addRemoveElementBloc = AddRemoveElementBloc([]);
+    unselectElementsBloc = UnselectElementsBloc(
+      const UnselectElementsState(
+        selectedElementList: SelectedElementList(),
+      ),
+    );
+    drawArrowsBloc = DrawArrowsBloc(
+      const DrawArrowsState(),
+    );
+  });
   group('goldenTest', () {
     mainGoldenTest();
     rectangleGoldenTest();

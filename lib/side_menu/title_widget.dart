@@ -1,4 +1,5 @@
 import 'package:diagrams/bloc/theme/color_scheme_extension.dart';
+import 'package:diagrams/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 
 class TitleWidget extends StatelessWidget {
@@ -19,7 +20,10 @@ class TitleWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Text('Diagrams', style: Theme.of(context).textTheme.headline5),
+          Text(
+            t.diagrams,
+            style: Theme.of(context).textTheme.headline5,
+          ),
         ],
       ),
     );

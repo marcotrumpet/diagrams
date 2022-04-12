@@ -31,22 +31,22 @@ class DesktopMenuBar {
         MenuItem(
           label: 'Light Mode',
           enabled: true,
-          shortcut:
-              LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyO),
+          shortcut: LogicalKeySet(LogicalKeyboardKey.meta,
+              LogicalKeyboardKey.shift, LogicalKeyboardKey.keyL),
           onClicked: light,
         ),
         MenuItem(
           label: 'Dark Mode',
           enabled: true,
-          shortcut:
-              LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyS),
+          shortcut: LogicalKeySet(LogicalKeyboardKey.meta,
+              LogicalKeyboardKey.shift, LogicalKeyboardKey.keyD),
           onClicked: dark,
         ),
         MenuItem(
           label: 'Toggle Theme',
           enabled: true,
-          shortcut:
-              LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.keyS),
+          shortcut: LogicalKeySet(LogicalKeyboardKey.meta,
+              LogicalKeyboardKey.shift, LogicalKeyboardKey.keyT),
           onClicked: toggleTheme,
         ),
       ]),

@@ -27,34 +27,38 @@ class _SideMenuState extends State<SideMenu> {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
             const TitleWidget(),
-            SizedBox(
-              width: toolBoxWidth,
-              child: DragTarget<AbstractFlowElement>(
-                onWillAccept: (data) => data != null,
-                onAccept: (data) {
-                  for (AnchorPointModel item
-                      in data.anchorPointsModelMap?.anchorPointList ?? []) {
-                    var keys =
-                        item.arrowModelStart?.map((e) => e.arrowKey).toList() ??
-                            <Key>[];
-                    context.read<DrawArrowsBloc>().add(
-                          RemoveArrowStartingFromPointEvent(
-                            arrowKeys: keys,
-                          ),
-                        );
-                  }
-                  context.read<ResizeElementBloc>().add(
-                      ResizeElementEvent.clearMap(
-                          elementKey: data.elementKey!));
-                  context
-                      .read<AddRemoveElementBloc>()
-                      .add(RemoveElementEvent(elementToManipulate: data));
-                },
-                builder: (context, candidateData, rejectedData) {
-                  return const ExpansionTileList();
-                },
+            Expanded(
+              child: SizedBox(
+                width: toolBoxWidth,
+                child: DragTarget<AbstractFlowElement>(
+                  onWillAccept: (data) => data != null,
+                  onAccept: (data) {
+                    for (AnchorPointModel item
+                        in data.anchorPointsModelMap?.anchorPointList ?? []) {
+                      var keys = item.arrowModelStart
+                              ?.map((e) => e.arrowKey)
+                              .toList() ??
+                          <Key>[];
+                      context.read<DrawArrowsBloc>().add(
+                            RemoveArrowStartingFromPointEvent(
+                              arrowKeys: keys,
+                            ),
+                          );
+                    }
+                    context.read<ResizeElementBloc>().add(
+                        ResizeElementEvent.clearMap(
+                            elementKey: data.elementKey!));
+                    context
+                        .read<AddRemoveElementBloc>()
+                        .add(RemoveElementEvent(elementToManipulate: data));
+                  },
+                  builder: (context, candidateData, rejectedData) {
+                    return const ExpansionTileList();
+                  },
+                ),
               ),
             ),
           ],
