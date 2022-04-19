@@ -13,5 +13,18 @@
             "title": "Attenzione",
             "content": "Hai un documento aperto che non è stato salvato.\nVuoi salvare questo documento prima di aprirne uno nuovo?"
         }
+    },
+    "menu_bar": {
+        "file": {
+            "main": "File",
+            "open": "Apri",
+            "save": "Salva"
+        },
+        "theme": {
+            "main": "Tema",
+            "light": "Tema Chiaro",
+            "dark": "Tema Scuro",
+            "toggle": "Cambia Tema"
+        }
     }
 }
