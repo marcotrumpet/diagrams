@@ -2,9 +2,9 @@
  * Generated file. Do not edit.
  *
  * Locales: 2
- * Strings: 14 (7.0 per locale)
+ * Strings: 28 (14.0 per locale)
  *
- * Built on 2022-04-12 at 07:31 UTC
+ * Built on 2022-04-19 at 13:50 UTC
  */
 
 import 'package:flutter/widgets.dart';
@@ -326,6 +326,7 @@ class _StringsEn {
   late final _StringsSideMenuEn sideMenu = _StringsSideMenuEn._(_root);
   late final _StringsGenericEn generic = _StringsGenericEn._(_root);
   late final _StringsPopupEn popup = _StringsPopupEn._(_root);
+  late final _StringsMenuBarEn menu_bar = _StringsMenuBarEn._(_root);
 }
 
 // Path: sideMenu
@@ -364,6 +365,18 @@ class _StringsPopupEn {
       _StringsPopupSaveBeforeOpenNewEn._(_root);
 }
 
+// Path: menu_bar
+class _StringsMenuBarEn {
+  _StringsMenuBarEn._(this._root);
+
+  // ignore: unused_field
+  final _StringsEn _root;
+
+  // Translations
+  late final _StringsMenuBarFileEn file = _StringsMenuBarFileEn._(_root);
+  late final _StringsMenuBarThemeEn theme = _StringsMenuBarThemeEn._(_root);
+}
+
 // Path: popup.saveBeforeOpenNew
 class _StringsPopupSaveBeforeOpenNewEn {
   _StringsPopupSaveBeforeOpenNewEn._(this._root);
@@ -375,6 +388,33 @@ class _StringsPopupSaveBeforeOpenNewEn {
   String get title => 'Attention';
   String get content =>
       'You have an open document that\'s not being saved.\nWould you like to save this document before opening a new one?';
+}
+
+// Path: menu_bar.file
+class _StringsMenuBarFileEn {
+  _StringsMenuBarFileEn._(this._root);
+
+  // ignore: unused_field
+  final _StringsEn _root;
+
+  // Translations
+  String get main => 'File';
+  String get open => 'Open';
+  String get save => 'Save';
+}
+
+// Path: menu_bar.theme
+class _StringsMenuBarThemeEn {
+  _StringsMenuBarThemeEn._(this._root);
+
+  // ignore: unused_field
+  final _StringsEn _root;
+
+  // Translations
+  String get main => 'Theme';
+  String get light => 'Light Mode';
+  String get dark => 'Dark Mode';
+  String get toggle => 'Toggle Theme';
 }
 
 // Path: <root>
@@ -403,6 +443,8 @@ class _StringsIt implements _StringsEn {
   late final _StringsGenericIt generic = _StringsGenericIt._(_root);
   @override
   late final _StringsPopupIt popup = _StringsPopupIt._(_root);
+  @override
+  late final _StringsMenuBarIt menu_bar = _StringsMenuBarIt._(_root);
 }
 
 // Path: sideMenu
@@ -449,6 +491,21 @@ class _StringsPopupIt implements _StringsPopupEn {
       _StringsPopupSaveBeforeOpenNewIt._(_root);
 }
 
+// Path: menu_bar
+class _StringsMenuBarIt implements _StringsMenuBarEn {
+  _StringsMenuBarIt._(this._root);
+
+  // ignore: unused_field
+  @override
+  final _StringsIt _root;
+
+  // Translations
+  @override
+  late final _StringsMenuBarFileIt file = _StringsMenuBarFileIt._(_root);
+  @override
+  late final _StringsMenuBarThemeIt theme = _StringsMenuBarThemeIt._(_root);
+}
+
 // Path: popup.saveBeforeOpenNew
 class _StringsPopupSaveBeforeOpenNewIt
     implements _StringsPopupSaveBeforeOpenNewEn {
@@ -466,6 +523,42 @@ class _StringsPopupSaveBeforeOpenNewIt
       'Hai un documento aperto che non è stato salvato.\nVuoi salvare questo documento prima di aprirne uno nuovo?';
 }
 
+// Path: menu_bar.file
+class _StringsMenuBarFileIt implements _StringsMenuBarFileEn {
+  _StringsMenuBarFileIt._(this._root);
+
+  // ignore: unused_field
+  @override
+  final _StringsIt _root;
+
+  // Translations
+  @override
+  String get main => 'File';
+  @override
+  String get open => 'Apri';
+  @override
+  String get save => 'Salva';
+}
+
+// Path: menu_bar.theme
+class _StringsMenuBarThemeIt implements _StringsMenuBarThemeEn {
+  _StringsMenuBarThemeIt._(this._root);
+
+  // ignore: unused_field
+  @override
+  final _StringsIt _root;
+
+  // Translations
+  @override
+  String get main => 'Tema';
+  @override
+  String get light => 'Tema Chiaro';
+  @override
+  String get dark => 'Tema Scuro';
+  @override
+  String get toggle => 'Cambia Tema';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
@@ -480,6 +573,13 @@ extension on _StringsEn {
       'popup.saveBeforeOpenNew.title': 'Attention',
       'popup.saveBeforeOpenNew.content':
           'You have an open document that\'s not being saved.\nWould you like to save this document before opening a new one?',
+      'menu_bar.file.main': 'File',
+      'menu_bar.file.open': 'Open',
+      'menu_bar.file.save': 'Save',
+      'menu_bar.theme.main': 'Theme',
+      'menu_bar.theme.light': 'Light Mode',
+      'menu_bar.theme.dark': 'Dark Mode',
+      'menu_bar.theme.toggle': 'Toggle Theme',
     };
   }
 }
@@ -495,6 +595,13 @@ extension on _StringsIt {
       'popup.saveBeforeOpenNew.title': 'Attenzione',
       'popup.saveBeforeOpenNew.content':
           'Hai un documento aperto che non è stato salvato.\nVuoi salvare questo documento prima di aprirne uno nuovo?',
+      'menu_bar.file.main': 'File',
+      'menu_bar.file.open': 'Apri',
+      'menu_bar.file.save': 'Salva',
+      'menu_bar.theme.main': 'Tema',
+      'menu_bar.theme.light': 'Tema Chiaro',
+      'menu_bar.theme.dark': 'Tema Scuro',
+      'menu_bar.theme.toggle': 'Cambia Tema',
     };
   }
 }

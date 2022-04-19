@@ -13,5 +13,18 @@
             "title": "Attention",
             "content": "You have an open document that's not being saved.\nWould you like to save this document before opening a new one?"
         }
+    },
+    "menu_bar": {
+        "file": {
+            "main": "File",
+            "open": "Open",
+            "save": "Save"
+        },
+        "theme": {
+            "main": "Theme",
+            "light": "Light Mode",
+            "dark": "Dark Mode",
+            "toggle": "Toggle Theme"
+        }
     }
 }
